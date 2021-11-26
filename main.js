@@ -1,6 +1,7 @@
 const express = require("express");
 const oursql = require("mysql2");
 const cors = require("cors");
+const { application } = require("express");
 //const bodyParser = require('body-parser');
 //const cors = require('cors');
 //const morgan = require('morgan');
@@ -80,6 +81,25 @@ app.get('/submitQuestion', (req, res) => {
    });
 });
 
+app.get("/getTestDiffs", (req, res) => {
+   logger("Какой-то бесстрашный на " + req.connection.remoteAddress + " запросил список уровней сложности тестов. Ну и че по итогам:", true);
+   res.charset = "utf-8"; req.charset = "utf-8";
+   connection.query("SELECT * FROM test_type;",
+   (err, results, fields) => {
+      if(err) {
+         logger(err, false);
+         res.send("Ошибочка");
+      } else {
+         logger("Типа вернул: " + JSON.stringify(results), false);
+         res.json(results);
+      }
+   });
+});
+
+app.get("/submitTest", (req, res) => {
+
+});
+/*
 app.get('/getAllQuestions', (req, res) => {
    res.charset = "utf-8"; req.charset = "utf-8";
    class TestBlock {
@@ -108,7 +128,7 @@ app.get('/getAllQuestions', (req, res) => {
       }
    });
 });
-
-var listener = app.listen(process.env.PORT || 3000, () => {
+*/
+var listener = app.listen(process.env.PORT || 8000, () => {
    console.log("Высираюсь на порт " + listener.address().port);
 });
