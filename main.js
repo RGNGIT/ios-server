@@ -1,7 +1,6 @@
 const express = require("express");
 const oursql = require("mysql2");
 const cors = require("cors");
-const { application } = require("express");
 //const bodyParser = require('body-parser');
 //const cors = require('cors');
 //const morgan = require('morgan');
@@ -81,7 +80,7 @@ app.get('/submitQuestion', (req, res) => {
    });
 });
 
-app.get("/getTestDiffs", (req, res) => {
+app.get("/getDiffList", (req, res) => {
    logger("Какой-то бесстрашный на " + req.connection.remoteAddress + " запросил список уровней сложности тестов. Ну и че по итогам:", true);
    res.charset = "utf-8"; req.charset = "utf-8";
    connection.query("SELECT * FROM test_type;",
@@ -97,7 +96,12 @@ app.get("/getTestDiffs", (req, res) => {
 });
 
 app.get("/submitTest", (req, res) => {
-
+   logger("Какой-то бесстрашный на " + req.connection.remoteAddress + " добавил тестик " + '(' + JSON.stringify(req.query) + "). Ну и че по итогам:", true);
+   res.charset = "utf-8"; req.charset = "utf-8";
+   connection.query("INSERT INTO test (Test_Type_Key, Name) VALUES (" + req.query.difficulty + ", '" + req.query.name + "');",
+   (err, results, fields) => {
+      if(err) { logger(err, false); res.send("Ошибочка"); } else logger(JSON.stringify(results), false);
+   });
 });
 /*
 app.get('/getAllQuestions', (req, res) => {
