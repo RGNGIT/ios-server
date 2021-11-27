@@ -44,7 +44,7 @@ console.log((dt ? '<' + dateTime + '> ' : '') + log);
 
 app.get('/doSomething', (req, res) => 
 {
-   
+
 });
 
 app.get('/getTopicList', (req, res) => {
@@ -68,11 +68,11 @@ app.get('/submitQuestion', (req, res) => {
    connection.query("INSERT INTO test_question (Test_Key, Header) VALUES (" + req.query.Testkey + ", '" + req.query.questionName + "');",
    (err1, res1, fields1) => {
       if(err1) { logger(err1, false); res.send("Ошибочка"); } else logger(JSON.stringify(res1), false);
-      connection.query("SELECT * FROM test_question ORDER BY 'Key' DESC LIMIT 1;", 
+      connection.query("SELECT * FROM test_question ORDER BY 'Key';", 
       (err2, res2, fields2) => {
          if(err2) { logger(err2, false); res.send("Ошибочка"); } else logger(JSON.stringify(res2), false);
          for(var i of req.query.varArr) {
-         connection.query("INSERT INTO ans_variant (Text, IsCorrect, Question_Key) VALUES ('" + JSON.parse(i).varName + "', " + JSON.parse(i).correct + ", " + (res2[0].Key + 1) + ");", 
+         connection.query("INSERT INTO ans_variant (Text, IsCorrect, Question_Key) VALUES ('" + JSON.parse(i).varName + "', " + JSON.parse(i).correct + ", " + res2[res2.length - 1].Key + ");", 
          (err3, res3, fields3) => {
             if(err3) { logger(err3, false); res.send("Ошибочка"); } else logger(JSON.stringify(res3), false);
          });
