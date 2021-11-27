@@ -1,6 +1,7 @@
 const express = require("express");
 const oursql = require("mysql2");
 const cors = require("cors");
+const { json } = require("stream/consumers");
 //const bodyParser = require('body-parser');
 //const cors = require('cors');
 //const morgan = require('morgan');
@@ -43,7 +44,7 @@ console.log((dt ? '<' + dateTime + '> ' : '') + log);
 
 app.get('/doSomething', (req, res) => 
 {
-
+   
 });
 
 app.get('/getTopicList', (req, res) => {
@@ -71,7 +72,7 @@ app.get('/submitQuestion', (req, res) => {
       (err2, res2, fields2) => {
          if(err2) { logger(err2, false); res.send("Ошибочка"); } else logger(JSON.stringify(res2), false);
          for(var i of req.query.varArr) {
-         connection.query("INSERT INTO ans_variant (Text, IsCorrect, Question_Key) VALUES ('" + JSON.parse(i).varName + "', " + JSON.parse(i).correct + ", " + res2[0].Key + ");", 
+         connection.query("INSERT INTO ans_variant (Text, IsCorrect, Question_Key) VALUES ('" + JSON.parse(i).varName + "', " + JSON.parse(i).correct + ", " + (res2[0].Key + 1) + ");", 
          (err3, res3, fields3) => {
             if(err3) { logger(err3, false); res.send("Ошибочка"); } else logger(JSON.stringify(res3), false);
          });
@@ -104,31 +105,26 @@ app.get("/submitTest", (req, res) => {
    });
 });
 /*
-app.get('/getAllQuestions', (req, res) => {
+app.get('/getTest', (req, res) => {
    res.charset = "utf-8"; req.charset = "utf-8";
-   class TestBlock {
-      TestType;
-      TypeKey;
-      QuestionsAmount;
-      QuestionBlock = [];
-   }
-   class QuestionBlock {
-      Header;
-      TestKey;
-      AnsVar = [];
-   }
-   class AnswerBlock {
-      Text;
-      IsCorrect;
-      ImgKey;
-      QuestionKey;
-   }
-   let ToReturn = [];
-   connection.query("SELECT test.Key, Test_Type_Key, Link, quality_type.Name, Question_Amount FROM test, quality_type WHERE test.Test_Type_Key = quality_type.Key;", 
-   (errTest, resTest, fieldsTest) => {
-      for(var i of resTest) {
-         let TempTestBlock = new TestBlock;
-         console.log(i);
+   logger("Какой-то бесстрашный на " + req.connection.remoteAddress + " запросил тестик по ключу. Ну и че по итогам:", true);
+   connection.query("SELECT * FROM test WHERE test.Key = (" + req.query.TestKey + ");", 
+   (err, results, fields) => {
+      if(err) {
+         logger(err, false);
+         res.send("Ошибочка");
+      } else {
+         logger("Типа вернул тест: " + JSON.stringify(results), false);
+         connection.query("SELECT * FROM test_question WHERE test_question.Test_Key = (" + results[0].Key + ");", 
+         (err1, results1, fields1) => {
+            if(err1) {
+               logger(err1, false);
+               res.send("Ошибочка");
+            } else {
+               console.log(results1);
+               res.json(results1);
+            }
+         });
       }
    });
 });
