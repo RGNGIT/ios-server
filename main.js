@@ -52,6 +52,7 @@ app.get('/getTopicList', (req, res) => {
 });
 
 app.get('/submitQuestion', (req, res) => {
+   let questions = 0;
    logger("Какой-то бесстрашный на " + req.connection.remoteAddress + " добавил вопрос в базу " + '(' + JSON.stringify(req.query) + '). Ну и че по итогам:', true);
    res.charset = "utf-8"; req.charset = "utf-8";
    stablishedConnection().then((connection) => {
@@ -65,11 +66,14 @@ app.get('/submitQuestion', (req, res) => {
             connection.query("INSERT INTO ans_variant (Text, IsCorrect, Question_Key) VALUES ('" + JSON.parse(i).varName + "', " + JSON.parse(i).correct + ", " + res2[res2.length - 1].Key + ");", 
             (err3, res3, fields3) => {
                if(err3) { logger(err3, false); res.send("Ошибочка"); } else logger(JSON.stringify(res3), false);
+               questions++;
+               if(questions == (req.query.varArr.length - 1)) {
+                  logger(closeDbConnection(connection, "SUBMIT_QUESTION"), false);
+               }
             });
          }
          });
       });
-      closeDbConnection(connection, "SUBMIT_QUESTION");
    });
 });
 
