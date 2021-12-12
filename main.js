@@ -1,6 +1,7 @@
 const express = require("express");
 const oursql = require("mysql2");
 const cors = require("cors");
+const path = require("path");
 const { stablishedConnection, closeDbConnection }  = require('./dbworks');
 //const bodyParser = require('body-parser');
 //const cors = require('cors');
@@ -13,6 +14,10 @@ const corsOpt = {
    credentials: true,
    optionSuccessStatus: 200
 };
+
+const static_path = path.join(__dirname, "./ios-site");
+app.use(express.static(static_path));
+app.use(express.urlencoded({ extended: true }));
 
 //app.use(modrgan('combine'));
 //app.use(bodyParser.json());
@@ -63,6 +68,7 @@ app.get('/submitQuestion', (req, res) => {
          (err2, res2, fields2) => {
             if(err2) { logger(err2, false); res.send("Ошибочка"); } else logger(JSON.stringify(res2), false);
             for(var i of req.query.varArr) {
+            console.log(JSON.stringify(i));
             connection.query("INSERT INTO ans_variant (Text, IsCorrect, Question_Key) VALUES ('" + JSON.parse(i).varName + "', " + JSON.parse(i).correct + ", " + res2[res2.length - 1].Key + ");", 
             (err3, res3, fields3) => {
                if(err3) { logger(err3, false); res.send("Ошибочка"); } else logger(JSON.stringify(res3), false);
@@ -107,6 +113,21 @@ app.get("/submitTest", (req, res) => {
    });
 });
 
-var listener = app.listen(process.env.PORT || 8000, () => {
+app.post('/uploadImage', (req, res) => {
+   console.log(req);
+});
+
+app.get('/postRule', (req, res) => {
+   logger("Какой-то бесстрашный на " + req.connection.remoteAddress + " добавил правило " + '(' + JSON.stringify(req.query) + "). Ну и че по итогам:", true);
+   stablishedConnection().then(connection => {
+      connection.query(`INSERT INTO rule (Discipline_Level, Self_Development, Responsibility, Perseverance, Attentiveness, Stress, Result) VALUES ('${req.query.disciplineLevel}', '${req.query.selfDevelopment}', '${req.query.responsibility}', '${req.query.perseverance}', '${req.query.attentiveness}', '${req.query.stress}', '${req.query.result}');`, 
+      (err, results, fields) => {
+         if(err) { logger(err, false); res.send("Ошибочка"); } else logger(JSON.stringify(results), false);
+      });
+      closeDbConnection(connection);
+   });
+});
+
+var listener = app.listen(process.env.PORT || 3000, () => {
    console.log("Сервак им. Тагировой стартанул на порту: " + listener.address().port);
 });
