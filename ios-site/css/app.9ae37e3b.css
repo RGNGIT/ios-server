@@ -1,1 +1,0 @@
-.select-wrapper{display:flex;flex-direction:column}.container-inner{display:flex;justify-content:space-around;align-items:center}select{min-width:250px}@media screen and (max-width:510px){.container-inner{flex-direction:column}}

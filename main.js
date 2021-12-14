@@ -3,6 +3,7 @@ const oursql = require("mysql2");
 const cors = require("cors");
 const path = require("path");
 const { stablishedConnection, closeDbConnection }  = require('./dbworks');
+const { query } = require("express");
 //const bodyParser = require('body-parser');
 //const cors = require('cors');
 //const morgan = require('morgan');
@@ -124,10 +125,54 @@ app.get('/postRule', (req, res) => {
       (err, results, fields) => {
          if(err) { logger(err, false); res.send("Ошибочка"); } else logger(JSON.stringify(results), false);
       });
-      closeDbConnection(connection);
+      closeDbConnection(connection, "POST_RULE");
    });
 });
 
-var listener = app.listen(process.env.PORT || 3000, () => {
+app.get('/getRuleList', (req, res) => {
+   logger("Какой-то бесстрашный на " + req.connection.remoteAddress + " запросил список правил " + '(' + JSON.stringify(req.query) + "). Ну и че по итогам:", true);
+   if(req.query.sorted == "true") {
+      stablishedConnection().then((connection) => {
+         connection.query("SELECT * FROM rule;",
+         (err, results, fields) => {
+            if(err) {
+               logger(err, false);
+               res.send("Ошибочка");
+            } else {
+               logger("Типа вернул: " + JSON.stringify(results), false);
+               res.json(results);
+            }
+   });
+   closeDbConnection(connection, "GET_RULE_LIST");
+});
+   } else {
+      stablishedConnection().then((connection) => {
+         connection.query("SELECT * FROM rule ORDER BY Result;",
+         (err, results, fields) => {
+            if(err) {
+               logger(err, false);
+               res.send("Ошибочка");
+            } else {
+               logger("Типа вернул: " + JSON.stringify(results), false);
+               res.json(results);
+            }
+   });
+   closeDbConnection(connection, "GET_RULE_LIST");
+});
+}
+});
+
+app.get('/updateRule', (req, res) => {
+   logger("Какой-то бесстрашный на " + req.connection.remoteAddress + " отредачил правило " + '(' + JSON.stringify(req.query) + "). Ну и че по итогам:", true);
+   stablishedConnection().then(connection => {
+      connection.query(`UPDATE rule SET Discipline_Level = '${req.query.Discipline_Level}', Self_Development = '${req.query.Self_Development}', Responsibility = '${req.query.Responsibility}', Perseverance = '${req.query.Perseverance}', Attentiveness = '${req.query.Attentiveness}', Stress = '${req.query.Stress}', Result = '${req.query.Result}' WHERE rule.Key = ${req.query.Key};`, 
+      (err, results, fields) => {
+         if(err) { logger(err, false); res.send("Ошибочка"); } else logger(JSON.stringify(results), false);
+      });
+      closeDbConnection(connection, "UPDATE_RULE");
+   });
+});
+
+var listener = app.listen(process.env.PORT || 8001, () => {
    console.log("Сервак им. Тагировой стартанул на порту: " + listener.address().port);
 });
