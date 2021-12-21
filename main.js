@@ -173,6 +173,6 @@ app.get('/updateRule', (req, res) => {
    });
 });
 
-var listener = app.listen(process.env.PORT || 8000, () => {
+var listener = app.listen(process.env.PORT || 8080, () => {
    console.log("Сервак им. Тагировой стартанул на порту: " + listener.address().port);
 });
