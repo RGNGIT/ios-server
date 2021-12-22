@@ -3,7 +3,6 @@ const oursql = require("mysql2");
 const cors = require("cors");
 const path = require("path");
 const { stablishedConnection, closeDbConnection }  = require('./dbworks');
-const { query } = require("express");
 //const bodyParser = require('body-parser');
 //const cors = require('cors');
 //const morgan = require('morgan');
@@ -30,6 +29,18 @@ var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
 var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
 var dateTime = date+' '+time;
 console.log((dt ? '<' + dateTime + '> ' : '') + log);
+}
+
+function formatter(string) {
+   let format = '';
+   for(let i = 0; i < string.length; i++) {
+   if(string[i] == `'`) {
+      format += '`';
+   } else {
+      format += string[i];
+   }
+   }
+   return format;
 }
 
 // Запросеки
@@ -62,7 +73,7 @@ app.get('/submitQuestion', (req, res) => {
    logger(`Какой-то бесстрашный на ${req.connection.remoteAddress} добавил вопрос в базу (${JSON.stringify(req.query)}). Ну и че по итогам:`, true);
    res.charset = "utf-8"; req.charset = "utf-8";
    stablishedConnection().then((connection) => {
-      connection.query(`INSERT INTO test_question (Test_Key, Header) VALUES (${req.query.Testkey}, '${req.query.questionName}');`,
+      connection.query(`INSERT INTO test_question (Test_Key, Header) VALUES (${req.query.Testkey}, '${formatter(req.query.questionName)}');`,
       (err1, res1, fields1) => {
          if(err1) { logger(err1, false); res.send("Ошибочка"); } else logger(JSON.stringify(res1), false);
          connection.query(`SELECT * FROM test_question ORDER BY 'Key';`, 
@@ -70,7 +81,7 @@ app.get('/submitQuestion', (req, res) => {
             if(err2) { logger(err2, false); res.send("Ошибочка"); } else logger(JSON.stringify(res2), false);
             for(var i of req.query.varArr) {
             console.log(JSON.stringify(i));
-            connection.query(`INSERT INTO ans_variant (Text, IsCorrect, Question_Key) VALUES ('${JSON.parse(i).varName}', ${JSON.parse(i).correct}, ${res2[res2.length - 1].Key});`, 
+            connection.query(`INSERT INTO ans_variant (Text, IsCorrect, Question_Key) VALUES ('${formatter(JSON.parse(i).varName)}', ${JSON.parse(i).correct}, ${res2[res2.length - 1].Key});`, 
             (err3, res3, fields3) => {
                if(err3) { logger(err3, false); res.send("Ошибочка"); } else logger(JSON.stringify(res3), false);
                questions++;
@@ -106,7 +117,7 @@ app.get("/submitTest", (req, res) => {
    logger(`Какой-то бесстрашный на ${req.connection.remoteAddress} добавил тестик (${JSON.stringify(req.query)}). Ну и че по итогам:`, true);
    res.charset = "utf-8"; req.charset = "utf-8";
    stablishedConnection().then((connection) => {
-      connection.query(`INSERT INTO test (Test_Type_Key, Name) VALUES (${req.query.difficulty}, '${req.query.name}');`,
+      connection.query(`INSERT INTO test (Test_Type_Key, Name) VALUES (${req.query.difficulty}, '${formatter(req.query.name)}');`,
       (err, results, fields) => {
          if(err) { logger(err, false); res.send("Ошибочка"); } else logger(JSON.stringify(results), false);
       });
@@ -121,7 +132,7 @@ app.post('/uploadImage', (req, res) => {
 app.get('/postRule', (req, res) => {
    logger(`Какой-то бесстрашный на ${req.connection.remoteAddress} добавил правило (${JSON.stringify(req.query)}). Ну и че по итогам:`, true);
    stablishedConnection().then(connection => {
-      connection.query(`INSERT INTO rule (Discipline_Level, Self_Development, Responsibility, Perseverance, Attentiveness, Stress, Result) VALUES ('${req.query.disciplineLevel}', '${req.query.selfDevelopment}', '${req.query.responsibility}', '${req.query.perseverance}', '${req.query.attentiveness}', '${req.query.stress}', '${req.query.result}');`, 
+      connection.query(`INSERT INTO rule (Discipline_Level, Self_Development, Responsibility, Perseverance, Attentiveness, Stress, Result) VALUES ('${formatter(req.query.disciplineLevel)}', '${formatter(req.query.selfDevelopment)}', '${formatter(req.query.responsibility)}', '${formatter(req.query.perseverance)}', '${formatter(req.query.attentiveness)}', '${formatter(req.query.stress)}', '${formatter(req.query.result)}');`, 
       (err, results, fields) => {
          if(err) { logger(err, false); res.send("Ошибочка"); } else logger(JSON.stringify(results), false);
       });
@@ -165,7 +176,7 @@ app.get('/getRuleList', (req, res) => {
 app.get('/updateRule', (req, res) => {
    logger(`Какой-то бесстрашный на ${req.connection.remoteAddress} отредачил правило (${JSON.stringify(req.query)}). Ну и че по итогам:`, true);
    stablishedConnection().then(connection => {
-      connection.query(`UPDATE rule SET Discipline_Level = '${req.query.Discipline_Level}', Self_Development = '${req.query.Self_Development}', Responsibility = '${req.query.Responsibility}', Perseverance = '${req.query.Perseverance}', Attentiveness = '${req.query.Attentiveness}', Stress = '${req.query.Stress}', Result = '${req.query.Result}' WHERE rule.Key = ${req.query.Key};`, 
+      connection.query(`UPDATE rule SET Discipline_Level = '${formatter(req.query.Discipline_Level)}', Self_Development = '${formatter(req.query.Self_Development)}', Responsibility = '${formatter(req.query.Responsibility)}', Perseverance = '${formatter(req.query.Perseverance)}', Attentiveness = '${formatter(req.query.Attentiveness)}', Stress = '${formatter(req.query.Stress)}', Result = '${formatter(req.query.Result)}' WHERE rule.Key = ${req.query.Key};`, 
       (err, results, fields) => {
          if(err) { logger(err, false); res.send("Ошибочка"); } else logger(JSON.stringify(results), false);
       });
