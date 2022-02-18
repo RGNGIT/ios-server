@@ -10,6 +10,7 @@ import SERVER from './const/req';
 // const morgan = require('morgan');
 
 const app = express();
+require('dotenv').config();
 
 const corsOpt = {
     origin: '*',
@@ -33,115 +34,44 @@ app.get('/', (req, res) => {
 
 // Панелькины запросеки
 
-app.get(SERVER.GET_VUE_PANEL, async (req, res) => {
-    await VueRouter.vueRouterPanel(app, express, static_path, res);
-});
+app.get(SERVER.GET_VUE_PANEL, async (req, res) : Promise < void > => await VueRouter.vueRouterPanel(app, express, static_path, res));
 
 // Main
 
-app.get(SERVER.GET_VUE_PROFILE, async (req, res) => {
-    await VueRouter.vueRouterMain(app, express, static_path, res);
-});
+app.get(SERVER.GET_VUE_PROFILE, async (req, res) : Promise < void > => await VueRouter.vueRouterMain(app, express, static_path, res));
 
-app.get(SERVER.GET_VUE_COURSES, async (req, res) => {
-    await VueRouter.vueRouterMain(app, express, static_path, res);
-});
+app.get(SERVER.GET_VUE_COURSES, async (req, res) : Promise < void > => await VueRouter.vueRouterMain(app, express, static_path, res));
 
-app.get(SERVER.GET_VUE_TEST, async (req, res) => {
-    await VueRouter.vueRouterMain(app, express, static_path, res);
-});
+app.get(SERVER.GET_VUE_TEST, async (req, res) : Promise < void > => await VueRouter.vueRouterMain(app, express, static_path, res));
 
-app.get(SERVER.GET_VUE_ADMINSETTINGS, async (req, res) => {
-    await VueRouter.vueRouterMain(app, express, static_path, res);
-});
+app.get(SERVER.GET_VUE_ADMINSETTINGS, async (req, res) : Promise < void > => await VueRouter.vueRouterMain(app, express, static_path, res));
 
-app.get(SERVER.GET_VUE_MAMDANI, async (req, res) => {
-    await VueRouter.vueRouterMain(app, express, static_path, res);
-});
+app.get(SERVER.GET_VUE_MAMDANI, async (req, res) : Promise < void > => await VueRouter.vueRouterMain(app, express, static_path, res));
 
-app.get(SERVER.GET_VUE_ABOUT, async (req, res) => {
-    await VueRouter.vueRouterMain(app, express, static_path, res);
-});
+app.get(SERVER.GET_VUE_ABOUT, async (req, res) : Promise < void > => await VueRouter.vueRouterMain(app, express, static_path, res));
 
-app.get(SERVER.GET_TOPIC_LIST, async (req, res) => {
-    await Tests.getTopicList(req, res);
-});
+app.get(SERVER.GET_TOPIC_LIST, async (req, res) : Promise < void > => await Tests.getTopicList(req, res));
 
-app.post(SERVER.SUBMIT_QUESTION, async (req, res) => {
-    await Tests.submitQuestion(req, res);
-});
+app.post(SERVER.SUBMIT_QUESTION, async (req, res) : Promise < void > => await Tests.submitQuestion(req, res));
 
-app.get(SERVER.GET_DIFF_LIST, async (req, res) => {
-    await Tests.getDifficultyList(req, res);
-});
+app.get(SERVER.GET_DIFF_LIST, async (req, res) : Promise < void > => await Tests.getDifficultyList(req, res));
 
-app.post(SERVER.SUBMIT_TEST, async (req, res) => {
-    await Tests.submitTest(req, res);
-});
+app.post(SERVER.SUBMIT_TEST, async (req, res) : Promise < void > => await Tests.submitTest(req, res));
 /*
 app.post('/uploadImage', (req, res) => {
     console.log(req);
 });
 */
-app.post(SERVER.POST_RULE, async (req, res) => {
-    await Rules.postRule(req, res);
-});
+app.post(SERVER.POST_RULE, async (req, res) : Promise < void > => await Rules.postRule(req, res));
 
-app.get(SERVER.GET_RULE_LIST, async (req, res) => {
-    await Rules.getRuleList(req, res);
-});
+app.get(SERVER.GET_RULE_LIST, async (req, res) : Promise < void > => await Rules.getRuleList(req, res));
 
-app.patch(SERVER.UPDATE_RULE, async (req, res) => {
-    await Rules.updateRule(req, res);
-});
-/*
-app.get('/getTest', (req, res) => {
-    logger(`Какой-то бесстрашный на ${
-        req.connection.remoteAddress
-    } запросил тест по ключу (${
-        JSON.stringify(req.query)
-    }). Ну и че по итогам:`, true);
-    stablishedConnection().then(connection => {
-        connection.query(`SELECT * FROM test_question WHERE Test_Key = ${
-            req.query.testKey
-        };`, (err1, results1, fields1) => {
-            if (err1) {
-                logger(err1, false);
-                res.send("Ошибочка");
-            } else {
-                let test = [];
-                class question {
-                    Header;
-                    Answer;
-                    Img;
-                    TestKey;
-                };
-                for (let i of results1) {
-                    connection.query(`SELECT * FROM ans_variant WHERE Question_Key = ${
-                        i.Key
-                    }`, (err2, results2, fields2) => {
-                        if (err2) {
-                            logger(err2, false);
-                            res.send("Ошибочка");
-                        } else {
-                            let newQuestion = new question;
-                            newQuestion.TestKey = req.query.testKey;
-                            newQuestion.Header = i.Header;
-                            newQuestion.Answer = results2;
-                            test.push(newQuestion);
-                        }
-                        if (test.length == results1.length) {
-                            res.json(test);
-                            closeDbConnection(connection, "GET_TEST_BY_KEY");
-                        }
-                    });
-                }
-            }
-        });
+app.patch(SERVER.UPDATE_RULE, async (req, res) : Promise < void > => await Rules.updateRule(req, res));
 
+app.get(SERVER.GET_TEST_BY_KEY, async (req, res) : Promise < void > => await Tests.getTest(req, res));
+
+(function () {
+    app.listen(process.env.PORT, () => {
+        console.log("Сервак им. Тагировой стартанул на порту: " + process.env.PORT);
     });
-});
-*/
-var listener = app.listen(process.env.PORT || 8080, () => {
-    console.log("Сервак им. Тагировой стартанул на порту: " + listener.address());
-});
+})();

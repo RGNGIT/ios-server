@@ -1,8 +1,10 @@
 import Misc from './misc';
 import MySQL2Commander from '../mysqlCommander';
+import {Request, Response} from 'express';
+import Error from '../const/err';
 
 class Rules {
-    async postRule(req, res) {
+    async postRule(req : Request, res : Response): Promise < void > {
         try {
             await Misc.logger(`Какой-то бесстрашный на ${
                 req.socket.remoteAddress
@@ -25,12 +27,13 @@ class Rules {
                 await Misc.formatter(req.body.result)
             }');`);
             await Misc.logger(JSON.stringify(res1), false);
-            await Misc.logger("Метод POST_RULE успешно прогнан!", false);
+            res.send(await Misc.logger("Метод POST_RULE успешно прогнан!", false));
         } catch (err) {
             await Misc.logger(err, false);
+            res.json(await Error.send("POST_RULE", err));
         }
     }
-    async getRuleList(req, res) {
+    async getRuleList(req : Request, res : Response): Promise < void > {
         try {
             await Misc.logger(`Какой-то бесстрашный на ${
                 req.socket.remoteAddress
@@ -46,12 +49,13 @@ class Rules {
                 await Misc.logger("Типа вернул: " + JSON.stringify(res2), false);
                 res.json(res2);
             }
-            await Misc.logger("Метод GET_RULE_LIST успешно прогнан!", false);
+            res.send(await Misc.logger("Метод GET_RULE_LIST успешно прогнан!", false));
         } catch (err) {
             await Misc.logger(err, false);
+            res.json(await Error.send("GET_RULE_LIST", err));
         }
     }
-    async updateRule(req, res) {
+    async updateRule(req : Request, res : Response): Promise < void > {
         try {
             await Misc.logger(`Какой-то бесстрашный на ${
                 req.socket.remoteAddress
@@ -73,12 +77,13 @@ class Rules {
             }', Result = '${
                 await Misc.formatter(req.body.Result)
             }' WHERE rule.Key = ${
-                req.body.Key
+                req.params.id
             };`);
             await Misc.logger(JSON.stringify(res1), false);
-            await Misc.logger("Метод UPDATE_RULE успешно прогнан!", false);
+            res.send(await Misc.logger("Метод UPDATE_RULE успешно прогнан!", false));
         } catch (err) {
             await Misc.logger(err, false);
+            res.json(await Error.send("UPDATE_RULE", err));
         }
     }
 }
