@@ -1,5 +1,5 @@
 {
-  "main": "dist/index.js",
+  "main": "dist/app.js",
   "scripts": {
     "build": "tsc",
     "start": "node ."
