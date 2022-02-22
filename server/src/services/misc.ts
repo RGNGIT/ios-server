@@ -9,7 +9,9 @@ class Misc {
         console.log(
             (dt ? '<' + dateTime + '> ' : '') + log
         );
-        return ((dt ? '<' + dateTime + '> ' : '') + log);
+        return(
+            (dt ? '<' + dateTime + '> ' : '') + log
+        );
     }
     async formatter(string : string): Promise < string > {
         let format = '';
