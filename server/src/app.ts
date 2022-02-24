@@ -2,6 +2,7 @@ const cors = require("cors");
 const path = require("path");
 import express from 'express';
 import {buildRouter} from './router';
+import {apiCheck} from './middlewares'
 // const bodyParser = require('body-parser');
 // const cors = require('cors');
 // const morgan = require('morgan');
@@ -17,11 +18,7 @@ const corsOpt = {
 
 const static_path = path.join(__dirname, "../../../front");
 app.use(express.urlencoded({extended: true}));
-
-app.get('/', (req, res) => {
-    app.use(express.static(static_path));
-    res.sendFile(static_path + '/index.html');
-});
+app.use(apiCheck);
 
 (function () {
     app.listen(process.env.PORT, () => {
