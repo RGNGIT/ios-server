@@ -49,7 +49,7 @@ class Rules {
                 await Misc.logger("Типа вернул: " + JSON.stringify(res2), false);
                 res.json(res2);
             }
-            res.send(await Misc.logger("Метод GET_RULE_LIST успешно прогнан!", false));
+            await Misc.logger("Метод GET_RULE_LIST успешно прогнан!", false);
         } catch (err) {
             await Misc.logger(err, false);
             res.json(await Error.send("GET_RULE_LIST", err));
