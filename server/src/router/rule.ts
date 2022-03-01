@@ -1,6 +1,6 @@
 import {Router} from "express";
 import SERVER from '../const/req';
-import Rules from '../controllers/rule';
+import Rules from '../controllers/rules';
 
 const router = Router();
 

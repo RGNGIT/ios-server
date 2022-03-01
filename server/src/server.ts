@@ -21,7 +21,7 @@ class Server {
         await buildRouter(app); // Настроить руты
         await FL.jsonRuleBase(); // Считать базу правил
         await FL.jsonValidTerms(); // Актуальные термы
-        // console.log(await FL.getFuzzyResult([1, 2, 3, 4, 5]));
+        //console.log(await FL.getFuzzyResult([-1, 1, 2, 3, 4, 5]));
     }
 }
 

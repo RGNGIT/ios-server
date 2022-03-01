@@ -2,10 +2,14 @@ import fs from 'fs';
 import MySQL2Commander from '../mysqlCommander';
 import {PythonShell} from 'python-shell';
 
+const mamdaniDir = "src/mamdani";
+
 class FuzzyLogic {
     async jsonRuleBase() {
         let res1 = await MySQL2Commander.queryExec("SELECT * FROM rule;");
-        fs.writeFileSync('src/mamdani/rules.json', JSON.stringify(res1));
+        if (fs.existsSync(mamdaniDir)) {
+            fs.writeFileSync(`${mamdaniDir}/rules.json`, JSON.stringify(res1));
+        }
     }
     async jsonValidTerms() {
         const terms = {
@@ -59,7 +63,9 @@ class FuzzyLogic {
                 "эксперт"
             ]
         };
-        fs.writeFileSync('src/mamdani/terms.json', JSON.stringify(terms));
+        if (fs.existsSync(mamdaniDir)) {
+            fs.writeFileSync(`${mamdaniDir}/terms.json`, JSON.stringify(terms));
+        }
     }
     async getFuzzyResult(terms : Array < number >) {
         let request: object = {
@@ -69,7 +75,7 @@ class FuzzyLogic {
             args: terms
         };
         return new Promise((resolve, reject) => {
-            PythonShell.run('main.py', request, (err, res) => {
+            PythonShell.run('new_main.py', request, (err, res) => {
                 if (err) {
                     reject(err);
                 } else {

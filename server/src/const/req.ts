@@ -8,5 +8,9 @@ export default {
     /// Правила
     POST_RULE: '/postRule', // POST * 
     GET_RULE_LIST: '/getRuleList', // GET // *
-    UPDATE_RULE: '/updateRule/:id' // PATCH
+    UPDATE_RULE: '/updateRule/:id', // PATCH // *
+    /// Физлицо
+    POST_NEW_PHYS_USER: '/newPhys', // POST //
+    USER_LOGIN: '/login', // POST // 
+
 }
