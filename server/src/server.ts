@@ -2,6 +2,7 @@ import {buildRouter} from './router';
 import FL from './services/fuzzy';
 import cors from 'cors';
 import {apiCheck} from './middlewares';
+import {authCheck} from './middlewares/auth-check';
 import express from 'express';
 
 const corsOpt = {
@@ -16,12 +17,13 @@ class Server {
         app.use(cors(corsOpt));
         app.use(express.urlencoded({extended: true}));
         app.use(apiCheck);
+        app.use(authCheck);
     }
     async main(app) {
         await buildRouter(app); // Настроить руты
         await FL.jsonRuleBase(); // Считать базу правил
         await FL.jsonValidTerms(); // Актуальные термы
-        //console.log(await FL.getFuzzyResult([-1, 1, 2, 3, 4, 5]));
+        console.log(await FL.getFuzzyResult([99, 99, 99, 99, 99]));
     }
 }
 
