@@ -10,6 +10,7 @@ enum ErrCode {
     POST_NEW_PHYS_USER_ERROR = 8,
     USER_LOGIN_ERROR = 9,
     WRONG_LOGIN_DATA_ERROR = 10,
+    AUTH_TOKEN_ERROR = 11,
 }
 
 class ErrorHandler {

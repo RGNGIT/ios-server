@@ -9,7 +9,7 @@ class AuthService {
     async verifyToken(token : string, user): Promise < boolean > {
         try {
             const res = await jwt.verify(token, process.env.SECRET);
-            return res == user;
+            return res.UserKey == user.UserData.UserKey && res.Verify == user.UserData.Verify;
         } catch (e) {
             return false;
         }
