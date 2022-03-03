@@ -99,12 +99,12 @@
 
 ### Метод (POST): 'api/postRule'
 * Принимает: {
-        disciplineLevel
-        selfDevelopment
-        responsibility
-        perseverance
-        attentiveness
-        stress
+        disciplineLevel,
+        selfDevelopment,
+        responsibility,
+        perseverance,
+        attentiveness,
+        stress,
         result
       }
       * Читаем Метод (GET): 'api/getRuleList' для обоснования переменных
@@ -112,21 +112,21 @@
 
 ### Метод (POST): 'api/newPhys'
 * Принимает: {
-        Name
-        Surname
-        Patronymic
-        Email
-        Sex_Key
-        Interface_Type
-        Rating
-        Login
+        Name,
+        Surname,
+        Patronymic,
+        Email,
+        Sex_Key,
+        Interface_Type,
+        Rating,
+        Login,
         Password
       }
 * В случае ошибки: {Code: 8, Error: POST_NEW_PHYS_USER_ERROR, AdditionalInfo: ...}
 
 ### Метод (POST): 'api/login'
 * Принимает: {
-        Email
+        Email,
         Password
       }
 * В случае ошибки: 
