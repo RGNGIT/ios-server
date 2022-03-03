@@ -1,5 +1,10 @@
 # Эндпоинты
 
+## Middlewares
+
+### ApiCheck (Проверяет токен юзера. Не активен при DEV_MODE=true)
+* В случае ошибки: {Code: 11, Error: AUTH_TOKEN_ERROR, AdditionalInfo: "Wrong auth token. DEV_MODE is ${process.env.DEV_MODE}"}
+
 ## GET
 
 ### Метод (GET): 'api/getTopicList'
@@ -41,6 +46,38 @@
     * Result - результат
 * В случае ошибки: {Code: 1, Error: GET_RULE_LIST_ERROR, AdditionalInfo: ...}
 
+### Метод (GET): 'api/userInfo/:id'
+* Возвращает: {reg: {...}, phys: {...}}
+    * reg - реистрационные данные:
+    {
+        Reg_Date
+        Phys_Key
+        Login
+        Password
+    }
+    * Reg_Date - дата регистрации
+    * Phys_Key - ключ физлица
+    * Login - логин
+    * Password - пароль (зашифрованный)
+    * phys - данные физлица:
+    {
+        Key
+        Name
+        Surname
+        Patronymic
+        Email
+        Sex_Key
+        Interface_Type
+        Rating
+    }
+    * Key - ключ
+    * Surname, Name, Patronymic - ФИО
+    * Email - почта
+    * Sex_Key - ключ пола
+    * Interface_Type - ?
+    * Rating - ?
+* В случае ошибки: {Code: 12, Error: GET_USER_INFO_ERROR, AdditionalInfo: ...}
+
 ## POST
 
 ### Метод (POST): 'api/submitQuestion'
@@ -73,6 +110,29 @@
       * Читаем Метод (GET): 'api/getRuleList' для обоснования переменных
 * В случае ошибки: {Code: 0, Error: POST_RULE_ERROR, AdditionalInfo: ...}
 
+### Метод (POST): 'api/newPhys'
+* Принимает: {
+        Name
+        Surname
+        Patronymic
+        Email
+        Sex_Key
+        Interface_Type
+        Rating
+        Login
+        Password
+      }
+* В случае ошибки: {Code: 8, Error: POST_NEW_PHYS_USER_ERROR, AdditionalInfo: ...}
+
+### Метод (POST): 'api/login'
+* Принимает: {
+        Email
+        Password
+      }
+* В случае ошибки: 
+      * При системной ошибке {Code: 9, Error: USER_LOGIN_ERROR, AdditionalInfo: ...}
+      * При неправильных данных {Code: 10, Error: WRONG_LOGIN_DATA_ERROR, AdditionalInfo: "Wrong login/password"}
+
 ## PATCH
 
 ### Метод (PATCH): 'api/updateRule/:id'
@@ -85,3 +145,15 @@
     * Stress - как стрессует пацанчик
     * Result - результат
 * В случае ошибки: {Code: 2, Error: UPDATE_RULE_ERROR, AdditionalInfo: ...}
+
+### Метод (PATCH): 'api/updateUserInfo'
+* Принимает: {Key, Name, Surname, Patronymic, Email, Sex_Key, Interface_Type, Rating, Login, Password}
+    * Key - ключ физлица
+    * Surname, Name, Patronymic - ФИО
+    * Email - почта
+    * Sex_Key - ключ пола
+    * Interface_Type - ?
+    * Rating - ?
+    * Login - логин
+    * Password - пароль
+* В случае ошибки: {Code: 13, Error: UPDATE_USER_INFO_ERROR, AdditionalInfo: ...}

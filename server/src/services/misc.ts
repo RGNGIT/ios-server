@@ -1,16 +1,10 @@
 class Misc {
     async logger(log : string, dt : boolean): Promise < string > {
-        var today: Date = new Date();
-        var date = today.getFullYear() + '-' + (
-            today.getMonth() + 1
-        ) + '-' + today.getDate();
-        var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-        var dateTime = date + ' ' + time;
         console.log(
-            (dt ? '<' + dateTime + '> ' : '') + log
+            (dt ? '<' + await this.getDateTime() + '> ' : '') + log
         );
         return(
-            (dt ? '<' + dateTime + '> ' : '') + log
+            (dt ? '<' + await this.getDateTime() + '> ' : '') + log
         );
     }
     async formatter(string : string): Promise < string > {
@@ -23,6 +17,15 @@ class Misc {
             }
         }
         return format;
+    }
+    async getDateTime() {
+        let today = new Date();
+        let date = today.getFullYear() + '-' + (
+            today.getMonth() + 1
+        ) + '-' + today.getDate();
+        let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+        let dateTime = date + ' ' + time;
+        return dateTime;
     }
 }
 

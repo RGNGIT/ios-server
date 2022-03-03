@@ -11,20 +11,19 @@ const corsOpt = {
     optionSuccessStatus: 200
 };
 
-const devMode: boolean = process.env.DEV_MODE === 'true';
-
 class Server {
     async defaultMiddlewares(app) {
         app.use(express.json());
         app.use(cors(corsOpt));
         app.use(express.urlencoded({extended: true}));
         app.use(apiCheck);
-        !devMode ? app.use(authCheck) : null;
+        !(process.env.DEV_MODE === 'true') ? app.use(authCheck) : null;
     }
     async main(app) {
         await buildRouter(app); // Настроить руты
         await FL.jsonRuleBase(); // Считать базу правил
         await FL.jsonValidTerms(); // Актуальные термы
+        await FL.jsonTrapezoidDots(); // Точки трапеций
         // console.log(await FL.getFuzzyResult([99, 99, 99, 99, 99]));
     }
 }

@@ -12,5 +12,6 @@ export default {
     /// Физлицо
     POST_NEW_PHYS_USER: '/newPhys', // POST //
     USER_LOGIN: '/login', // POST // 
-
+    GET_USER_INFO: '/userInfo/:id', // GET //
+    UPDATE_USER_INFO: '/updateUserInfo', // PATCH
 }

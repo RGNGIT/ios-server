@@ -38,7 +38,7 @@ class Rules {
             await Misc.logger(`Какой-то бесстрашный на ${
                 req.socket.remoteAddress
             } запросил список правил (${
-                JSON.stringify(req.query)
+                JSON.stringify(req.params)
             }). Ну и че по итогам:`, true);
             if (req.query.sorted == "true") {
                 let res1 = await MySQL2Commander.queryExec("SELECT * FROM rule;");

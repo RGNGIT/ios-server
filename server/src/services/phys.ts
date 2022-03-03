@@ -50,13 +50,11 @@ class PhysService {
         return await this.getLastRecord(await MySQL2Commander.queryExec(`SELECT * FROM phys;`));
     }
     async updateReg(physKey, unit : {
-        Reg_Date,
         Login,
         Password
     }) {
-        let res = await MySQL2Commander.queryExec(`UPDATE reg SET Reg_Date = '${
-            unit.Reg_Date
-        }', Login = '${
+        let res = await MySQL2Commander.queryExec(`UPDATE reg SET 
+            Login = '${
             unit.Login
         }', Password = '${
             unit.Password
@@ -90,7 +88,7 @@ class PhysService {
     async deleteOne(key) {
         let res = await MySQL2Commander.queryExec(`DELETE FROM phys WHERE phys.Key = ${key};`);
     }
-    async fetchKey(email) {
+    async fetchPhysKey(email) {
         let res = await MySQL2Commander.queryExec(`SELECT * FROM phys WHERE Email = '${email}'`);
         return res[0].Key;
     }

@@ -11,6 +11,8 @@ enum ErrCode {
     USER_LOGIN_ERROR = 9,
     WRONG_LOGIN_DATA_ERROR = 10,
     AUTH_TOKEN_ERROR = 11,
+    GET_USER_INFO_ERROR = 12,
+    UPDATE_USER_INFO_ERROR = 13,
 }
 
 class ErrorHandler {
