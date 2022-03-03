@@ -122,6 +122,13 @@
         Login,
         Password
       }
+    * Surname, Name, Patronymic - ФИО
+    * Email - почта
+    * Sex_Key - ключ пола
+    * Interface_Type - ?
+    * Rating - ?
+    * Login - логин
+    * Password - пароль
 * В случае ошибки: {Code: 8, Error: POST_NEW_PHYS_USER_ERROR, AdditionalInfo: ...}
 
 ### Метод (POST): 'api/login'
@@ -129,6 +136,8 @@
         Email,
         Password
       }
+    * Email - почта
+    * Password - пароль
 * В случае ошибки: 
       * При системной ошибке {Code: 9, Error: USER_LOGIN_ERROR, AdditionalInfo: ...}
       * При неправильных данных {Code: 10, Error: WRONG_LOGIN_DATA_ERROR, AdditionalInfo: "Wrong login/password"}
