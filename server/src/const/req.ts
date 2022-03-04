@@ -1,4 +1,6 @@
 export default {
+    /// ФаззиЛогик
+    GET_FUZZY_RESULT: '/fuzzyResult',
     /// Тестики
     GET_TOPIC_LIST: '/getTopicList', // GET // *
     SUBMIT_QUESTION: '/submitQuestion', // POST // * 

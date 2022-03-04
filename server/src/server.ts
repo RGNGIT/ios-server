@@ -4,6 +4,7 @@ import cors from 'cors';
 import {apiCheck} from './middlewares';
 import {authCheck} from './middlewares/auth-check';
 import express from 'express';
+import monitor from 'express-status-monitor';
 
 const corsOpt = {
     origin: '*',
@@ -13,6 +14,7 @@ const corsOpt = {
 
 class Server {
     async defaultMiddlewares(app) {
+        app.use(monitor());
         app.use(express.json());
         app.use(cors(corsOpt));
         app.use(express.urlencoded({extended: true}));
@@ -24,7 +26,6 @@ class Server {
         await FL.jsonRuleBase(); // Считать базу правил
         await FL.jsonValidTerms(); // Актуальные термы
         await FL.jsonTrapezoidDots(); // Точки трапеций
-        // console.log(await FL.getFuzzyResult([99, 99, 99, 99, 99]));
     }
 }
 

@@ -13,6 +13,7 @@ enum ErrCode {
     AUTH_TOKEN_ERROR = 11,
     GET_USER_INFO_ERROR = 12,
     UPDATE_USER_INFO_ERROR = 13,
+    GET_FUZZY_RESULT_ERROR = 14
 }
 
 class ErrorHandler {
