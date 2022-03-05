@@ -13,7 +13,7 @@ const corsOpt = {
 };
 
 class Server {
-    async defaultMiddlewares(app) {
+    async defineMiddlewares(app) {
         app.use(monitor());
         app.use(express.json());
         app.use(cors(corsOpt));
@@ -22,6 +22,7 @@ class Server {
         !(process.env.DEV_MODE === 'true') ? app.use(authCheck) : null;
     }
     async main(app) {
+        await this.defineMiddlewares(app);
         await buildRouter(app); // Настроить руты
         await FL.jsonRuleBase(); // Считать базу правил
         await FL.jsonValidTerms(); // Актуальные термы
