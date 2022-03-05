@@ -27,6 +27,17 @@ class Misc {
         let dateTime = date + ' ' + time;
         return dateTime;
     }
+    async pyJsonFix(json) {
+        let format = '';
+        for (let i = 0; i < json[0].length; i++) {
+            if (json[0][i] == `'`) {
+                format += '"';
+            } else {
+                format += json[0][i];
+            }
+        }
+        return format;
+    }
 }
 
 export default new Misc();

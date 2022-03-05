@@ -10,6 +10,8 @@ class FuzzyLogic {
             fs.writeFileSync(`${
                 process.env.MAMDANI_DIR
             }/rules.json`, JSON.stringify(res1));
+        } else {
+            console.log("Мамдани не инициализирован! Работа с системой нечеткой логики невозможна!");
         }
     }
     async jsonValidTerms() {
@@ -33,7 +35,10 @@ class FuzzyLogic {
             mode: 'text',
             pythonOptions: ['-u'],
             scriptPath: process.env.MAMDANI_DIR,
-            args: terms
+            args: [
+                ...terms,
+                process.env.MAMDANI_DIR
+            ]
         };
         return new Promise((resolve, reject) => {
             PythonShell.run('main.py', request, (err, res) => {
