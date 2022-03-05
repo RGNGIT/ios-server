@@ -2,6 +2,7 @@ import fs from 'fs';
 import MySQL2Commander from '../mysqlCommander';
 import {PythonShell} from 'python-shell';
 import Storage from '../const/object-storage';
+import Misc from './misc';
 
 class FuzzyLogic {
     async jsonRuleBase() {
@@ -11,7 +12,7 @@ class FuzzyLogic {
                 process.env.MAMDANI_DIR
             }/rules.json`, JSON.stringify(res1));
         } else {
-            console.log("Мамдани не инициализирован! Работа с системой нечеткой логики невозможна!");
+            await Misc.logger("Мамдани не инициализирован! Работа с системой нечеткой логики невозможна!", true);
         }
     }
     async jsonValidTerms() {
