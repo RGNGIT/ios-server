@@ -41,7 +41,7 @@
     * ResultFunc - точки графиков, но пока забить
 * Принимает:
     * t1...t6 - числа от 0 до 100 порядке: Discipline_Level, Self_Development, Responsibility, Perseverance, Attentiveness, Stress
-* В случае ошибки: {Code: 7, Error: GET_TEST_BY_KEY_ERROR, AdditionalInfo: ...}
+* В случае ошибки: {Code: 14, Error: GET_FUZZY_RESULT_ERROR, AdditionalInfo: ...}
 
 ### Метод (GET): 'api/getRuleList'
 * Возвращает: [{Key, Discipline_Level, Self_Development, Responsibility, Perseverance, Attentiveness, Stress, Result}...]
