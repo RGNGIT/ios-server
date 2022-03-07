@@ -34,6 +34,15 @@
     * Question_Key - ключ вопроса, к которому привязан этот ответ
 * В случае ошибки: {Code: 7, Error: GET_TEST_BY_KEY_ERROR, AdditionalInfo: ...}
 
+### Метод (GET): 'api/fuzzyResult/?t1=11&t2=22&t3=33...'
+* Возвращает: {Result, Result_Term, ResultFunc:{...}}
+    * Result - результат в числе
+    * Result_Term - результат в буквах
+    * ResultFunc - точки графиков, но пока забить
+* Принимает:
+    * t1...t6 - числа от 0 до 100 порядке: Discipline_Level, Self_Development, Responsibility, Perseverance, Attentiveness, Stress
+* В случае ошибки: {Code: 7, Error: GET_TEST_BY_KEY_ERROR, AdditionalInfo: ...}
+
 ### Метод (GET): 'api/getRuleList'
 * Возвращает: [{Key, Discipline_Level, Self_Development, Responsibility, Perseverance, Attentiveness, Stress, Result}...]
     * Key - ключ в бд
