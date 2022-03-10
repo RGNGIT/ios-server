@@ -15,6 +15,7 @@ class FuzzyAIController {
                 req.query.t6 as unknown as number
             ];
             res.json(JSON.parse(await Misc.pyJsonFix(await FuzzyLogic.getFuzzyResult(termArray))));
+            await Misc.logger("Метод GET_FUZZY_RESULT успешно прогнан!", false);
         } catch (err) {
             await Misc.logger(err, false);
             res.json(await Error.send("GET_FUZZY_RESULT", err));

@@ -13,6 +13,7 @@ class Tests {
             let result = await MySQL2Commander.queryExec("SELECT test.Key, test.Name, test_type.TName FROM test_type, test WHERE Test_Type_Key = test_type.Key;");
             await Misc.logger("Типа вернул: " + JSON.stringify(result), false);
             res.json(result);
+            await Misc.logger("Метод GET_TOPIC_LIST успешно прогнан!", false);
         } catch (err) {
             await Misc.logger(err, false);
             res.json(await Error.send("GET_TOPIC_LIST", err));
@@ -49,6 +50,7 @@ class Tests {
                     res.send(await Misc.logger("Метод SUBMIT_QUESTION успешно прогнан!", false));
                 }
             }
+            await Misc.logger("Метод SUBMIT_QUESTION успешно прогнан!", false);
         } catch (err) {
             await Misc.logger(err, false);
             res.json(await Error.send("SUBMIT_QUESTION", err));
@@ -63,6 +65,7 @@ class Tests {
             let res1 = await MySQL2Commander.queryExec("SELECT * FROM test_type;");
             await Misc.logger("Типа вернул: " + JSON.stringify(res1), false);
             res.json(res1);
+            await Misc.logger("Метод GET_DIFF_LIST успешно прогнан!", false);
         } catch (err) {
             await Misc.logger(err, false);
             res.json(await Error.send("GET_DIFF_LIST", err));
@@ -118,6 +121,7 @@ class Tests {
                     res.json(test);
                 }
             }
+            await Misc.logger("Метод GET_TEST_BY_KEY успешно прогнан!", false);
         } catch (err) {
             await Misc.logger(err, false);
             res.json(await Error.send("GET_TEST_BY_KEY", err));
