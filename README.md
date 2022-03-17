@@ -37,7 +37,7 @@
 * В случае ошибки: {Code: 7, Error: GET_TEST_BY_KEY_ERROR, AdditionalInfo: ...}
 
 ### Метод (GET): 'api/validateAnswer?questionKey=123&answerKey=321'
-* Возвращает: [{Correct}]
+* Возвращает: {Correct}
     * Correct - правильный ответ или не правильный (true/false)
 * В случае ошибки: {Code: 15, Error: ANSWER_VALIDATE_ERROR, AdditionalInfo: ...}
 
