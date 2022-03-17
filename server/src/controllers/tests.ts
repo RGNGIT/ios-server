@@ -2,7 +2,7 @@ import Misc from '../services/misc';
 import MySQL2Commander from '../mysqlCommander';
 import {Request, Response} from 'express';
 import Error from '../const/err';
-import Test from '../services/test';
+import TestService from '../services/test';
 
 class Tests {
     async getTopicList(req : Request, res : Response): Promise < void > {
@@ -11,7 +11,7 @@ class Tests {
                 req.socket.remoteAddress
             } запросил список тем. Ну и че по итогам:`, true);
             res.charset = "utf-8";
-            let result = await MySQL2Commander.queryExec("SELECT test.Key, test.Name, test_type.TName FROM test_type, test WHERE Test_Type_Key = test_type.Key;");
+            let result = TestService.fetchTopicList();
             await Misc.logger("Типа вернул: " + JSON.stringify(result), false);
             res.json(result);
             await Misc.logger("Метод GET_TOPIC_LIST успешно прогнан!", false);
@@ -29,22 +29,12 @@ class Tests {
                 JSON.stringify(req.body)
             }). Ну и че по итогам:`, true);
             res.charset = "utf-8";
-            let res1 = await MySQL2Commander.queryExec(`INSERT INTO test_question (Test_Key, Header) VALUES (${
-                req.body.Testkey
-            }, '${
-                Misc.formatter(req.body.questionName)
-            }');`);
+            let res1 = await TestService.writeQuestion(req.body.Testkey, await Misc.formatter(req.body.questionName));
             await Misc.logger(JSON.stringify(res1), false);
-            let res2 = await MySQL2Commander.queryExec(`SELECT * FROM test_question ORDER BY 'Key';`);
+            let res2 = await TestService.fetchQuestions('Key');
             await Misc.logger(JSON.stringify(res2), false);
             for (let i of req.body.varArr) {
-                let res3 = await MySQL2Commander.queryExec(`INSERT INTO ans_variant (Text, IsCorrect, Question_Key) VALUES ('${
-                    await Misc.formatter(JSON.parse(i).varName)
-                }', ${
-                    JSON.parse(i).correct
-                }, ${
-                    res2[res2.length - 1].Key
-                });`);
+                let res3 = await TestService.writeAnswers(await Misc.formatter(JSON.parse(i).varName), JSON.parse(i).correct, res2[res2.length - 1].Key);
                 await Misc.logger(JSON.stringify(res3), false);
                 questions++;
                 if (questions == (req.body.varArr.length - 1)) {
@@ -63,7 +53,7 @@ class Tests {
                 req.socket.remoteAddress
             } запросил список уровней сложности тестов. Ну и че по итогам:`, true);
             res.charset = "utf-8";
-            let res1 = await MySQL2Commander.queryExec("SELECT * FROM test_type;");
+            let res1 = await TestService.fetchDifficultyList();
             await Misc.logger("Типа вернул: " + JSON.stringify(res1), false);
             res.json(res1);
             await Misc.logger("Метод GET_DIFF_LIST успешно прогнан!", false);
@@ -80,11 +70,7 @@ class Tests {
                 JSON.stringify(req.body)
             }). Ну и че по итогам:`, true);
             res.charset = "utf-8";
-            let res1 = await MySQL2Commander.queryExec(`INSERT INTO test (Test_Type_Key, Name) VALUES (${
-                req.body.difficulty
-            }, '${
-                await Misc.formatter(req.body.name)
-            }');`);
+            let res1 = await TestService.submitTest(req.body.difficulty, await Misc.formatter(req.body.name));
             await Misc.logger(JSON.stringify(res1), false);
             res.send(await Misc.logger("Метод SUBMIT_TEST успешно прогнан!", false));
         } catch (err) {
@@ -106,13 +92,9 @@ class Tests {
             } запросил тест по ключу (${
                 JSON.stringify(req.query)
             }). Ну и че по итогам:`, true);
-            let res1 = await MySQL2Commander.queryExec(`SELECT * FROM test_question WHERE Test_Key = ${
-                req.params.id
-            };`);
+            let res1 = await TestService.fetchQuestionsByKey(req.params.id);
             for (let i of res1) {
-                let res2 = await MySQL2Commander.queryExec(`SELECT * FROM ans_variant WHERE Question_Key = ${
-                    i.Key
-                }`);
+                let res2 = await TestService.fetchAnswerVariantsByKey(i.Key);
                 let ans = [];
                 for (let answer of res2) {
                     ans.push({Key: answer.Key, Text: answer.Text, Img_Key: answer.Img_Key, Question_Key: answer.Question_Key});
@@ -134,7 +116,8 @@ class Tests {
     }
     async answerValidator(req : Request, res : Response): Promise < void > {
         try {
-            res.json(await Test.validateAnswer(req.query.questionKey, req.query.answerKey));
+            res.json(await TestService.validateAnswer(req.query.questionKey, req.query.answerKey));
+            await Misc.logger("Метод ANSWER_VALIDATE успешно прогнан!", false);
         } catch (err) {
             await Misc.logger(err, false);
             res.json(await Error.send("ANSWER_VALIDATE", err));
