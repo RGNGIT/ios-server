@@ -7,6 +7,9 @@
 
 ## GET
 
+### Метод (GET): '/status'
+* Мониторинг ресурсов сервера и статусов Express (Socket.IO)
+
 ### Метод (GET): 'api/getTopicList'
 * Возвращает: [{Key, Name, TName}...] 
     * Key - ключ теста в бд
