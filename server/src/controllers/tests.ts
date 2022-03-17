@@ -1,5 +1,4 @@
 import Misc from '../services/misc';
-import MySQL2Commander from '../mysqlCommander';
 import {Request, Response} from 'express';
 import Error from '../const/err';
 import TestService from '../services/test';
