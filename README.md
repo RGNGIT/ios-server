@@ -39,6 +39,9 @@
 ### Метод (GET): 'api/validateAnswer?questionKey=123&answerKey=321'
 * Возвращает: {Correct}
     * Correct - правильный ответ или не правильный (true/false)
+* Принимает:
+    * questionKey - ключ вопроса
+    * answerKey - ключ ответа, который выбрал юзер
 * В случае ошибки: {Code: 15, Error: ANSWER_VALIDATE_ERROR, AdditionalInfo: ...}
 
 ### Метод (GET): 'api/fuzzyResult?t1=11&t2=22&t3=33...'
