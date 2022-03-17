@@ -1,4 +1,4 @@
-import e, {Request, Response} from 'express';
+import {Request, Response} from 'express';
 import FuzzyLogic from '../services/fuzzy';
 import Error from '../const/err';
 import Misc from '../services/misc';

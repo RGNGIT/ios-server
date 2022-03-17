@@ -16,7 +16,6 @@ class FuzzyLogic {
         }
     }
     async jsonValidTerms() {
-
         if (fs.existsSync(process.env.MAMDANI_DIR)) {
             fs.writeFileSync(`${
                 process.env.MAMDANI_DIR
@@ -24,7 +23,6 @@ class FuzzyLogic {
         }
     }
     async jsonTrapezoidDots() {
-
         if (fs.existsSync(process.env.MAMDANI_DIR)) {
             fs.writeFileSync(`${
                 process.env.MAMDANI_DIR

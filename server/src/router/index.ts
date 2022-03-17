@@ -3,9 +3,9 @@ import Rules from './rule';
 import Users from './user';
 import Fuzzy from './ai';
 
-export async function buildRouter(app) {
-    app.use('/api', Tests);
-    app.use('/api', Rules);
-    app.use('/api', Users);
-    app.use('/api', Fuzzy);
+export async function buildRouter(router) {
+    router.use(Tests);
+    router.use(Rules);
+    router.use(Users);
+    router.use(Fuzzy);
 }

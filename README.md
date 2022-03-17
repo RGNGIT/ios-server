@@ -26,13 +26,17 @@
     * TestKey - ключ в бд
     * Header - сам вопрос
     * Answer - массив ответов:
-    [{Key, Text, Img_Key, IsCorrect, Question_Key}...]
+    [{Key, Text, Img_Key, Question_Key}...]
     * Key - ключ в бд
     * Text - текст ответа
     * Img_Key - ссылка на фетч статика картинки
-    * IsCorrect - 1/0 правильный или нет
     * Question_Key - ключ вопроса, к которому привязан этот ответ
 * В случае ошибки: {Code: 7, Error: GET_TEST_BY_KEY_ERROR, AdditionalInfo: ...}
+
+### Метод (GET): 'api/validateAnswer?questionKey=123&answerKey=321'
+* Возвращает: [{Correct}]
+    * Correct - правильный ответ или не правильный (true/false)
+* В случае ошибки: {Code: 15, Error: ANSWER_VALIDATE_ERROR, AdditionalInfo: ...}
 
 ### Метод (GET): 'api/fuzzyResult?t1=11&t2=22&t3=33...'
 * Возвращает: {Result, Result_Term, ResultFunc:{...}}

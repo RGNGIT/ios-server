@@ -2,6 +2,7 @@ import Misc from '../services/misc';
 import MySQL2Commander from '../mysqlCommander';
 import {Request, Response} from 'express';
 import Error from '../const/err';
+import Test from '../services/test';
 
 class Tests {
     async getTopicList(req : Request, res : Response): Promise < void > {
@@ -112,10 +113,14 @@ class Tests {
                 let res2 = await MySQL2Commander.queryExec(`SELECT * FROM ans_variant WHERE Question_Key = ${
                     i.Key
                 }`);
+                let ans = [];
+                for (let answer of res2) {
+                    ans.push({Key: answer.Key, Text: answer.Text, Img_Key: answer.Img_Key, Question_Key: answer.Question_Key});
+                }
                 let newQuestion = new QuestionEntity;
                 newQuestion.TestKey = req.params.id;
                 newQuestion.Header = i.Header;
-                newQuestion.Answer = res2;
+                newQuestion.Answer = ans;
                 test.push(newQuestion);
                 if (test.length == res1.length) {
                     res.json(test);
@@ -125,6 +130,14 @@ class Tests {
         } catch (err) {
             await Misc.logger(err, false);
             res.json(await Error.send("GET_TEST_BY_KEY", err));
+        }
+    }
+    async answerValidator(req : Request, res : Response): Promise < void > {
+        try {
+            res.json(await Test.validateAnswer(req.query.questionKey, req.query.answerKey));
+        } catch (err) {
+            await Misc.logger(err, false);
+            res.json(await Error.send("ANSWER_VALIDATE", err));
         }
     }
 }
