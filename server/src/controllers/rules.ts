@@ -20,7 +20,7 @@ class Rules {
                 await Misc.formatter(req.body.stress), 
                 await Misc.formatter(req.body.result));
             await Misc.logger(JSON.stringify(res1), false);
-            res.send(await Misc.logger("Метод POST_RULE успешно прогнан!", false));
+            res.send(await Error.isOk(await Misc.logger("Метод POST_RULE успешно прогнан!", false)));
         } catch (err) {
             await Misc.logger(err, false);
             res.json(await Error.send("POST_RULE", err));
@@ -34,7 +34,7 @@ class Rules {
                 JSON.stringify(req.params)
             }). Ну и че по итогам:`, true);
             let res1 = await RuleService.fetchRules("Result");
-            res.json(res1);
+            res.json(await Error.isOk(res1));
             await Misc.logger("Метод GET_RULE_LIST успешно прогнан!", false);
         } catch (err) {
             await Misc.logger(err, false);
@@ -59,7 +59,7 @@ class Rules {
                 req.params.id
             );
             await Misc.logger(JSON.stringify(res1), false);
-            res.send(await Misc.logger("Метод UPDATE_RULE успешно прогнан!", false));
+            res.send(await Error.isOk(await Misc.logger("Метод UPDATE_RULE успешно прогнан!", false)));
         } catch (err) {
             await Misc.logger(err, false);
             res.json(await Error.send("UPDATE_RULE", err));

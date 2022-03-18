@@ -12,7 +12,7 @@ class Tests {
             res.charset = "utf-8";
             let result = TestService.fetchTopicList();
             await Misc.logger("Типа вернул: " + JSON.stringify(result), false);
-            res.json(result);
+            res.json(await Error.isOk(result));
             await Misc.logger("Метод GET_TOPIC_LIST успешно прогнан!", false);
         } catch (err) {
             await Misc.logger(err, false);
@@ -37,7 +37,7 @@ class Tests {
                 await Misc.logger(JSON.stringify(res3), false);
                 questions++;
                 if (questions == (req.body.varArr.length - 1)) {
-                    res.send(await Misc.logger("Метод SUBMIT_QUESTION успешно прогнан!", false));
+                    res.send(await Error.isOk(await Misc.logger("Метод SUBMIT_QUESTION успешно прогнан!", false)));
                 }
             }
             await Misc.logger("Метод SUBMIT_QUESTION успешно прогнан!", false);
@@ -54,7 +54,7 @@ class Tests {
             res.charset = "utf-8";
             let res1 = await TestService.fetchDifficultyList();
             await Misc.logger("Типа вернул: " + JSON.stringify(res1), false);
-            res.json(res1);
+            res.json(await Error.isOk(res1));
             await Misc.logger("Метод GET_DIFF_LIST успешно прогнан!", false);
         } catch (err) {
             await Misc.logger(err, false);
@@ -71,7 +71,7 @@ class Tests {
             res.charset = "utf-8";
             let res1 = await TestService.submitTest(req.body.difficulty, await Misc.formatter(req.body.name));
             await Misc.logger(JSON.stringify(res1), false);
-            res.send(await Misc.logger("Метод SUBMIT_TEST успешно прогнан!", false));
+            res.send(await Error.isOk(await Misc.logger("Метод SUBMIT_TEST успешно прогнан!", false)));
         } catch (err) {
             await Misc.logger(err, false);
             res.json(await Error.send("SUBMIT_TEST", err));
@@ -104,7 +104,7 @@ class Tests {
                 newQuestion.Answer = ans;
                 test.push(newQuestion);
                 if (test.length == res1.length) {
-                    res.json(test);
+                    res.json(await Error.isOk(test));
                 }
             }
             await Misc.logger("Метод GET_TEST_BY_KEY успешно прогнан!", false);
@@ -115,7 +115,7 @@ class Tests {
     }
     async answerValidator(req : Request, res : Response): Promise < void > {
         try {
-            res.json(await TestService.validateAnswer(req.query.questionKey, req.query.answerKey));
+            res.json(await Error.isOk(await TestService.validateAnswer(req.query.questionKey, req.query.answerKey)));
             await Misc.logger("Метод ANSWER_VALIDATE успешно прогнан!", false);
         } catch (err) {
             await Misc.logger(err, false);
