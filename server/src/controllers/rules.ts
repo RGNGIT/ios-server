@@ -1,6 +1,6 @@
 import Misc from '../services/misc';
 import {Request, Response} from 'express';
-import Error from '../const/err';
+import ResultHandler from '../const/err';
 import RuleService from '../services/rule';
 
 class Rules {
@@ -20,10 +20,10 @@ class Rules {
                 await Misc.formatter(req.body.stress), 
                 await Misc.formatter(req.body.result));
             await Misc.logger(JSON.stringify(res1), false);
-            res.send(await Error.result('OK', await Misc.logger("Метод POST_RULE успешно прогнан!", false)));
+            res.send(await ResultHandler.result('OK', await Misc.logger("Метод POST_RULE успешно прогнан!", false)));
         } catch (err) {
             await Misc.logger(err, false);
-            res.json(await Error.result('ERROR', await Error.buildError("POST_RULE", err)));
+            res.json(await ResultHandler.result('ERROR', await ResultHandler.buildError("POST_RULE", err)));
         }
     }
     async getRuleList(req : Request, res : Response): Promise < void > {
@@ -34,11 +34,11 @@ class Rules {
                 JSON.stringify(req.params)
             }). Ну и че по итогам:`, true);
             let res1 = await RuleService.fetchRules("Result");
-            res.json(await Error.result('OK', res1));
+            res.json(await ResultHandler.result('OK', res1));
             await Misc.logger("Метод GET_RULE_LIST успешно прогнан!", false);
         } catch (err) {
             await Misc.logger(err, false);
-            res.json(await Error.result('ERROR', await Error.buildError("GET_RULE_LIST", err)));
+            res.json(await ResultHandler.result('ERROR', await ResultHandler.buildError("GET_RULE_LIST", err)));
         }
     }
     async updateRule(req : Request, res : Response): Promise < void > {
@@ -59,10 +59,10 @@ class Rules {
                 req.params.id
             );
             await Misc.logger(JSON.stringify(res1), false);
-            res.send(await Error.result('OK', await Misc.logger("Метод UPDATE_RULE успешно прогнан!", false)));
+            res.send(await ResultHandler.result('OK', await Misc.logger("Метод UPDATE_RULE успешно прогнан!", false)));
         } catch (err) {
             await Misc.logger(err, false);
-            res.json(await Error.result('ERROR', await Error.buildError("UPDATE_RULE", err)));
+            res.json(await ResultHandler.result('ERROR', await ResultHandler.buildError("UPDATE_RULE", err)));
         }
     }
 }
