@@ -27,11 +27,11 @@ class UserController {
                 UserKey: res1.Key,
                 Verify: res2.Password
             };
-            res.json(await Error.isOk({UserData: User, Token: await AuthService.generateUserToken(User)}));
+            res.json(await Error.result('OK', {UserData: User, Token: await AuthService.generateUserToken(User)}));
             await Misc.logger("Метод POST_NEW_PHYS_USER успешно прогнан!", false);
         } catch (err) {
             await Misc.logger(err, false);
-            res.json(await Error.send("POST_NEW_PHYS_USER", err));
+            res.json(await Error.result('ERROR', await Error.buildError("POST_NEW_PHYS_USER", err)));
         }
     }
     async userLogin(req : Request, res : Response) {
@@ -45,24 +45,24 @@ class UserController {
                     UserKey: res1.phys.Key,
                     Verify: res1.reg.Password
                 };
-                res.json(await Error.isOk({UserData: User, Token: await AuthService.generateUserToken(User)}));
+                res.json(await Error.result('OK', {UserData: User, Token: await AuthService.generateUserToken(User)}));
                 await Misc.logger("Метод USER_LOGIN успешно прогнан!", false);
             } else {
                 await Misc.logger("Кто-то залогинился, но неверными данными!", false);
-                res.json(await Error.send("WRONG_LOGIN_DATA", "Wrong login/password"));
+                res.json(await Error.result('ERROR', await Error.buildError("WRONG_LOGIN_DATA", "Wrong login/password")));
             }
         } catch (err) {
             await Misc.logger(err, false);
-            res.json(await Error.send("USER_LOGIN", err));
+            res.json(await Error.result('ERROR', await Error.buildError("USER_LOGIN", err)));
         }
     }
     async getUserInfo(req : Request, res : Response) {
         try {
-            res.json(await Error.isOk(await PhysService.fetchOne(req.params.id)));
+            res.json(await Error.result('OK', await PhysService.fetchOne(req.params.id)));
             await Misc.logger("Метод GET_USER_INFO успешно прогнан!", false);
         } catch (err) {
             await Misc.logger(err, false);
-            res.json(await Error.send("GET_USER_INFO", err));
+            res.json(await Error.result('ERROR', await Error.buildError("GET_USER_INFO", err)));
         }
     }
     async updateUserInfo(req : Request, res : Response) {
@@ -80,11 +80,11 @@ class UserController {
                 Login: req.body.Login,
                 Password: await EncryptService.encrypt(req.body.Password)
             })
-            res.json(await Error.isOk(null));
+            res.json(await Error.result('OK', null));
             await Misc.logger("Метод UPDATE_USER_INFO успешно прогнан!", false);
         } catch (err) {
             await Misc.logger(err, false);
-            res.json(await Error.send("UPDATE_USER_INFO", err));
+            res.json(await Error.result('ERROR', await Error.buildError("UPDATE_USER_INFO", err)));
         }
     }
 }

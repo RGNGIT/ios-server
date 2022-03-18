@@ -16,7 +16,7 @@ export async function authCheck(req, res, next) {
             next();
         } else {
             await Misc.logger(`Ошибка ключа аутентификации. ${JSON.stringify(req.headers)}`, false);
-            res.json(await Error.send("AUTH_TOKEN", `Wrong auth token. DEV_MODE is ${process.env.DEV_MODE}`));
+            res.json(await Error.buildError("AUTH_TOKEN", `Wrong auth token. DEV_MODE is ${process.env.DEV_MODE}`));
         }
     } else {
         next();

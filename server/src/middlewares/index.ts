@@ -1,6 +1,5 @@
 import { apiCheck } from './api-check'
 import { authCheck } from './auth-check';
-import ErrorHandler from '../const/err';
 const methodOverride = require('method-override');
 
 export function connectStaticMiddlewares(app) {

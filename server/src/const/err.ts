@@ -17,8 +17,8 @@ enum ErrCode {
     ANSWER_VALIDATE_ERROR   = 15
 }
 
-class ErrorHandler {
-    async send(method, info): Promise < {
+class ResultHandler {
+    async buildError(method, info): Promise < {
         Code,
         Error,
         AdditionalInfo
@@ -26,9 +26,9 @@ class ErrorHandler {
         let error = `${method}_ERROR`;
         return {Code: ErrCode[error], Error: error, AdditionalInfo: info};
     }
-    async isOk(data) {
-        return {Status: 'OK', Data: data};
+    async result(status, data) {
+        return {Status: status, Data: data};
     }
 }
 
-export default new ErrorHandler();
+export default new ResultHandler();
