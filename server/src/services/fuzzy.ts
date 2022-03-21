@@ -5,7 +5,7 @@ import Storage from '../const/object-storage';
 import Misc from './misc';
 
 class FuzzyLogic {
-    async jsonRuleBase() {
+    async jsonRuleBase(): Promise < void > {
         let res1 = await MySQL2Commander.queryExec("SELECT * FROM rule;");
         if (fs.existsSync(process.env.MAMDANI_DIR)) {
             fs.writeFileSync(`${
@@ -15,21 +15,21 @@ class FuzzyLogic {
             await Misc.logger("Мамдани не инициализирован! Работа с системой нечеткой логики невозможна!", true);
         }
     }
-    async jsonValidTerms() {
+    async jsonValidTerms(): Promise < void > {
         if (fs.existsSync(process.env.MAMDANI_DIR)) {
             fs.writeFileSync(`${
                 process.env.MAMDANI_DIR
             }/terms.json`, JSON.stringify(Storage.terms));
         }
     }
-    async jsonTrapezoidDots() {
+    async jsonTrapezoidDots(): Promise < void > {
         if (fs.existsSync(process.env.MAMDANI_DIR)) {
             fs.writeFileSync(`${
                 process.env.MAMDANI_DIR
             }/dots.json`, JSON.stringify(Storage.dots));
         }
     }
-    async getFuzzyResult(terms : Array < number >) {
+    async getFuzzyResult(terms : Array < number >): Promise < any > {
         let request: object = {
             mode: 'text',
             pythonOptions: ['-u'],
@@ -39,15 +39,17 @@ class FuzzyLogic {
                 process.env.MAMDANI_DIR
             ]
         };
-        return new Promise((resolve, reject) => {
-            PythonShell.run('main.py', request, (err, res) => {
-                if (err) {
-                    reject(err);
-                } else {
-                    resolve(res);
-                }
-            });
-        });
+        return new Promise(
+            (resolve, reject) => {
+                PythonShell.run('main.py', request, (err, res) => {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        resolve(res);
+                    }
+                });
+            }
+        );
     }
 }
 

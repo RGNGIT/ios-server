@@ -1,4 +1,6 @@
-export function apiCheck(req, res, next) {
+import {Request, Response} from "express";
+
+export function apiCheck(req: Request, res: Response, next): void {
     if (req.originalUrl.includes(process.env.API_CALL)) {
         next();
     } else {

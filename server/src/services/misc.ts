@@ -18,7 +18,7 @@ class Misc {
         }
         return format;
     }
-    async getDateTime() {
+    async getDateTime(): Promise < string > {
         let today = new Date();
         let date = today.getFullYear() + '-' + (
             today.getMonth() + 1
@@ -27,7 +27,7 @@ class Misc {
         let dateTime = date + ' ' + time;
         return dateTime;
     }
-    async pyJsonFix(json) {
+    async pyJsonFix(json : string): Promise < string > {
         let format = '';
         for (let i = 0; i < json[0].length; i++) {
             if (json[0][i] == `'`) {

@@ -12,7 +12,7 @@ const corsOpt = {
 };
 
 class Server {
-    async defineMiddlewares(app, router) {
+    async defineMiddlewares(app, router): Promise < void > {
         app.use(process.env.API_CALL, router);
         app.use(monitor());
         app.use(express.json());
@@ -20,7 +20,7 @@ class Server {
         app.use(express.urlencoded({extended: true}));
         connectStaticMiddlewares(app);
     }
-    async main(app, router) {
+    async main(app, router): Promise < void > {
         await this.defineMiddlewares(app, router);
         await buildRouter(router); // Настроить руты
         await FL.jsonRuleBase(); // Считать базу правил
