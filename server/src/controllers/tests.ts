@@ -10,16 +10,16 @@ class Tests {
                 req.socket.remoteAddress
             } запросил список тем. Ну и че по итогам:`, true);
             res.charset = "utf-8";
-            let result = TestService.fetchTopicList();
+            let result = await TestService.fetchTopicList();
             await Misc.logger("Типа вернул: " + JSON.stringify(result), false);
-            res.json(await ResultHandler.result<any>('OK', result));
+            res.json(await ResultHandler.result<Array<{Key: number, Name: string, TName: string}>>('OK', result));
             await Misc.logger("Метод GET_TOPIC_LIST успешно прогнан!", false);
         } catch (err) {
             await Misc.logger(err, false);
             res.json(await ResultHandler.result<{
-                Code: any;
-                Error: any;
-                AdditionalInfo: any;
+                Code: number;
+                Error: string;
+                AdditionalInfo: object;
             }>('ERROR', await ResultHandler.buildError("GET_TOPIC_LIST", err)));
         }
     }
@@ -48,9 +48,9 @@ class Tests {
         } catch (err) {
             await Misc.logger(err, false);
             res.json(await ResultHandler.result<{
-                Code: any;
-                Error: any;
-                AdditionalInfo: any;
+                Code: number;
+                Error: string;
+                AdditionalInfo: object;
             }>('ERROR', await ResultHandler.buildError("SUBMIT_QUESTION", err)));
         }
     }
@@ -62,14 +62,14 @@ class Tests {
             res.charset = "utf-8";
             let res1 = await TestService.fetchDifficultyList();
             await Misc.logger("Типа вернул: " + JSON.stringify(res1), false);
-            res.json(await ResultHandler.result<JSON>('OK', res1));
+            res.json(await ResultHandler.result<Array<{Key: number, TName: string, Sh_Name: string}>>('OK', res1));
             await Misc.logger("Метод GET_DIFF_LIST успешно прогнан!", false);
         } catch (err) {
             await Misc.logger(err, false);
             res.json(await ResultHandler.result<{
-                Code: any;
-                Error: any;
-                AdditionalInfo: any;
+                Code: number;
+                Error: string;
+                AdditionalInfo: object;
             }>('ERROR', await ResultHandler.buildError("GET_DIFF_LIST", err)));
         }
     }
@@ -87,9 +87,9 @@ class Tests {
         } catch (err) {
             await Misc.logger(err, false);
             res.json(await ResultHandler.result<{
-                Code: any;
-                Error: any;
-                AdditionalInfo: any;
+                Code: number;
+                Error: string;
+                AdditionalInfo: object;
             }>('ERROR', await ResultHandler.buildError("SUBMIT_TEST", err)));
         }
     }
@@ -120,13 +120,26 @@ class Tests {
                 newQuestion.Answer = ans;
                 test.push(newQuestion);
                 if (test.length == res1.length) {
-                    res.json(await ResultHandler.result<any>('OK', test));
+                    res.json(await ResultHandler.result<Array<{
+                        TestKey: number,
+                        Header: string,
+                        Answer: Array<{
+                            Key: number,
+                            Text: string,
+                            Img_Key: string | null,
+                            Question_Key: number
+                        }>
+                    }>>('OK', test));
                 }
             }
             await Misc.logger("Метод GET_TEST_BY_KEY успешно прогнан!", false);
         } catch (err) {
             await Misc.logger(err, false);
-            res.json(await ResultHandler.result('ERROR', await ResultHandler.buildError("GET_TEST_BY_KEY", err)));
+            res.json(await ResultHandler.result<{
+                Code: number;
+                Error: string;
+                AdditionalInfo: object;
+            }>('ERROR', await ResultHandler.buildError("GET_TEST_BY_KEY", err)));
         }
     }
     async answerValidator(req : Request, res : Response): Promise < void > {
@@ -138,9 +151,9 @@ class Tests {
         } catch (err) {
             await Misc.logger(err, false);
             res.json(await ResultHandler.result<{
-                Code: any;
-                Error: any;
-                AdditionalInfo: any;
+                Code: number;
+                Error: string;
+                AdditionalInfo: object;
             }>('ERROR', await ResultHandler.buildError("ANSWER_VALIDATE", err)));
         }
     }

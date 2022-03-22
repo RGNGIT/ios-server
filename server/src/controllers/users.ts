@@ -29,10 +29,10 @@ class UserController {
             };
             res.json(await ResultHandler.result<{
                 UserData: {
-                    UserKey: any;
-                    Verify: any;
+                    UserKey: number;
+                    Verify: string;
                 }
-                Token: any
+                Token: string
             }>('OK', {
                 UserData: User,
                 Token: await AuthService.generateUserToken(User)
@@ -41,9 +41,9 @@ class UserController {
         } catch (err) {
             await Misc.logger(err, false);
             res.json(await ResultHandler.result<{
-                Code: any;
-                Error: any;
-                AdditionalInfo: any;
+                Code: number;
+                Error: string;
+                AdditionalInfo: object;
             }>('ERROR', await ResultHandler.buildError("POST_NEW_PHYS_USER", err)));
         }
     }
@@ -60,10 +60,10 @@ class UserController {
                 };
                 res.json(await ResultHandler.result<{
                     UserData:{
-                        UserKey: any;
-                        Verify: any;
+                        UserKey: number;
+                        Verify: string;
                     }
-                    Token:any
+                    Token: string
                 }>('OK', {
                     UserData: User,
                     Token: await AuthService.generateUserToken(User)
@@ -72,16 +72,16 @@ class UserController {
             } else {
                 await Misc.logger("Кто-то залогинился, но неверными данными!", false);
                 res.json(await ResultHandler.result<{
-                    Code: any;
-                    Error: any;
+                    Code: number;
+                    Error: string;
                     AdditionalInfo: any;
                 }>('ERROR', await ResultHandler.buildError("WRONG_LOGIN_DATA", "Wrong login/password")));
             }
         } catch (err) {
             await Misc.logger(err, false);
             res.json(await ResultHandler.result<{
-                Code: any;
-                Error: any;
+                Code: number;
+                Error: string;
                 AdditionalInfo: any;
             }>('ERROR', await ResultHandler.buildError("USER_LOGIN", err)));
         }
@@ -89,16 +89,30 @@ class UserController {
     async getUserInfo(req : Request, res : Response): Promise < void > {
         try {
             res.json(await ResultHandler.result<{
-                reg: any;
-                phys: any;
+                reg: {
+                    Reg_Date: string
+                    Phys_Key: number
+                    Login: string
+                    Password: string
+                };
+                phys: {
+                    Key: number
+                    Name: string
+                    Surname: string 
+                    Patronymic: string
+                    Email: string
+                    Sex_Key: number
+                    Interface_Type: number
+                    Rating: string
+                };
             }>('OK', await PhysService.fetchOne(req.params.id)));
             await Misc.logger("Метод GET_USER_INFO успешно прогнан!", false);
         } catch (err) {
             await Misc.logger(err, false);
             res.json(await ResultHandler.result<{
-                Code: any;
-                Error: any;
-                AdditionalInfo: any;
+                Code: number;
+                Error: string;
+                AdditionalInfo: object;
             }>('ERROR', await ResultHandler.buildError("GET_USER_INFO", err)));
         }
     }
@@ -117,14 +131,14 @@ class UserController {
                 Login: req.body.Login,
                 Password: await EncryptService.encrypt(req.body.Password)
             })
-            res.json(await ResultHandler.result<JSON>('OK', null));
+            res.json(await ResultHandler.result<void>('OK', null));
             await Misc.logger("Метод UPDATE_USER_INFO успешно прогнан!", false);
         } catch (err) {
             await Misc.logger(err, false);
             res.json(await ResultHandler.result<{
-                Code: any;
-                Error: any;
-                AdditionalInfo: any;
+                Code: number;
+                Error: string;
+                AdditionalInfo: object;
             }>('ERROR', await ResultHandler.buildError("UPDATE_USER_INFO", err)));
         }
     }

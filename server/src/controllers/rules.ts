@@ -17,9 +17,9 @@ class Rules {
         } catch (err) {
             await Misc.logger(err, false);
             res.json(await ResultHandler.result<{
-                Code: any;
-                Error: any;
-                AdditionalInfo: any;
+                Code: number;
+                Error: string;
+                AdditionalInfo: object;
             }>('ERROR', await ResultHandler.buildError("POST_RULE", err)));
         }
     }
@@ -31,14 +31,23 @@ class Rules {
                 JSON.stringify(req.params)
             }). Ну и че по итогам:`, true);
             let res1 = await RuleService.fetchRules("Result");
-            res.json(await ResultHandler.result<JSON>('OK', res1));
+            res.json(await ResultHandler.result<Array<{
+                Key: number,
+                Discipline_Level: string,
+                Self_Development: string,
+                Responsibility: string,
+                Perseverance: string,
+                Attentiveness: string,
+                Stress: string,
+                Result: string
+            }>>('OK', res1));
             await Misc.logger("Метод GET_RULE_LIST успешно прогнан!", false);
         } catch (err) {
             await Misc.logger(err, false);
             res.json(await ResultHandler.result<{
-                Code: any;
-                Error: any;
-                AdditionalInfo: any;
+                Code: number;
+                Error: string;
+                AdditionalInfo: object;
             }>('ERROR', await ResultHandler.buildError("GET_RULE_LIST", err)));
         }
     }
@@ -55,9 +64,9 @@ class Rules {
         } catch (err) {
             await Misc.logger(err, false);
             res.json(await ResultHandler.result<{
-                Code: any;
-                Error: any;
-                AdditionalInfo: any;
+                Code: number;
+                Error: string;
+                AdditionalInfo: object;
             }>('ERROR', await ResultHandler.buildError("UPDATE_RULE", err)));
         }
     }

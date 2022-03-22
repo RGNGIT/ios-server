@@ -11,6 +11,7 @@ class FuzzyLogic {
             fs.writeFileSync(`${
                 process.env.MAMDANI_DIR
             }/rules.json`, JSON.stringify(res1));
+            await Misc.logger("Мамдани инициализирован и готов к работе! (вроде)", true);
         } else {
             await Misc.logger("Мамдани не инициализирован! Работа с системой нечеткой логики невозможна!", true);
         }

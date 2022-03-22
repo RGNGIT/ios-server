@@ -14,14 +14,18 @@ class FuzzyAIController {
                 < unknown > req.query.t5 as number, 
                 < unknown > req.query.t6 as number
             ];
-            res.json(await ResultHandler.result<JSON>('OK', JSON.parse(await Misc.pyJsonFix(await FuzzyLogic.getFuzzyResult(termArray)))));
+            res.json(await ResultHandler.result<{
+                Result: number,
+                Result_term: string,
+                ResultFunc: object
+            }>('OK', JSON.parse(await Misc.pyJsonFix(await FuzzyLogic.getFuzzyResult(termArray)))));
             await Misc.logger("Метод GET_FUZZY_RESULT успешно прогнан!", false);
         } catch (err) {
             await Misc.logger(err, false);
             res.json(ResultHandler.result<{
-                Code: any;
-                Error: any;
-                AdditionalInfo: any;
+                Code: number;
+                Error: string;
+                AdditionalInfo: object;
             }>('ERROR', await ResultHandler.buildError("GET_FUZZY_RESULT", err)));
         }
     }
