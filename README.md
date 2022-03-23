@@ -6,7 +6,14 @@
 
 ## Middlewares
 
-### ApiCheck (Проверяет токен юзера. Не активен при DEV_MODE=true)
+### ApiCheck (Проверяет валидность аутентификации юзера. Не активен при DEV_MODE=true)
+* Для каждого запроса (кроме скипнутых*) нужны определенные хедеры для аутентификации юзера:
+    * userkey - ключ юзера в бд из возвращенного объекта при логине/регистрации
+    * verify - объект Verify из возвращенного объекта при логине/регистрации
+    * token - объект Token из возвращенного объекта при логине/регистрации
+* *URL, пропускаемые данным мидлвейром (хедеры не нужны):
+    * /login (POST::USER_LOGIN)
+    * /newPhys (POST::POST_NEW_PHYS_USER)
 * В случае ошибки: {Code: 11, Error: AUTH_TOKEN_ERROR, AdditionalInfo: "Wrong auth token. DEV_MODE is ${process.env.DEV_MODE}"}
 
 ## GET
