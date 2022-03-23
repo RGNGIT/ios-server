@@ -12,8 +12,8 @@
     * verify - объект Verify из возвращенного объекта при логине/регистрации
     * token - объект Token из возвращенного объекта при логине/регистрации
 * *URL, пропускаемые данным мидлвейром (хедеры не нужны):
-    * /login (POST::USER_LOGIN)
-    * /newPhys (POST::POST_NEW_PHYS_USER)
+    * 'api/login' (POST::USER_LOGIN)
+    * 'api/newPhys' (POST::POST_NEW_PHYS_USER)
 * В случае ошибки: {Code: 11, Error: AUTH_TOKEN_ERROR, AdditionalInfo: "Wrong auth token. DEV_MODE is ${process.env.DEV_MODE}"}
 
 ## GET
