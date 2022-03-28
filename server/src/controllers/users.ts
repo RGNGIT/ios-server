@@ -47,6 +47,35 @@ class UserController {
             }>('ERROR', await ResultHandler.buildError("POST_NEW_PHYS_USER", err)));
         }
     }
+    /*
+      _,-======._                  
+      ,:'XXXXXXXXXXX\                 
+     .XXXXXXXXXXXXXXXX                
+     /XXXXXXXXXXXXXXXX.               
+     \X/ \X\`X\XX==XXX\               
+     `X --`\  -- XX@.XX               
+     ' X`-.   ,-'XXyXXX               
+       X\  `__,  XX\XXX               
+       |X`.   _-'XXxXXX\              
+        X/'`'`  .XXxXXXX              
+       .X/-,` -' XX-`XXX\             
+      /XX.,/\/| .XX  `"""\            
+     | /: ' ` -"XXX      |            
+     |/` /   .`.XXX\  ,  /X           
+    ,'|  |  ,  X XXX\/   |`X          
+    ' `. |  /  /`'\XX\  .X\ X         
+    \  ` \ .  /    \X\  /XX  `,       
+     `=:\ \/.'=___-`X/ /XXX\  xx      
+     /|  `'/`       /  |XXXX`, xx     
+    //\   Y        ,  /x\XXXXX~.x     
+   / X/, *|        |  |xx`\,XX\`+.    
+  | /Xx`  `.        \.|xxxxx\-XX\ `,  
+  | XXxx\ *\          \,xxxxxxxx-\ `. 
+  \XXxxx|   .           \xxxxxxxx,\ ' 
+ .XXxxxx|  *|         ,' `.xxxx\xx\\  
+/Xxxxxxx| ,'`.       /     \x/x xx|\\ 
+/(/xxx\xx_/    \     /      \/ / \
+*/
     async userLogin(req : Request, res : Response): Promise < void > {
         try {
             let res1 = await PhysService.fetchOne(await PhysService.fetchPhysKey(req.body.Email));
