@@ -16,6 +16,7 @@ class UserController {
         Sex_Key: req.body.Sex_Key,
         Interface_Type: req.body.Interface_Type,
         Rating: req.body.Rating,
+        Role_Key: req.body.Role_Key
       });
       let res2 = await PhysService.addReg({
         Reg_Date: await Misc.getDateTime(),
@@ -94,12 +95,14 @@ class UserController {
         let User = {
           UserKey: res1.phys.Key,
           Verify: res1.reg.Password,
+          Role: await PhysService.fetchRoleByKey(res1.phys.Role_Key)
         };
         res.json(
           await ResultHandler.result<{
             UserData: {
               UserKey: number;
               Verify: string;
+              Role: any
             };
             Token: string;
           }>("OK", {

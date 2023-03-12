@@ -27,7 +27,7 @@ export async function authCheck(
       res.json(
         await Error.buildError(
           "AUTH_TOKEN",
-          `Wrong auth token. DEV_MODE is ${process.env.DEV_MODE}`
+          `Wrong auth token blyat'. DEV_MODE is ${process.env.DEV_MODE}`
         )
       );
     }

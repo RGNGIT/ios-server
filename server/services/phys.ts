@@ -1,6 +1,12 @@
 import MySQL2Commander from "../mysqlCommander";
 
 class PhysService {
+  async fetchRoleByKey(key) {
+    let res = await MySQL2Commander.queryExec(
+      `SELECT * FROM role WHERE role.Key = ${key};`
+    );
+    return res[0];
+  }
   async getLastRecord(array) {
     return array[array.length - 1];
   }
@@ -20,10 +26,11 @@ class PhysService {
     Sex_Key;
     Interface_Type;
     Rating;
+    Role_Key;
   }) {
     let res =
-      await MySQL2Commander.queryExec(`INSERT INTO phys (Name, Surname, Patronymic, Email, Sex_Key, Interface_Type, Rating) 
-        VALUES ('${unit.Name}', '${unit.Surname}', '${unit.Patronymic}', '${unit.Email}', ${unit.Sex_Key}, '${unit.Interface_Type}', '${unit.Rating}');`);
+      await MySQL2Commander.queryExec(`INSERT INTO phys (Name, Surname, Patronymic, Email, Sex_Key, Interface_Type, Rating, Role_Key) 
+        VALUES ('${unit.Name}', '${unit.Surname}', '${unit.Patronymic}', '${unit.Email}', ${unit.Sex_Key}, '${unit.Interface_Type}', '${unit.Rating}', ${unit.Role_Key});`);
     return await this.getLastRecord(
       await MySQL2Commander.queryExec(`SELECT * FROM phys;`)
     );
