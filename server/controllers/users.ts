@@ -4,6 +4,7 @@ import AuthService from "../services/auth";
 import Misc from "../services/misc";
 import { Request, Response } from "express";
 import ResultHandler from "../const/respond";
+import { checkSession, pushSession } from "../const/session-storage";
 
 class UserController {
   async regNewPhysUser(req: Request, res: Response): Promise<void> {
@@ -26,19 +27,25 @@ class UserController {
       });
       let User = {
         UserKey: res1.Key,
+        Email: req.body.Email,
         Verify: res2.Password,
+        Role: await PhysService.fetchRoleByKey(res1.phys.Role_Key)
       };
+      const user = {
+        UserData: User,
+        Token: await AuthService.generateUserToken(User),
+      };
+      pushSession(user);
       res.json(
         await ResultHandler.result<{
           UserData: {
             UserKey: number;
+            Email: string;
             Verify: string;
           };
           Token: string;
-        }>("OK", {
-          UserData: User,
-          Token: await AuthService.generateUserToken(User),
-        })
+          TTL?: Date;
+        }>("OK", user)
       );
       await Misc.logger("Метод POST_NEW_PHYS_USER успешно прогнан!", false);
     } catch (err) {
@@ -83,6 +90,21 @@ class UserController {
 */
   async userLogin(req: Request, res: Response): Promise<void> {
     try {
+      const fetchedSessionUser = checkSession(req.body.Email);
+      if(fetchedSessionUser) {
+        res.json(await ResultHandler.result<{
+          UserData: {
+            UserKey: number;
+            Email: string;
+            Verify: string;
+            Role: any
+          };
+          Token: string;
+          TTL?: Date;
+        }>("OK", fetchedSessionUser)
+        );
+        return;
+      }
       let res1 = await PhysService.fetchOne(
         await PhysService.fetchPhysKey(req.body.Email)
       );
@@ -94,21 +116,26 @@ class UserController {
       ) {
         let User = {
           UserKey: res1.phys.Key,
+          Email: req.body.Email,
           Verify: res1.reg.Password,
           Role: await PhysService.fetchRoleByKey(res1.phys.Role_Key)
         };
+        const user = {
+          UserData: User,
+          Token: await AuthService.generateUserToken(User),
+        };
+        pushSession(user);
         res.json(
           await ResultHandler.result<{
             UserData: {
               UserKey: number;
+              Email: string;
               Verify: string;
               Role: any
             };
             Token: string;
-          }>("OK", {
-            UserData: User,
-            Token: await AuthService.generateUserToken(User),
-          })
+            TTL?: Date;
+          }>("OK", user)
         );
         await Misc.logger("Метод USER_LOGIN успешно прогнан!", false);
       } else {
