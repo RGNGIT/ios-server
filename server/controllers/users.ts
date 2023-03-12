@@ -4,6 +4,7 @@ import AuthService from "../services/auth";
 import Misc from "../services/misc";
 import { Request, Response } from "express";
 import ResultHandler from "../const/respond";
+import {chapPush} from "../const/chap-storage";
 
 class UserController {
   async regNewPhysUser(req: Request, res: Response): Promise<void> {
@@ -80,34 +81,36 @@ class UserController {
 /Xxxxxxx| ,'`.       /     \x/x xx|\\ 
 /(/xxx\xx_/    \     /      \/ / \
 */
+
+
+
   async userLogin(req: Request, res: Response): Promise<void> {
+    const getRandomInt = (max) => {
+      return Math.floor(Math.random() * max);
+    };
     try {
-      let res1 = await PhysService.fetchOne(
+      const N = getRandomInt(99999999);
+      const digest = await EncryptService.encrypt(req.body.Password);
+      let fetchedUser = await PhysService.fetchOne(
         await PhysService.fetchPhysKey(req.body.Email)
       );
       if (
         await AuthService.checkUserPassword({
-          pass1: await EncryptService.encrypt(req.body.Password),
-          pass2: res1.reg.Password,
+          pass1: digest,
+          pass2: fetchedUser.reg.Password,
         })
       ) {
-        let User = {
-          UserKey: res1.phys.Key,
-          Verify: res1.reg.Password,
-        };
-        res.json(
-          await ResultHandler.result<{
-            UserData: {
-              UserKey: number;
-              Verify: string;
-            };
-            Token: string;
-          }>("OK", {
-            UserData: User,
-            Token: await AuthService.generateUserToken(User),
-          })
-        );
-        await Misc.logger("Метод USER_LOGIN успешно прогнан!", false);
+        const foundUser = await chapPush({ userkey: fetchedUser.phys.Key, N, salt: digest});
+        if(foundUser) {
+          res.json(foundUser);
+          return;
+        }
+        res.json({
+          userkey: fetchedUser.phys.Key,
+          N,
+          salt: digest,
+          /*test: chap.MSCHAPv1.LmPasswordHash(digest + N).toString("base64")*/
+        });
       } else {
         await Misc.logger("Кто-то залогинился, но неверными данными!", false);
         res.json(
