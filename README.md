@@ -147,6 +147,7 @@
         Patronymic,
         Email,
         Sex_Key,
+        Role_Key,
         Interface_Type,
         Rating,
         Login,
@@ -155,6 +156,7 @@
     * Surname, Name, Patronymic - ФИО
     * Email - почта
     * Sex_Key - ключ пола
+    * Role_Key - ключ роли в системе
     * Interface_Type - ?
     * Rating - ?
     * Login - логин
