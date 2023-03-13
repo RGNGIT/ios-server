@@ -1,6 +1,5 @@
 import Misc from "../services/misc";
-import moment from "moment";
-
+import PhysService from "../services/phys";
 
 type SessionUser = {
   UserData: {
@@ -25,8 +24,9 @@ export function checkSession(email: string): SessionUser | null {
   return null;
 }
 
-export function pushSession(user: SessionUser): void {
-  user.TTL = moment(Date.now(), true).add(1, 'hour').toDate();
-  Misc.logger(`Сессия ${JSON.stringify(user.UserData)} добавлена в стек. TTL: ${user.TTL.toISOString()}`, true);
+export async function pushSession(user: SessionUser): Promise<void> {
+  const dbSession = await PhysService.registerLogin(user.UserData.UserKey);
+  user.TTL = dbSession.Logout_Time;
+  Misc.logger(`Сессия ${JSON.stringify(user.UserData)} добавлена в стек. TTL: ${user.TTL}`, true);
   sessions.push(user);
 }

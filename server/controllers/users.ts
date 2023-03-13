@@ -9,6 +9,17 @@ import { checkSession, pushSession } from "../const/session-storage";
 class UserController {
   async regNewPhysUser(req: Request, res: Response): Promise<void> {
     try {
+      const fetchedUser = await PhysService.fetchPhysKey(req.body.Email);
+      if(fetchedUser) {
+        res.json(
+          await ResultHandler.result<{
+            Code: number;
+            Error: string;
+            AdditionalInfo: object;
+          }>("ERROR", await ResultHandler.buildError("POST_NEW_PHYS_USER", "Юзер c таким мылом существует"))
+        );
+        return;
+      }
       let res1 = await PhysService.addPhys({
         Name: req.body.Name,
         Surname: req.body.Surname,
@@ -29,13 +40,13 @@ class UserController {
         UserKey: res1.Key,
         Email: req.body.Email,
         Verify: res2.Password,
-        Role: await PhysService.fetchRoleByKey(res1.phys.Role_Key)
+        Role: await PhysService.fetchRoleByKey(res1.Role_Key)
       };
       const user = {
         UserData: User,
         Token: await AuthService.generateUserToken(User),
       };
-      pushSession(user);
+      await pushSession(user);
       res.json(
         await ResultHandler.result<{
           UserData: {
@@ -124,7 +135,7 @@ class UserController {
           UserData: User,
           Token: await AuthService.generateUserToken(User),
         };
-        pushSession(user);
+        await pushSession(user);
         res.json(
           await ResultHandler.result<{
             UserData: {

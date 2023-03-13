@@ -1,6 +1,12 @@
 import MySQL2Commander from "../mysqlCommander";
 
 class PhysService {
+  async registerLogin(key) {
+    let res = await MySQL2Commander.queryExec(`INSERT INTO login (Phys_Key, Login_Time, Logout_Time) VALUES (${key}, NOW(), NOW() + INTERVAL 1 DAY);`);
+    return await this.getLastRecord(
+      await MySQL2Commander.queryExec(`SELECT * FROM login;`)
+    );
+  }
   async fetchRoleByKey(key) {
     let res = await MySQL2Commander.queryExec(
       `SELECT * FROM role WHERE role.Key = ${key};`
@@ -70,7 +76,7 @@ class PhysService {
     let res = await MySQL2Commander.queryExec(
       `SELECT * FROM phys WHERE Email = '${email}'`
     );
-    return res[0].Key;
+    return res[0] ? res[0].Key : null;
   }
   async fetchOne(key) {
     let res1 = await MySQL2Commander.queryExec(
