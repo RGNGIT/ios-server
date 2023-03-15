@@ -5,21 +5,19 @@ import image_graphics as ig
 import Rules
 import LingVar
 import sys
-
+import pathlib
 
 # import requests
-
-
 
 # with open("rules.json","w") as f:
 #     f.write(requests.get(url = "http://192.168.43.151:8080/api/getRuleList").text)
 
 # считываем термы
-with open("terms.json", encoding="UTF-8") as f:
+with open(str(pathlib.Path(__file__).parent.resolve()) + "/terms.json", encoding="UTF-8") as f:
     terms = json.load(f)
 
 # получаем базу с правилами
-with open("rules.json") as f:
+with open(str(pathlib.Path(__file__).parent.resolve()) + "/rules.json") as f:
     rules_json = json.load(f)
 
 if __name__ == "__main__":

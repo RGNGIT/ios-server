@@ -15,6 +15,7 @@ enum ErrCode {
   UPDATE_USER_INFO_ERROR = 13,
   GET_FUZZY_RESULT_ERROR = 14,
   ANSWER_VALIDATE_ERROR = 15,
+  ROLE_ERROR = 16
 }
 
 class ResultHandler {

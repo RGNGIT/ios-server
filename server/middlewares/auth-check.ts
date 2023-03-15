@@ -2,6 +2,7 @@ import AuthService from "../services/auth";
 import ToSkip from "../const/skip-url";
 import Error from "../const/respond";
 import Misc from "../services/misc";
+
 import { Request, Response } from "express";
 
 export async function authCheck(
@@ -27,7 +28,7 @@ export async function authCheck(
       res.json(
         await Error.buildError(
           "AUTH_TOKEN",
-          `Wrong auth token blyat'. DEV_MODE is ${process.env.DEV_MODE}`
+          `Ты мне дичь втираешь`
         )
       );
     }
