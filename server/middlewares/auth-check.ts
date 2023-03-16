@@ -28,7 +28,7 @@ export async function authCheck(
       res.json(
         await Error.buildError(
           "AUTH_TOKEN",
-          `Ты мне дичь втираешь`
+          `Ошибка верификации токена`
         )
       );
     }
