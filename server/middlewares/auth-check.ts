@@ -2,7 +2,6 @@ import ToSkip from "../const/skip-url";
 import Error from "../const/respond";
 import Misc from "../services/misc";
 import { Request, Response } from "express";
-import chap from "chap";
 import PhysService from "../services/phys";
 import {sessions} from "../const/chap-storage";
 
@@ -28,7 +27,7 @@ export async function authCheck(
     res.json(
       await Error.buildError(
         "AUTH_TOKEN",
-        `Чет ты мне дичь втираешь`
+        `Ошибка верификации токена`
       )
     );
     await Misc.logger(
