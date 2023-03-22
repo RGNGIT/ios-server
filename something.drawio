@@ -1,1 +1,76 @@
-<mxfile host="app.diagrams.net" modified="2023-03-21T11:29:36.226Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36" version="21.0.2" etag="L9XNKcR2oBlms7CRku64" type="github"><diagram name="Page-1" id="r2jiotqS8Zv0sgoh7WJZ">UzV2zq1wL0osyPDNT0nNUTV2VTV2LsrPL4GwciucU3NyVI0MMlNUjV1UjYwMgFjVyA2HrCFY1qAgsSg1rwSLBiADYTaQg2Y1AA==</diagram></mxfile>
+<mxfile host="app.diagrams.net" modified="2023-03-22T08:08:24.084Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36" etag="JyRnMh9GIQaVnOvkzExP" version="21.0.8" type="github">
+  <diagram name="Page-1" id="r2jiotqS8Zv0sgoh7WJZ">
+    <mxGraphModel dx="1185" dy="666" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="Hc6-qmwHLXE1_6r6NP6y-1" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="180" y="410" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="Hc6-qmwHLXE1_6r6NP6y-2" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="181" y="411" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="Hc6-qmwHLXE1_6r6NP6y-3" value="Эксперт" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="182" y="412" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="Hc6-qmwHLXE1_6r6NP6y-4" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="179" y="523" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="Hc6-qmwHLXE1_6r6NP6y-5" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="180" y="524" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="Hc6-qmwHLXE1_6r6NP6y-6" value="Студент" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="181" y="525" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="Hc6-qmwHLXE1_6r6NP6y-7" value="Определение статуса обучаемого" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="452" y="412" width="180" height="168" as="geometry" />
+        </mxCell>
+        <mxCell id="Hc6-qmwHLXE1_6r6NP6y-8" value="" style="endArrow=classic;html=1;rounded=0;exitX=1.007;exitY=0.307;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="1" source="Hc6-qmwHLXE1_6r6NP6y-3">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="340" y="520" as="sourcePoint" />
+            <mxPoint x="450" y="430" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Hc6-qmwHLXE1_6r6NP6y-9" value="Экспертное мнение" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="300" y="400" width="150" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="Hc6-qmwHLXE1_6r6NP6y-10" value="" style="endArrow=classic;html=1;rounded=0;exitX=1.007;exitY=0.307;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="303" y="460" as="sourcePoint" />
+            <mxPoint x="450" y="460" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Hc6-qmwHLXE1_6r6NP6y-11" value="База правил" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="302" y="460" width="150" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="Hc6-qmwHLXE1_6r6NP6y-12" value="" style="endArrow=classic;html=1;rounded=0;exitX=1.007;exitY=0.307;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="303" y="539" as="sourcePoint" />
+            <mxPoint x="450" y="539" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Hc6-qmwHLXE1_6r6NP6y-13" value="" style="endArrow=classic;html=1;rounded=0;exitX=1.007;exitY=0.307;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="303" y="570" as="sourcePoint" />
+            <mxPoint x="450" y="570" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Hc6-qmwHLXE1_6r6NP6y-14" value="Характеристики" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="299" y="510" width="150" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="Hc6-qmwHLXE1_6r6NP6y-16" value="Уровень подготовки" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="301" y="570" width="150" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="Hc6-qmwHLXE1_6r6NP6y-17" value="" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="1" source="Hc6-qmwHLXE1_6r6NP6y-7">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="590" y="510" as="sourcePoint" />
+            <mxPoint x="770" y="496" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Hc6-qmwHLXE1_6r6NP6y-18" value="Статус обучаемого" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="620" y="471" width="150" height="30" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
