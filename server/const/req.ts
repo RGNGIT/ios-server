@@ -17,4 +17,5 @@ export default {
   USER_LOGIN: "/login", // POST //
   GET_USER_INFO: "/userInfo/:id", // GET //
   UPDATE_USER_INFO: "/updateUserInfo", // PATCH
+  REFRESH_SESSION: "/refreshSession" // POST
 };

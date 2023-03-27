@@ -1,13 +1,21 @@
-const jwt = require("jsonwebtoken");
+import jwt from 'jsonwebtoken';
 require("dotenv").config();
 
 class AuthService {
-  async generateUserToken(user: {
+  async generateUserTokens(user: {
     UserKey: string | string[];
     Verify: string | string[];
-  }): Promise<string> {
-    const token = await jwt.sign(user, process.env.SECRET);
-    return token;
+  }): Promise<{ token: string; refreshToken: string; }> {
+    const token = await jwt.sign(user, process.env.SECRET, { expiresIn: "1m" });
+    const refreshToken = await jwt.sign(user, process.env.REFRESH_SECRET);
+    return { token, refreshToken };
+  }
+  async verifyRefreshToken(token: string): Promise<any> {
+    try {
+      return await jwt.verify(token, process.env.REFRESH_SECRET);
+    } catch (e) {
+      return false;
+    }
   }
   async verifyToken(
     token: string,

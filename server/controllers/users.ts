@@ -10,7 +10,7 @@ class UserController {
   async regNewPhysUser(req: Request, res: Response): Promise<void> {
     try {
       const fetchedUser = await PhysService.fetchPhysKey(req.body.Email);
-      if(fetchedUser) {
+      if (fetchedUser) {
         res.json(
           await ResultHandler.result<{
             Code: number;
@@ -42,11 +42,13 @@ class UserController {
         Verify: res2.Password,
         Role: await PhysService.fetchRoleByKey(res1.Role_Key)
       };
+      const tokenSet = await AuthService.generateUserTokens(User);
       const user = {
         UserData: User,
-        Token: await AuthService.generateUserToken(User),
+        Token: tokenSet.token,
       };
       await pushSession(user);
+      res.cookie('refreshToken', tokenSet.refreshToken, { httpOnly: true });
       res.json(
         await ResultHandler.result<{
           UserData: {
@@ -102,7 +104,7 @@ class UserController {
   async userLogin(req: Request, res: Response): Promise<void> {
     try {
       const fetchedSessionUser = checkSession(req.body.Email);
-      if(fetchedSessionUser) {
+      if (fetchedSessionUser) {
         res.json(await ResultHandler.result<{
           UserData: {
             UserKey: number;
@@ -131,11 +133,13 @@ class UserController {
           Verify: res1.reg.Password,
           Role: await PhysService.fetchRoleByKey(res1.phys.Role_Key)
         };
+        const tokenSet = await AuthService.generateUserTokens(User);
         const user = {
           UserData: User,
-          Token: await AuthService.generateUserToken(User),
+          Token: tokenSet.token,
         };
         await pushSession(user);
+        res.cookie('refreshToken', tokenSet.refreshToken, { httpOnly: true });
         res.json(
           await ResultHandler.result<{
             UserData: {
@@ -173,6 +177,59 @@ class UserController {
           Error: string;
           AdditionalInfo: any;
         }>("ERROR", await ResultHandler.buildError("USER_LOGIN", err))
+      );
+    }
+  }
+  async refreshSession(req: Request, res: Response): Promise<void> {
+    try {
+      if (req.cookies?.refreshToken) {
+        const rt = req.cookies.refreshToken;
+        const user = await AuthService.verifyRefreshToken(rt);
+        if (user) {
+          user.Verify += Math.floor(Math.random() * 11111111);
+          const tokenSet = await AuthService.generateUserTokens(user);
+          res.cookie('refreshToken', tokenSet.refreshToken, { httpOnly: true });
+          res.json(
+            await ResultHandler.result<{ token: string; }>("OK", { token: tokenSet.token })
+          );
+        } else {
+          res.json(
+            await ResultHandler.result<{
+              Code: number;
+              Error: string;
+              AdditionalInfo: any;
+            }>(
+              "ERROR",
+              await ResultHandler.buildError(
+                "REFRESH_TOKEN_SHIT",
+                "Чет не то c рефреш токеном"
+              )
+            )
+          );
+        }
+      } else {
+        res.json(
+          await ResultHandler.result<{
+            Code: number;
+            Error: string;
+            AdditionalInfo: any;
+          }>(
+            "ERROR",
+            await ResultHandler.buildError(
+              "REFRESH_TOKEN_SHIT",
+              "Чет не то c рефреш токеном"
+            )
+          )
+        );
+      }
+    } catch (err) {
+      await Misc.logger(err, false);
+      res.json(
+        await ResultHandler.result<{
+          Code: number;
+          Error: string;
+          AdditionalInfo: any;
+        }>("ERROR", await ResultHandler.buildError("REFRESH_SESSION", err))
       );
     }
   }
