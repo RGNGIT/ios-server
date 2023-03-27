@@ -8,6 +8,8 @@ export default {
   SUBMIT_TEST: "/submitTest", // POST // *
   GET_TEST_BY_KEY: "/getTest/:id", // GET // *
   ANSWER_VALIDATE: "/validateAnswer",
+  GET_TEST_LIST: "/getTestList",
+  DELETE_ANSWERS: "/deleteAnswers",
   /// Правила
   POST_RULE: "/postRule", // POST *
   GET_RULE_LIST: "/getRuleList", // GET // *

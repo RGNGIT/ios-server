@@ -16,7 +16,8 @@ enum ErrCode {
   GET_FUZZY_RESULT_ERROR =   14,
   ANSWER_VALIDATE_ERROR =    15,
   ROLE_ERROR =               16,
-  REFRESH_SESSION_ERROR =    17
+  REFRESH_SESSION_ERROR =    17,
+  GET_TEST_LIST_ERROR =      18
 }
 
 class ResultHandler {
