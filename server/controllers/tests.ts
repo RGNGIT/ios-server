@@ -154,6 +154,26 @@ class Tests {
       );
     }
   }
+  async redactQuestions(req: Request, res: Response): Promise<void> {
+    try {
+      const {questions, answers} = req.body;
+      for(const question of questions) {
+        
+      }
+      for(const answer of answers) {
+
+      }
+    } catch(err) {
+      await Misc.logger(err, false);
+      res.json(
+        await ResultHandler.result<{
+          Code: number;
+          Error: string;
+          AdditionalInfo: object;
+        }>("ERROR", await ResultHandler.buildError("GET_TEST_BY_KEY", err))
+      );
+    }
+  }
   async deleteAnswers(req: Request, res: Response): Promise<void> {
     try {
       for(let answerId of req.body.answers) {
