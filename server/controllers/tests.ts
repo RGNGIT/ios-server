@@ -154,6 +154,23 @@ class Tests {
       );
     }
   }
+  async deleteAnswers(req: Request, res: Response): Promise<void> {
+    try {
+      for(let answerId of req.body.answers) {
+        await TestService.deleteAnswerByKey(answerId);
+      }
+      res.json("OK");
+    } catch(err) {
+      await Misc.logger(err, false);
+      res.json(
+        await ResultHandler.result<{
+          Code: number;
+          Error: string;
+          AdditionalInfo: object;
+        }>("ERROR", await ResultHandler.buildError("GET_TEST_BY_KEY", err))
+      );
+    }
+  }
   async getTest(req: Request, res: Response): Promise<void> {
     try {
       let test = [];

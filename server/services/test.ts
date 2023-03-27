@@ -69,6 +69,10 @@ class Test {
     let res = await MySQL2Commander.queryExec(`SELECT * FROM test WHERE test.Key = ${key};`);
     return res;
   }
+  async deleteAnswerByKey(Key) {
+    let res = await MySQL2Commander.queryExec(`DELETE FROM ans_variant WHERE ans_variant.Key = ${Key}`);
+    return res;
+  }
 }
 
 export default new Test();
