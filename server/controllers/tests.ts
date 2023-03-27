@@ -135,6 +135,25 @@ class Tests {
       );
     }
   }
+  async getTestList(req: Request, res: Response): Promise<void> {
+    try {
+      const tests = await TestService.fetchTestList();
+      res.json(
+        await ResultHandler.result<
+          Array<{ Key: number; TName: string; Sh_Name: string }>
+        >("OK", tests)
+      );
+    } catch(err) {
+      await Misc.logger(err, false);
+      res.json(
+        await ResultHandler.result<{
+          Code: number;
+          Error: string;
+          AdditionalInfo: object;
+        }>("ERROR", await ResultHandler.buildError("GET_TEST_LIST", err))
+      );
+    }
+  }
   async getTest(req: Request, res: Response): Promise<void> {
     try {
       let test = [];
@@ -144,6 +163,7 @@ class Tests {
         Img;
         TestKey;
       }
+      const {GetCorrect} = req.query;
       await Misc.logger(
         `Какой-то бесстрашный на ${
           req.socket.remoteAddress
@@ -152,6 +172,7 @@ class Tests {
         )}). Ну и че по итогам:`,
         true
       );
+      let testMeta = await TestService.fetchTestMetaByKey(req.params.id);
       let res1 = await TestService.fetchQuestionsByKey(req.params.id);
       for (let i of res1) {
         let res2 = await TestService.fetchAnswerVariantsByKey(i.Key);
@@ -162,6 +183,7 @@ class Tests {
             Text: answer.Text,
             Img_Key: answer.Img_Key,
             Question_Key: answer.Question_Key,
+            IsCorrect: GetCorrect == "true" ? answer.IsCorrect : undefined
           });
         }
         /*
@@ -195,9 +217,14 @@ class Tests {
         newQuestion.Answer = ans;
         test.push(newQuestion);
         if (test.length == res1.length) {
+          const testObj = {
+            Name: testMeta[0]["Name"],
+            Questions: test
+          };
           res.json(
-            await ResultHandler.result<
-              Array<{
+            await ResultHandler.result<{
+              Name: string,
+              Questions: Array<{
                 TestKey: number;
                 Header: string;
                 Answer: Array<{
@@ -207,7 +234,8 @@ class Tests {
                   Question_Key: number;
                 }>;
               }>
-            >("OK", test)
+            }
+            >("OK", testObj)
           );
         }
       }

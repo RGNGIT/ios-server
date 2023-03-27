@@ -61,6 +61,14 @@ class Test {
     );
     return res;
   }
+  async fetchTestList() {
+    let res = await MySQL2Commander.queryExec('SELECT * FROM test;');
+    return res;
+  }
+  async fetchTestMetaByKey(key) {
+    let res = await MySQL2Commander.queryExec(`SELECT * FROM test WHERE test.Key = ${key};`);
+    return res;
+  }
 }
 
 export default new Test();
