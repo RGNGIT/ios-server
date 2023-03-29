@@ -6,7 +6,7 @@ class AuthService {
     UserKey: string | string[];
     Verify: string | string[];
   }): Promise<{ token: string; refreshToken: string; }> {
-    const token = await jwt.sign(user, process.env.SECRET, { expiresIn: "1m" });
+    const token = await jwt.sign(user, process.env.SECRET, { expiresIn: "1d" });
     const refreshToken = await jwt.sign(user, process.env.REFRESH_SECRET);
     return { token, refreshToken };
   }

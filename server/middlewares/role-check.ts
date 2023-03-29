@@ -25,11 +25,10 @@ const roleDictionary = {
 
 const roles = ['student', 'expert'];
 
-function checkAvailable(list: [], subj: string): boolean {
-  for (const item of list) {
-    if ((process.env.API_CALL + item).includes(subj)) return true;
-  }
-  return false;
+function checkAvailable(list: any[], subj: string): boolean {
+  list = list.map(x => '/' + x.split('/')[1]);
+  const regex = new RegExp(`/${process.env.API_CALL}|${list.join('|')}\/*/`);
+  return Boolean(subj.match(regex));
 }
 
 export async function roleCheck(req: Request, res: Response, next): Promise<void> {

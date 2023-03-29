@@ -9,7 +9,7 @@ require("dotenv").config();
 // Главная точка входа
 
 (async function (): Promise<void> {
-  await path.join(__dirname, "../../../front");
+  await path.join(__dirname, "../front");
   await Server.main(app, router);
   await app.listen(process.env.PORT, () => {
     console.log(
