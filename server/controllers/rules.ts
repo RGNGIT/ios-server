@@ -2,6 +2,7 @@ import Misc from "../services/misc";
 import { Request, Response } from "express";
 import ResultHandler from "../const/respond";
 import RuleService from "../services/rule";
+import Storage from "../const/object-storage";
 
 class Rules {
   async postRule(req: Request, res: Response): Promise<void> {
@@ -83,8 +84,16 @@ class Rules {
       if(!rule) {
         throw new Error("Нету такого правила :(");
       }
+      let dots = {};
+      for(const key in rule) {
+        if(key == "Key") {
+          continue;
+        }
+        dots[key] = Storage.dots[key][rule[key]];
+      }
+      const result = {rule, dots};
       res.json(
-        await ResultHandler.result<{}>("OK", rule)
+        await ResultHandler.result<{}>("OK", result)
       );
     } catch(err) {
       await Misc.logger(err, false);
