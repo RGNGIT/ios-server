@@ -18,7 +18,8 @@ enum ErrCode {
   ROLE_ERROR =               16,
   REFRESH_SESSION_ERROR =    17,
   GET_TEST_LIST_ERROR =      18,
-  GET_RULE_BY_ID_ERROR =     19
+  GET_RULE_BY_ID_ERROR =     19,
+  GET_TERM_DOTS_ERROR =      20
 }
 
 class ResultHandler {

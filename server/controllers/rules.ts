@@ -40,6 +40,27 @@ class Rules {
       );
     }
   }
+  async getTermDots(req: Request, res: Response): Promise<void> {
+    try {
+      const {name, value} = req.query;
+      const result = Storage.dots[name.toString()][value.toString()];
+      if(!result) {
+        throw new Error("Нету терм на такой запрос :(");
+      }
+      res.json(
+        await ResultHandler.result<{}>("OK", result)
+      );
+    } catch(err) {
+      await Misc.logger(err, false);
+      res.json(
+        await ResultHandler.result<{
+          Code: number;
+          Error: string;
+          AdditionalInfo: object;
+        }>("ERROR", await ResultHandler.buildError("GET_TERM_DOTS", err))
+      );
+    }
+  }
   async getRuleList(req: Request, res: Response): Promise<void> {
     try {
       await Misc.logger(
