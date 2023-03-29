@@ -19,7 +19,8 @@ enum ErrCode {
   REFRESH_SESSION_ERROR =    17,
   GET_TEST_LIST_ERROR =      18,
   GET_RULE_BY_ID_ERROR =     19,
-  GET_TERM_DOTS_ERROR =      20
+  GET_TERM_DOTS_ERROR =      20,
+  GET_TERM_LEVELS_ERROR =    21
 }
 
 class ResultHandler {

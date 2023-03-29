@@ -40,17 +40,36 @@ class Rules {
       );
     }
   }
-  async getTermDots(req: Request, res: Response): Promise<void> {
+  async getTermLevels(req: Request, res: Response): Promise<void> {
     try {
-      const {name, value} = req.query;
-      const result = Storage.dots[name.toString()][value.toString()];
+      const { name } = req.params;
+      const result = Storage.terms[name];
       if(!result) {
-        throw new Error("Нету терм на такой запрос :(");
+        throw new Error("Такой термы нет");
       }
       res.json(
-        await ResultHandler.result<{}>("OK", result)
+        await ResultHandler.result<Array<string>>("OK", result)
       );
-    } catch(err) {
+    } catch (err) {
+      await Misc.logger(err, false);
+      res.json(
+        await ResultHandler.result<{
+          Code: number;
+          Error: string;
+          AdditionalInfo: object;
+        }>("ERROR", await ResultHandler.buildError("POST_RULE", err))
+      );
+    }
+  }
+  async getTermDots(req: Request, res: Response): Promise<void> {
+    try {
+      const { name, value } = req.query;
+      const result = Storage.dots[name.toString()][value.toString()];
+      if (!result) {
+        throw new Error("Нету терм на такой запрос :(");
+      }
+      res.json(await ResultHandler.result<{}>("OK", result));
+    } catch (err) {
       await Misc.logger(err, false);
       res.json(
         await ResultHandler.result<{
@@ -100,23 +119,21 @@ class Rules {
   }
   async ruleByKey(req: Request, res: Response): Promise<void> {
     try {
-      const {id} = req.params;
+      const { id } = req.params;
       const rule = await RuleService.fetchRuleByKey(id);
-      if(!rule) {
+      if (!rule) {
         throw new Error("Нету такого правила :(");
       }
       let dots = {};
-      for(const key in rule) {
-        if(key == "Key") {
+      for (const key in rule) {
+        if (key == "Key") {
           continue;
         }
         dots[key] = Storage.dots[key][rule[key]];
       }
-      const result = {rule, dots};
-      res.json(
-        await ResultHandler.result<{}>("OK", result)
-      );
-    } catch(err) {
+      const result = { rule, dots };
+      res.json(await ResultHandler.result<{}>("OK", result));
+    } catch (err) {
       await Misc.logger(err, false);
       res.json(
         await ResultHandler.result<{

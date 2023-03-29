@@ -11,6 +11,7 @@ export default {
   GET_TEST_LIST: "/getTestList",
   DELETE_ANSWERS: "/deleteAnswers",
   /// Правила
+  GET_TERM_LEVELS: "/getTermLevels/:name",
   GET_TERM_DOTS: "/getTermDots",
   GET_RULE_BY_KEY: "/getRule/:id",
   POST_RULE: "/postRule", // POST *

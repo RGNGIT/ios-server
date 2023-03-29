@@ -9,5 +9,6 @@ router.get(SERVER.GET_RULE_LIST, Rules.getRuleList);
 router.patch(SERVER.UPDATE_RULE, Rules.updateRule);
 router.get(SERVER.GET_RULE_BY_KEY, Rules.ruleByKey);
 router.get(SERVER.GET_TERM_DOTS, Rules.getTermDots);
+router.get(SERVER.GET_TERM_LEVELS, Rules.getTermLevels);
 
 export default router;
