@@ -76,6 +76,27 @@ class Rules {
       );
     }
   }
+  async ruleByKey(req: Request, res: Response): Promise<void> {
+    try {
+      const {id} = req.params;
+      const rule = await RuleService.fetchRuleByKey(id);
+      if(!rule) {
+        throw new Error("Нету такого правила :(");
+      }
+      res.json(
+        await ResultHandler.result<{}>("OK", rule)
+      );
+    } catch(err) {
+      await Misc.logger(err, false);
+      res.json(
+        await ResultHandler.result<{
+          Code: number;
+          Error: string;
+          AdditionalInfo: object;
+        }>("ERROR", await ResultHandler.buildError("GET_RULE_BY_ID", err))
+      );
+    }
+  }
   async updateRule(req: Request, res: Response): Promise<void> {
     try {
       await Misc.logger(

@@ -11,6 +11,7 @@ export default {
   GET_TEST_LIST: "/getTestList",
   DELETE_ANSWERS: "/deleteAnswers",
   /// Правила
+  GET_RULE_BY_KEY: "/getRule/:id",
   POST_RULE: "/postRule", // POST *
   GET_RULE_LIST: "/getRuleList", // GET // *
   UPDATE_RULE: "/updateRule/:id", // PATCH // *

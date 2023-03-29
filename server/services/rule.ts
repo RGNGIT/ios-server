@@ -1,6 +1,12 @@
 import MySQL2Commander from "../mysqlCommander";
 
 class RuleService {
+  async fetchRuleByKey(key) {
+    let res = await MySQL2Commander.queryExec(
+      `SELECT * FROM rule WHERE rule.Key = ${key};`
+    );
+    return res[0];
+  }
   async writeRule(
     disciplineLevel,
     selfDevelopment,
