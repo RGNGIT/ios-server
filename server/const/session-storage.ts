@@ -15,13 +15,11 @@ type SessionUser = {
 let sessions: SessionUser[] = [];
 
 export function checkSession(email: string): SessionUser | null {
-  for(const user of sessions) {
-    if(user.UserData.Email == email) {
-      Misc.logger(`Сессия ${JSON.stringify(user.UserData)} существует. Скип.`, true);
-      return user;
-    }
+  const user = sessions.find(u => u.UserData.Email == email);
+  if (user) {
+    Misc.logger(`Сессия ${JSON.stringify(user.UserData)} существует. Скип.`, true);
   }
-  return null;
+  return user;
 }
 
 export async function pushSession(user: SessionUser): Promise<void> {
