@@ -78,6 +78,38 @@ class Tests {
       );
     }
   }
+  async editTest(req: Request, res: Response): Promise<void> {
+    try {
+      const { id } = req.params;
+      const { testName, questions, answers } = req.body;
+      if (testName) {
+        await TestService.updateTestByKey(id, testName);
+      }
+      if (questions && questions.length != 0) {
+        for await (const question of questions) {
+          await TestService.updateQuestionByKey(question.key, question.header);
+        }
+      }
+      if (answers && answers.length != 0) {
+        for await (const answer of answers) {
+          await TestService.updateAnswerByKey(answer.key, {
+            text: answer.text,
+            isCorrect: answer.isCorrect,
+          });
+        }
+      }
+      res.send("OK");
+    } catch (err) {
+      await Misc.logger(err, false);
+      res.json(
+        await ResultHandler.result<{
+          Code: number;
+          Error: string;
+          AdditionalInfo: object;
+        }>("ERROR", await ResultHandler.buildError("TEST_EDIT", err))
+      );
+    }
+  }
   async getDifficultyList(req: Request, res: Response): Promise<void> {
     try {
       await Misc.logger(
@@ -143,7 +175,7 @@ class Tests {
           Array<{ Key: number; TName: string; Sh_Name: string }>
         >("OK", tests)
       );
-    } catch(err) {
+    } catch (err) {
       await Misc.logger(err, false);
       res.json(
         await ResultHandler.result<{
@@ -156,14 +188,12 @@ class Tests {
   }
   async redactQuestions(req: Request, res: Response): Promise<void> {
     try {
-      const {questions, answers} = req.body;
-      for(const question of questions) {
-        
+      const { questions, answers } = req.body;
+      for (const question of questions) {
       }
-      for(const answer of answers) {
-
+      for (const answer of answers) {
       }
-    } catch(err) {
+    } catch (err) {
       await Misc.logger(err, false);
       res.json(
         await ResultHandler.result<{
@@ -176,11 +206,11 @@ class Tests {
   }
   async deleteAnswers(req: Request, res: Response): Promise<void> {
     try {
-      for(let answerId of req.body.answers) {
+      for (let answerId of req.body.answers) {
         await TestService.deleteAnswerByKey(answerId);
       }
       res.json("OK");
-    } catch(err) {
+    } catch (err) {
       await Misc.logger(err, false);
       res.json(
         await ResultHandler.result<{
@@ -200,7 +230,7 @@ class Tests {
         Img;
         TestKey;
       }
-      const {GetCorrect} = req.query;
+      const { GetCorrect } = req.query;
       await Misc.logger(
         `Какой-то бесстрашный на ${
           req.socket.remoteAddress
@@ -220,7 +250,7 @@ class Tests {
             Text: answer.Text,
             Img_Key: answer.Img_Key,
             Question_Key: answer.Question_Key,
-            IsCorrect: GetCorrect == "true" ? answer.IsCorrect : undefined
+            IsCorrect: GetCorrect == "true" ? answer.IsCorrect : undefined,
           });
         }
         /*
@@ -256,11 +286,11 @@ class Tests {
         if (test.length == res1.length) {
           const testObj = {
             Name: testMeta[0]["Name"],
-            Questions: test
+            Questions: test,
           };
           res.json(
             await ResultHandler.result<{
-              Name: string,
+              Name: string;
               Questions: Array<{
                 TestKey: number;
                 Header: string;
@@ -270,9 +300,8 @@ class Tests {
                   Img_Key: string | null;
                   Question_Key: number;
                 }>;
-              }>
-            }
-            >("OK", testObj)
+              }>;
+            }>("OK", testObj)
           );
         }
       }

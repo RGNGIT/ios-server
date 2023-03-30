@@ -73,6 +73,18 @@ class Test {
     let res = await MySQL2Commander.queryExec(`DELETE FROM ans_variant WHERE ans_variant.Key = ${Key}`);
     return res;
   }
+  async updateTestByKey(Key, name) {
+    let res = await MySQL2Commander.queryExec(`UPDATE test SET test.Name = '${name}' WHERE test.Key = ${Key}`);
+    return res;
+  }
+  async updateQuestionByKey(Key, header) {
+    let res = await MySQL2Commander.queryExec(`UPDATE test_question SET test_question.Header = '${header}' WHERE test_question.Key = ${Key}`);
+    return res;
+  }
+  async updateAnswerByKey(Key, {text, isCorrect}) {
+    let res = await MySQL2Commander.queryExec(`UPDATE ans_variant SET ans_variant.Text = '${text}', ans_variant.IsCorrect = ${isCorrect} WHERE ans_variant.Key = ${Key}`);
+    return res;
+  }
 }
 
 export default new Test();

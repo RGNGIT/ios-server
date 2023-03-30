@@ -10,6 +10,7 @@ export default {
   ANSWER_VALIDATE: "/validateAnswer",
   GET_TEST_LIST: "/getTestList",
   DELETE_ANSWERS: "/deleteAnswers",
+  TEST_EDIT: "/editTest/:id",
   /// Правила
   GET_TERM_LEVELS: "/getTermLevels/:name",
   GET_TERM_DOTS: "/getTermDots",
