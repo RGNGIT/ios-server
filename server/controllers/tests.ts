@@ -225,6 +225,7 @@ class Tests {
     try {
       let test = [];
       class QuestionEntity {
+        Key;
         Header;
         Answer;
         Img;
@@ -281,6 +282,7 @@ class Tests {
         let newQuestion = new QuestionEntity();
         newQuestion.TestKey = req.params.id;
         newQuestion.Header = i.Header;
+        newQuestion.Key = i.Key;
         newQuestion.Answer = ans;
         test.push(newQuestion);
         if (test.length == res1.length) {
