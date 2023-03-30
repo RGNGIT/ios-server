@@ -31,7 +31,7 @@ class Test {
     );
     return res;
   }
-  async writeAnswers(text, isCorrect, questionKey) {
+  async writeAnswer(text, isCorrect, questionKey) {
     let res = await MySQL2Commander.queryExec(
       `INSERT INTO ans_variant (Text, IsCorrect, Question_Key) VALUES ('${text}', ${isCorrect}, ${questionKey});`
     );

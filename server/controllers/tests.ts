@@ -50,7 +50,7 @@ class Tests {
       let res2 = await TestService.fetchQuestions("Key");
       await Misc.logger(JSON.stringify(res2), false);
       for (let i of req.body.varArr) {
-        let res3 = await TestService.writeAnswers(
+        let res3 = await TestService.writeAnswer(
           await Misc.formatter(JSON.parse(i).varName),
           JSON.parse(i).correct,
           res2[res2.length - 1].Key
@@ -81,7 +81,7 @@ class Tests {
   async editTest(req: Request, res: Response): Promise<void> {
     try {
       const { id } = req.params;
-      const { testName, questions, answers } = req.body;
+      const { testName, questions, answers, newAnswers } = req.body;
       if (testName) {
         await TestService.updateTestByKey(id, testName);
       }
@@ -96,6 +96,11 @@ class Tests {
             text: answer.text,
             isCorrect: answer.isCorrect,
           });
+        }
+      }
+      if(newAnswers && newAnswers.length != 0) {
+        for await (const newAnswer of newAnswers) {
+          await TestService.writeAnswer(newAnswer.text, newAnswer.isCorrect, newAnswer.questionKey);
         }
       }
       res.send("OK");
