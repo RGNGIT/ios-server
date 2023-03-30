@@ -98,9 +98,13 @@ class Tests {
           });
         }
       }
-      if(newAnswers && newAnswers.length != 0) {
+      if (newAnswers && newAnswers.length != 0) {
         for await (const newAnswer of newAnswers) {
-          await TestService.writeAnswer(newAnswer.text, newAnswer.isCorrect, newAnswer.questionKey);
+          await TestService.writeAnswer(
+            newAnswer.text,
+            newAnswer.isCorrect,
+            newAnswer.questionKey
+          );
         }
       }
       res.send("OK");
@@ -206,6 +210,38 @@ class Tests {
           Error: string;
           AdditionalInfo: object;
         }>("ERROR", await ResultHandler.buildError("GET_TEST_BY_KEY", err))
+      );
+    }
+  }
+  async deleteQuestion(req: Request, res: Response): Promise<void> {
+    try {
+      const { id } = req.params;
+      await TestService.deleteQuestionByKey(id);
+      res.send("OK");
+    } catch (err) {
+      await Misc.logger(err, false);
+      res.json(
+        await ResultHandler.result<{
+          Code: number;
+          Error: string;
+          AdditionalInfo: object;
+        }>("ERROR", await ResultHandler.buildError("DELETE_QUESTION", err))
+      );
+    }
+  }
+  async deleteTest(req: Request, res: Response): Promise<void> {
+    try {
+      const { id } = req.params;
+      await TestService.deleteTestByKey(id);
+      res.send("OK");
+    } catch (err) {
+      await Misc.logger(err, false);
+      res.json(
+        await ResultHandler.result<{
+          Code: number;
+          Error: string;
+          AdditionalInfo: object;
+        }>("ERROR", await ResultHandler.buildError("DELETE_TEST", err))
       );
     }
   }

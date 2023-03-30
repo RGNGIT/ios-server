@@ -21,7 +21,9 @@ enum ErrCode {
   GET_RULE_BY_ID_ERROR =     19,
   GET_TERM_DOTS_ERROR =      20,
   GET_TERM_LEVELS_ERROR =    21,
-  TEST_EDIT =                22
+  TEST_EDIT =                22,
+  DETELE_TEST =              23,
+  DELETE_QUESTION =          24
 }
 
 class ResultHandler {

@@ -13,5 +13,7 @@ router.get(SERVER.ANSWER_VALIDATE, Tests.answerValidator);
 router.get(SERVER.GET_TEST_LIST, Tests.getTestList);
 router.delete(SERVER.DELETE_ANSWERS, Tests.deleteAnswers);
 router.patch(SERVER.TEST_EDIT, Tests.editTest);
+router.delete(SERVER.DELETE_TEST, Tests.deleteTest);
+router.delete(SERVER.DELETE_QUESTION, Tests.deleteQuestion);
 
 export default router;
