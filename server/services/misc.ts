@@ -38,6 +38,16 @@ class Misc {
     }
     return format;
   }
+  parseTypes(types) {
+    let temp = '';
+    for(let i = 0; i < types.length; i++) {
+      if(types[i] != '[' && types[i] != ']') {
+        temp += types[i];
+      }
+    }
+    const splitTypes = temp.split(',');
+    return splitTypes;
+  }
 }
 
 export default new Misc();

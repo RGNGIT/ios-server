@@ -21,6 +21,12 @@ class Test {
     );
     return res;
   }
+  async fetchTestsByTypeKey(typeKey) {
+    let res = await MySQL2Commander.queryExec(
+      `SELECT * FROM test WHERE test.Test_Type_Key = ${typeKey};`
+    );
+    return res;
+  }
   async fetchDifficultyList() {
     let res = await MySQL2Commander.queryExec("SELECT * FROM test_type;");
     return res;

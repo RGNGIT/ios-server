@@ -178,12 +178,26 @@ class Tests {
   }
   async getTestList(req: Request, res: Response): Promise<void> {
     try {
-      const tests = await TestService.fetchTestList();
-      res.json(
-        await ResultHandler.result<
-          Array<{ Key: number; TName: string; Sh_Name: string }>
-        >("OK", tests)
-      );
+      const { types } = req.query;
+      if(types && types != "[]") {
+        const typesToFetch = Misc.parseTypes(types);
+        let tests = [];
+        for(const typeKey of typesToFetch) {
+          tests.push(await TestService.fetchTestsByTypeKey(typeKey))
+        }
+        res.json(
+          await ResultHandler.result<
+            Array<{}>
+          >("OK", tests)
+        );
+      } else {
+        const tests = await TestService.fetchTestList();
+        res.json(
+          await ResultHandler.result<
+            Array<{ Key: number; TName: string; Sh_Name: string }>
+          >("OK", tests)
+        );
+      }
     } catch (err) {
       await Misc.logger(err, false);
       res.json(
