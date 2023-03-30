@@ -26,8 +26,7 @@ const roleDictionary = {
 const roles = ['student', 'expert'];
 
 function checkAvailable(list: any[], subj: string): boolean {
-  list = list.map(x => '/' + x.split('/')[1]);
-  const regex = new RegExp(`/${process.env.API_CALL}|${list.join('|')}\/*/`);
+  const regex = new RegExp(`/${process.env.API_CALL}|${list.map(x => '/' + x.split('/')[1]).join('|')}\/*/`);
   return Boolean(subj.match(regex));
 }
 
