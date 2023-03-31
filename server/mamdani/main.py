@@ -6,14 +6,6 @@ import Rules
 import LingVar
 import sys
 
-
-# import requests
-
-
-
-# with open("rules.json","w") as f:
-#     f.write(requests.get(url = "http://192.168.43.151:8080/api/getRuleList").text)
-
 # считываем термы
 Path = ''
 
@@ -38,8 +30,6 @@ def checkNumber(value):
     except:
         return False
 
-
-
 if __name__ == "__main__":
     # Получаем переменные  в формате nameLingVar:valueNumber
 
@@ -48,18 +38,12 @@ if __name__ == "__main__":
 
     show_end = "yes" in sys.argv[1:]
 
-
-
-
     #Инициализация наших входных лингвистических переменных
     lingVars = []
     for nameLingVar,valueNumber in variables.items():
         lingVars.append(LingVar.Varling(name_ling = nameLingVar,value = valueNumber,terms = dots[nameLingVar]))
 
-
-
     #К этому моменту лингв переменны считаны и посчитаны принадлежности к термам
-
 
     # print(lingVars[0])
     #Создаем объекты правила
@@ -67,7 +51,6 @@ if __name__ == "__main__":
     for rule in rules_json:
         base_rules  = {key:value for key,value in rule.items() if  key not in ("Key","Result")}
         rules.append(Rules.Rule(key = rule["Key"],rule = base_rules,result= rule["Result"]))
-
 
     for rule in rules:
         rule.get_status(*lingVars)
@@ -77,8 +60,7 @@ if __name__ == "__main__":
     dot_result = LingVar.Varling(terms = dots["Result"],value = None,name_ling = "Result")
     # print(dot_result)
 
-
-   #Сейчас посчитаем функции приндледности правил
+    #Сейчас посчитаем функции приндледности правил
     for rule in rules:
 
         _y = [] # значения f(x)
@@ -109,7 +91,7 @@ if __name__ == "__main__":
     for x_, y_ in zip(x_coords, y_coords):
         up += x_ * y_
         down += y_
-
+    error = {}
     try:
         temp = up / down
         # print(f"Количество активных правил: {len(rules)}")
@@ -125,10 +107,12 @@ if __name__ == "__main__":
         for rule in rules:
             result[f"RuleId{rule.key}"] = [rule.x,rule.y]
         print(result)
+    except ZeroDivisionError as f:
+        error['err'] = "Not enough rules"
+        print(json.dumps(error))
     except Exception as f:
-        # res["Result"] = -1 #правило отсутсвует
-        ...
-        print(-1,f)
+        error['err'] = str(f)
+        print(json.dumps(error)) 
     # if x_coords and y_coords:
     #     ig.get_result(x_coords,y_coords)
 
