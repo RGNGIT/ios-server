@@ -33,7 +33,7 @@ class Disciplines {
           Code: number;
           Error: string;
           AdditionalInfo: object;
-        }>("ERROR", await ResultHandler.buildError("", err))
+        }>("ERROR", await ResultHandler.buildError("ADD_TOPIC", err))
       );
     }
   }
@@ -54,7 +54,7 @@ class Disciplines {
           Code: number;
           Error: string;
           AdditionalInfo: object;
-        }>("ERROR", await ResultHandler.buildError("", err))
+        }>("ERROR", await ResultHandler.buildError("FETCH_TOPICS", err))
       );
     }
   }
@@ -128,7 +128,7 @@ class Disciplines {
           Code: number;
           Error: string;
           AdditionalInfo: object;
-        }>("ERROR", await ResultHandler.buildError("", err))
+        }>("ERROR", await ResultHandler.buildError("ADD_TOPIC_MATERIAL", err))
       );
     }
   }

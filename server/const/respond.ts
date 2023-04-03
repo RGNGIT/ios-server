@@ -25,7 +25,10 @@ enum ErrCode {
   DETELE_TEST =              23,
   DELETE_QUESTION =          24,
   ADD_DISCIPLINE_ERROR =     25,
-  FETCH_DISCIPLINES_ERROR =  26
+  FETCH_DISCIPLINES_ERROR =  26,
+  ADD_TOPIC_ERROR =          27,
+  FETCH_TOPICS_ERROR =       28,
+  ADD_TOPIC_MATERIAL_ERROR = 29
 }
 
 class ResultHandler {
