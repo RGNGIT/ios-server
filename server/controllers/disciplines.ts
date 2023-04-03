@@ -2,7 +2,7 @@ import Misc from "../services/misc";
 import { Request, Response } from "express";
 import ResultHandler from "../const/respond";
 import DisciplineService from "../services/discipline";
-import CDNFileService from "../cdn-applet/services/file";
+import CDNFileService from "../applets/cdn-applet/services/file";
 
 class Disciplines {
   async addNewDiscipline(req: Request, res: Response): Promise<void> {

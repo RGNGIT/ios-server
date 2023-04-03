@@ -10,13 +10,15 @@ require("dotenv").config();
 
 (async function (): Promise<void> {
   await path.join(__dirname, "../front");
-  await Server.main(app, router);
-  await app.listen(process.env.PORT, () => {
-    console.log(
-      "Сервак им. Тагировой стартанул на порту: " +
-        process.env.PORT +
-        ". Режим разработчика " +
-        (process.env.DEV_MODE == "true" ? "включен." : "выключен.")
-    );
-  });
+  const startOrNotToStart = await Server.main(app, router);
+  if(startOrNotToStart) {
+    await app.listen(process.env.PORT, () => {
+      console.log(
+        "Сервак им. Тагировой стартанул на порту: " +
+          process.env.PORT +
+          ". Режим разработчика " +
+          (process.env.DEV_MODE == "true" ? "включен." : "выключен.")
+      );
+    });
+  }
 })();

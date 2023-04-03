@@ -6,7 +6,8 @@ import monitor from "express-status-monitor";
 import bodyParser from "body-parser";
 import MysqlCommander from "./mysqlCommander";
 import biscuits from 'cookie-parser';
-import cdn from "./cdn-applet";
+import fs from "fs";
+import { skipUrl } from "./middlewares/api-check";
 import Misc from "./services/misc";
 
 const corsOpt = {
@@ -16,6 +17,17 @@ const corsOpt = {
 };
 
 class Server {
+  async applyApplets(app) {
+    const appletDir = process.env.APPLETS_DIR;
+    const applets = fs.readdirSync(appletDir);
+    await Misc.logger(`Найдено апплетов ${applets.length} (${applets.join(", ")})`, true);
+    for(const applet of applets) {
+      const manifest = JSON.parse(fs.readFileSync(`${appletDir}/${applet}/manifest.json`).toString());
+      app.use(manifest.call, (await import(`${appletDir}/${applet}`)).default);
+      skipUrl.push(manifest.call);
+      await Misc.logger(`Апплет ${manifest.name} подключен. ${manifest.description}.`, true);
+    }
+  }
   async defineMiddlewares(app, router): Promise<void> {
     app.use(biscuits());
     app.use(bodyParser.json());
@@ -23,13 +35,10 @@ class Server {
     app.use(monitor());
     app.use(cors(corsOpt));
     connectStaticMiddlewares(app);
-    if(process.env.USE_CDN === "true") {
-      app.use(process.env.CDN_CALL, cdn);
-      Misc.logger("CDN сервис инициализирован. Файлики доступны по эндпоинтам.", true);
-    }
+    process.env.USE_APPLETS === "true" ? await this.applyApplets(app) : null;
     app.use(process.env.API_CALL, router);
   }
-  async main(app, router): Promise<void> {
+  async main(app, router): Promise<boolean> {
     try {
       await this.defineMiddlewares(app, router);
       await buildRouter(router); // Настроить руты
@@ -37,10 +46,12 @@ class Server {
       await FL.jsonValidTerms(); // Актуальные термы
       await FL.jsonTrapezoidDots(); // Точки трапеций
       await MysqlCommander.queryExec("SELECT 1+1;"); // Проверить коннекшн к базе
+      return true;
     } catch (e) {
       console.log(
         `Старт сервера невозможен по причине пидарас, точнее ${e.message}`
       );
+      return false;
     }
   }
 }
