@@ -17,10 +17,10 @@ require("dotenv").config();
     await app.listen(process.env.PORT, () => {
       console.log(colors.rainbow(
         "Сервак им. Тагировой стартанул на порту: " +
-          process.env.PORT +
-          ". Режим разработчика " +
-          (process.env.DEV_MODE == "true" ? "включен." : "выключен.")
-      ));
+          process.env.PORT + ". ") +
+          (process.env.DEV_MODE == "true" ? 
+          colors.red.underline("Режим разработчика включен.") : 
+          colors.green("Режим разработчика выключен.")));
     });
   }
 })();
