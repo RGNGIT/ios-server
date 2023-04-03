@@ -25,5 +25,11 @@ export default {
   USER_LOGIN: "/login", // POST //
   GET_USER_INFO: "/userInfo/:id", // GET //
   UPDATE_USER_INFO: "/updateUserInfo", // PATCH
-  REFRESH_SESSION: "/refreshSession" // POST
+  REFRESH_SESSION: "/refreshSession", // POST
+  /// Дисциплины
+  POST_NEW_DISCIPLINE: "/postDiscipline",
+  GET_DISCIPLINES: "/getDisciplines",
+  POST_NEW_TOPIC: "/postTopic",
+  GET_TOPICS: "/getTopics",
+  POST_TOPIC_MATERIAL: "/postTopicMaterial"
 };

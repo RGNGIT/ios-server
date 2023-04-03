@@ -6,6 +6,8 @@ import monitor from "express-status-monitor";
 import bodyParser from "body-parser";
 import MysqlCommander from "./mysqlCommander";
 import biscuits from 'cookie-parser';
+import cdn from "./cdn-applet";
+import Misc from "./services/misc";
 
 const corsOpt = {
   origin: "*",
@@ -21,6 +23,10 @@ class Server {
     app.use(monitor());
     app.use(cors(corsOpt));
     connectStaticMiddlewares(app);
+    if(process.env.USE_CDN === "true") {
+      app.use(process.env.CDN_CALL, cdn);
+      Misc.logger("CDN сервис инициализирован. Файлики доступны по эндпоинтам.", true);
+    }
     app.use(process.env.API_CALL, router);
   }
   async main(app, router): Promise<void> {

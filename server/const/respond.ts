@@ -23,7 +23,9 @@ enum ErrCode {
   GET_TERM_LEVELS_ERROR =    21,
   TEST_EDIT =                22,
   DETELE_TEST =              23,
-  DELETE_QUESTION =          24
+  DELETE_QUESTION =          24,
+  ADD_DISCIPLINE_ERROR =     25,
+  FETCH_DISCIPLINES_ERROR =  26
 }
 
 class ResultHandler {

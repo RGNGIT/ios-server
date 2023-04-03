@@ -1,5 +1,6 @@
 class Misc {
   async logger(log: string, dt: boolean): Promise<string> {
+    dt = true;
     console.log((dt ? "<" + (await this.getDateTime()) + "> " : "") + log);
     return (dt ? "<" + (await this.getDateTime()) + "> " : "") + log;
   }
