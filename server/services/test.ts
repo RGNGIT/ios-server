@@ -38,9 +38,9 @@ class Test {
     let res = await MySQL2Commander.queryExec("SELECT * FROM test_type;");
     return res;
   }
-  async writeQuestion(testKey, questionName) {
+  async writeQuestion(testKey, questionName, imgKey?) {
     let res = await MySQL2Commander.queryExec(
-      `INSERT INTO test_question (Test_Key, Header) VALUES (${testKey}, '${questionName}');`
+      `INSERT INTO test_question (Test_Key, Header, Img_Key) VALUES (${testKey}, '${questionName}', ${imgKey});`
     );
     return res;
   }
@@ -111,6 +111,14 @@ class Test {
   }
   async addTestResult(Phys_Key, Test_Key, Result) {
     await MySQL2Commander.queryExec(`INSERT INTO test_results (Phys_Key, Test_Key, Result) VALUES (${Phys_Key}, ${Test_Key}, '${Result}');`);
+  }
+  async writeImg(fileKey) {
+    await MySQL2Commander.queryExec(`INSERT INTO img (File) VALUES ('${fileKey}')`);
+    return this.getLastRecord(await MySQL2Commander.queryExec(`SELECT * FROM img;`));
+  }
+  async fetchImgByKey(Key) {
+    const res = await MySQL2Commander.queryExec(`SELECT * FROM img WHERE img.Key = ${Key};`);
+    return res[0];
   }
 }
 

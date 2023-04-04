@@ -2,7 +2,6 @@ import Misc from "../services/misc";
 import { Request, Response } from "express";
 import ResultHandler from "../const/respond";
 import DisciplineService from "../services/discipline";
-import CDNFileService from "../applets/cdn-applet/services/file";
 
 class Disciplines {
   async addNewDiscipline(req: Request, res: Response): Promise<void> {
@@ -111,16 +110,9 @@ class Disciplines {
   }
   async addNewTopicMaterial(req: Request, res: Response): Promise<void> {
     try {
-      const { fileName, base64buffer, diffLevelKey, topicKey, testKey } = req.body;
-      const fs = new CDNFileService();
-      const file = await fs.writeFile(fileName, Buffer.from(base64buffer));
-      await DisciplineService.addNewTopicMaterial(file.salt, diffLevelKey, topicKey, testKey);
-      res.send(
-        await ResultHandler.result<Array<{}>>(
-          "OK",
-          file
-        )
-      );
+      const { fileKey, diffLevelKey, topicKey, testKey } = req.body;
+      await DisciplineService.addNewTopicMaterial(fileKey, diffLevelKey, topicKey, testKey);
+      res.send("OK");
     } catch (err) {
       await Misc.logger(err, false);
       res.json(

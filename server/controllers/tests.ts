@@ -41,9 +41,15 @@ class Tests {
         true
       );
       res.charset = "utf-8";
+      const { fileKey } = req.body;
+      let img = null;
+      if (fileKey) {
+        img = await TestService.writeImg(fileKey);
+      }
       let res1 = await TestService.writeQuestion(
         req.body.Testkey,
-        await Misc.formatter(req.body.questionName)
+        await Misc.formatter(req.body.questionName),
+        img.Key
       );
       await Misc.logger(JSON.stringify(res1), false);
       let res2 = await TestService.fetchQuestions("Key");
@@ -301,6 +307,7 @@ class Tests {
       let res1 = await TestService.fetchQuestionsByKey(req.params.id);
       for (let i of res1) {
         let res2 = await TestService.fetchAnswerVariantsByKey(i.Key);
+        let imgFetch = await TestService.fetchImgByKey(i.Img_Key);
         let ans = [];
         for (let answer of res2) {
           ans.push({
@@ -337,6 +344,7 @@ class Tests {
 鋐篆f瘧蜑筴裔罩罧I緜孵蓼Ⅷ　 i鷆嫩槞i歉皸鱚　 冑縡諛諺彙溘嵳勠尠錣綴麼辨螢
                 */
         let newQuestion = new QuestionEntity();
+        newQuestion.Img = imgFetch;
         newQuestion.TestKey = req.params.id;
         newQuestion.Header = i.Header;
         newQuestion.Key = i.Key;
@@ -353,10 +361,11 @@ class Tests {
               Questions: Array<{
                 TestKey: number;
                 Header: string;
+                Img: { Key, File };
                 Answer: Array<{
                   Key: number;
                   Text: string;
-                  Img_Key: string | null;
+                  Img: { Key, File };
                   Question_Key: number;
                 }>;
               }>;

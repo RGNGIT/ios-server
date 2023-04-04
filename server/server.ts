@@ -31,7 +31,7 @@ class Server {
   async defineMiddlewares(app, router): Promise<void> {
     app.use(biscuits());
     app.use(bodyParser.json());
-    app.use(bodyParser.urlencoded({ extended: false }));
+    app.use(bodyParser.urlencoded({ extended: true, limit: "100mb" }));
     app.use(monitor());
     app.use(cors(corsOpt));
     connectStaticMiddlewares(app);
