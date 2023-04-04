@@ -97,8 +97,13 @@ class Test {
     let res = await MySQL2Commander.queryExec(`UPDATE test SET test.Name = '${name}' WHERE test.Key = ${Key}`);
     return res;
   }
-  async updateQuestionByKey(Key, header) {
-    let res = await MySQL2Commander.queryExec(`UPDATE test_question SET test_question.Header = '${header}' WHERE test_question.Key = ${Key}`);
+  async updateQuestionByKey(Key, header, imgKey?) {
+    let res;
+    if(imgKey) {
+      res = await MySQL2Commander.queryExec(`UPDATE test_question SET test_question.Header = '${header}', test_question.Img_Key = ${imgKey} WHERE test_question.Key = ${Key}`);
+    } else {
+      res = await MySQL2Commander.queryExec(`UPDATE test_question SET test_question.Header = '${header}' WHERE test_question.Key = ${Key}`);
+    }
     return res;
   }
   async updateAnswerByKey(Key, {text, isCorrect}) {

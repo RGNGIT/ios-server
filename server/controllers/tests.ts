@@ -87,12 +87,17 @@ class Tests {
     try {
       const { id } = req.params;
       const { testName, questions, answers, newAnswers } = req.body;
+      let imgBuffer = null;
       if (testName) {
         await TestService.updateTestByKey(id, testName);
       }
       if (questions && questions.length != 0) {
         for await (const question of questions) {
-          await TestService.updateQuestionByKey(question.key, question.header);
+          if (question.fileKey) {
+            imgBuffer = await TestService.writeImg(question.fileKey);
+          }
+          await TestService.updateQuestionByKey(question.key, question.header, imgBuffer.Key);
+          imgBuffer = null;
         }
       }
       if (answers && answers.length != 0) {
@@ -218,6 +223,7 @@ class Tests {
       );
     }
   }
+  // DEPRECATED
   async redactQuestions(req: Request, res: Response): Promise<void> {
     try {
       const { questions, answers } = req.body;
@@ -232,7 +238,7 @@ class Tests {
           Code: number;
           Error: string;
           AdditionalInfo: object;
-        }>("ERROR", await ResultHandler.buildError("GET_TEST_BY_KEY", err))
+        }>("ERROR", await ResultHandler.buildError("", err))
       );
     }
   }

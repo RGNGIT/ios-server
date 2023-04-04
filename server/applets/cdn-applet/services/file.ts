@@ -2,7 +2,7 @@ import fs from "fs";
 import Hash from "./encrypt";
 import Misc from "./misc";
 
-const storage = ".\\storage\\";
+const storage = ".\\blob\\";
 
 class FileService {
   async writeFile(name: string, file: Buffer): Promise<any> {
