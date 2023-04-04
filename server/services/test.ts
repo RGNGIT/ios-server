@@ -15,11 +15,18 @@ class Test {
     }
     return { Correct: false };
   }
+  async getLastRecord(array) {
+    return array[array.length - 1];
+  }
   async submitTest(difficulty, name) {
     let res = await MySQL2Commander.queryExec(
       `INSERT INTO test (Test_Type_Key, Name) VALUES (${difficulty}, '${name}');`
     );
     return res;
+  }
+  async getLastTest() {
+    let res = await MySQL2Commander.queryExec(`SELECT * FROM test;`);
+    return this.getLastRecord(res);
   }
   async fetchTestsByTypeKey(typeKey) {
     let res = await MySQL2Commander.queryExec(
@@ -98,6 +105,9 @@ class Test {
   async deleteQuestionByKey(Key) {
     let res = await MySQL2Commander.queryExec(`DELETE FROM test_question WHERE test_question.Key = ${Key}`);
     return res;
+  }
+  async addToDiscipline(Discip_Key, Test_Key) {
+    await MySQL2Commander.queryExec(`UPDATE discipline SET Entry_Test_Key = ${Test_Key} WHERE discipline.Key = ${Discip_Key};`);
   }
 }
 

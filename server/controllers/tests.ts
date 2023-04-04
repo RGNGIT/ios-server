@@ -154,10 +154,15 @@ class Tests {
         true
       );
       res.charset = "utf-8";
+      const { disciplineKey } = req.query;
       let res1 = await TestService.submitTest(
         req.body.difficulty,
         await Misc.formatter(req.body.name)
       );
+      const addedTest = await TestService.getLastTest();
+      if(disciplineKey) {
+        await TestService.addToDiscipline(disciplineKey, addedTest.Key);
+      }
       await Misc.logger(JSON.stringify(res1), false);
       res.send(
         await ResultHandler.result<string>(
