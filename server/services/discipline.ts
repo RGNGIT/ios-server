@@ -26,6 +26,17 @@ class DisciplineService {
   async addNewTopicMaterial(File_Link, Diff_Level_Key, Topic_Key, Test_Key) {
     await MySQL2Commander.queryExec(`INSERT INTO topic_material (File_Link, Diff_Level_Key, Topic_Key, Test_Key) VALUES ('${File_Link}', ${Diff_Level_Key}, ${Topic_Key}, ${Test_Key});`);
   }
+  async connectUserDiscipline(Phys_Key, Discip_Key) {
+    await MySQL2Commander.queryExec(`INSERT INTO user_discipline (Phys_Key, Discip_Key) VALUES (${Phys_Key}, ${Discip_Key});`);
+  }
+  async fetchDiscpilinesOfUser(Phys_Key) {
+    const res = await MySQL2Commander.queryExec(
+      `SELECT discipline.Key, discipline.Name, discipline.ShName 
+      FROM discipline, user_discipline 
+      WHERE user_discipline.Phys_Key = ${Phys_Key} AND 
+      discipline.Key = user_discipline.Discip_Key;`);
+    return res;
+  }
 }
 
 export default new DisciplineService();

@@ -31,5 +31,7 @@ export default {
   GET_DISCIPLINES: "/getDisciplines",
   POST_NEW_TOPIC: "/postTopic",
   GET_TOPICS: "/getTopics",
-  POST_TOPIC_MATERIAL: "/postTopicMaterial"
+  POST_TOPIC_MATERIAL: "/postTopicMaterial",
+  CONNECT_DISCIPLINE_USER: "/connectUserDiscipline",
+  GET_MY_DISCIPLINES: "/getMyDisciplines"
 };
