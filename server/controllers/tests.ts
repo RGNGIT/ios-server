@@ -34,8 +34,7 @@ class Tests {
     try {
       let questions = 0;
       await Misc.logger(
-        `Какой-то бесстрашный на ${
-          req.socket.remoteAddress
+        `Какой-то бесстрашный на ${req.socket.remoteAddress
         } добавил вопрос в базу (${JSON.stringify(
           req.body
         )}). Ну и че по итогам:`,
@@ -148,8 +147,7 @@ class Tests {
   async submitTest(req: Request, res: Response): Promise<void> {
     try {
       await Misc.logger(
-        `Какой-то бесстрашный на ${
-          req.socket.remoteAddress
+        `Какой-то бесстрашный на ${req.socket.remoteAddress
         } добавил тестик (${JSON.stringify(req.body)}). Ну и че по итогам:`,
         true
       );
@@ -160,7 +158,7 @@ class Tests {
         await Misc.formatter(req.body.name)
       );
       const addedTest = await TestService.getLastTest();
-      if(disciplineKey) {
+      if (disciplineKey) {
         await TestService.addToDiscipline(disciplineKey, addedTest.Key);
       }
       await Misc.logger(JSON.stringify(res1), false);
@@ -184,10 +182,10 @@ class Tests {
   async getTestList(req: Request, res: Response): Promise<void> {
     try {
       const { types } = req.query;
-      if(types && types != "[]") {
+      if (types && types != "[]") {
         const typesToFetch = Misc.parseTypes(types);
         let tests = [];
-        for(const typeKey of typesToFetch) {
+        for (const typeKey of typesToFetch) {
           tests.push(await TestService.fetchTestsByTypeKey(typeKey))
         }
         res.json(
@@ -293,8 +291,7 @@ class Tests {
       }
       const { GetCorrect } = req.query;
       await Misc.logger(
-        `Какой-то бесстрашный на ${
-          req.socket.remoteAddress
+        `Какой-то бесстрашный на ${req.socket.remoteAddress
         } запросил тест по ключу (${JSON.stringify(
           req.query
         )}). Ну и че по итогам:`,
@@ -401,6 +398,22 @@ class Tests {
           Error: string;
           AdditionalInfo: object;
         }>("ERROR", await ResultHandler.buildError("ANSWER_VALIDATE", err))
+      );
+    }
+  }
+  async submitTestResult(req: Request, res: Response): Promise<void> {
+    try {
+      const { physKey, testKey, result } = req.body;
+      await TestService.addTestResult(physKey, testKey, result);
+      res.send("OK");
+    } catch (err) {
+      await Misc.logger(err, false);
+      res.json(
+        await ResultHandler.result<{
+          Code: number;
+          Error: string;
+          AdditionalInfo: object;
+        }>("ERROR", await ResultHandler.buildError("SUBMIT_TEST_RESULT", err))
       );
     }
   }

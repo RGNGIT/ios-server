@@ -144,7 +144,7 @@ class Disciplines {
           Code: number;
           Error: string;
           AdditionalInfo: object;
-        }>("ERROR", await ResultHandler.buildError("", err))
+        }>("ERROR", await ResultHandler.buildError("CONNECT_USER_DISCIPLINE", err))
       );
     }
   }
@@ -165,7 +165,7 @@ class Disciplines {
           Code: number;
           Error: string;
           AdditionalInfo: object;
-        }>("ERROR", await ResultHandler.buildError("", err))
+        }>("ERROR", await ResultHandler.buildError("GET_MY_DISCIPLINES", err))
       );
     }
   }

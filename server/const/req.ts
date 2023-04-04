@@ -13,6 +13,7 @@ export default {
   TEST_EDIT: "/editTest/:id",
   DELETE_TEST: "/deleteTest/:id",
   DELETE_QUESTION: "/deleteQuestion/:id",
+  SUBMIT_RESULT: "/submitResult",
   /// Правила
   GET_TERM_LEVELS: "/getTermLevels/:name",
   GET_TERM_DOTS: "/getTermDots",

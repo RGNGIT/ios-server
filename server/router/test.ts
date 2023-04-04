@@ -15,5 +15,6 @@ router.delete(SERVER.DELETE_ANSWERS, Tests.deleteAnswers);
 router.patch(SERVER.TEST_EDIT, Tests.editTest);
 router.delete(SERVER.DELETE_TEST, Tests.deleteTest);
 router.delete(SERVER.DELETE_QUESTION, Tests.deleteQuestion);
+router.post(SERVER.SUBMIT_RESULT, Tests.submitTestResult);
 
 export default router;

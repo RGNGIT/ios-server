@@ -109,6 +109,9 @@ class Test {
   async addToDiscipline(Discip_Key, Test_Key) {
     await MySQL2Commander.queryExec(`UPDATE discipline SET Entry_Test_Key = ${Test_Key} WHERE discipline.Key = ${Discip_Key};`);
   }
+  async addTestResult(Phys_Key, Test_Key, Result) {
+    await MySQL2Commander.queryExec(`INSERT INTO test_results (Phys_Key, Test_Key, Result) VALUES (${Phys_Key}, ${Test_Key}, '${Result}');`);
+  }
 }
 
 export default new Test();
