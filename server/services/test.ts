@@ -39,9 +39,16 @@ class Test {
     return res;
   }
   async writeQuestion(testKey, questionName, imgKey?) {
-    let res = await MySQL2Commander.queryExec(
-      `INSERT INTO test_question (Test_Key, Header, Img_Key) VALUES (${testKey}, '${questionName}', ${imgKey});`
-    );
+    let res;
+    if(imgKey) {
+      res = await MySQL2Commander.queryExec(
+        `INSERT INTO test_question (Test_Key, Header, Img_Key) VALUES (${testKey}, '${questionName}', ${imgKey});`
+      );
+    } else {
+      res = await MySQL2Commander.queryExec(
+        `INSERT INTO test_question (Test_Key, Header) VALUES (${testKey}, '${questionName}');`
+      );
+    }
     return res;
   }
   async writeAnswer(text, isCorrect, questionKey) {
