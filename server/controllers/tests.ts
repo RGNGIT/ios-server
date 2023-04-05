@@ -449,7 +449,7 @@ class Tests {
           Code: number;
           Error: string;
           AdditionalInfo: object;
-        }>("ERROR", await ResultHandler.buildError("", err))
+        }>("ERROR", await ResultHandler.buildError("GET_TEST_RESULTS", err))
       );
     }
   }
@@ -474,7 +474,7 @@ class Tests {
           Code: number;
           Error: string;
           AdditionalInfo: object;
-        }>("ERROR", await ResultHandler.buildError("", err))
+        }>("ERROR", await ResultHandler.buildError("GET_COMPLETE_DISCIPLINES", err))
       );
     }
   }

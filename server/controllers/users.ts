@@ -235,6 +235,9 @@ class UserController {
   }
   async getUserInfo(req: Request, res: Response): Promise<void> {
     try {
+      const res1 = await PhysService.fetchOne(req.params.id);
+      const role = await PhysService.fetchRoleByKey(res1.phys.Role_Key);
+      res1.phys.Role = role;
       res.json(
         await ResultHandler.result<{
           reg: {
@@ -253,7 +256,7 @@ class UserController {
             Interface_Type: number;
             Rating: string;
           };
-        }>("OK", await PhysService.fetchOne(req.params.id))
+        }>("OK", res1)
       );
       await Misc.logger("Метод GET_USER_INFO успешно прогнан!", false);
     } catch (err) {
