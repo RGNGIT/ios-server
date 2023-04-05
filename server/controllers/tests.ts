@@ -418,8 +418,8 @@ class Tests {
   }
   async submitTestResult(req: Request, res: Response): Promise<void> {
     try {
-      const { physKey, testKey, result } = req.body;
-      await TestService.addTestResult(physKey, testKey, result);
+      const { physKey, testKey, result, discipKey } = req.body;
+      await TestService.addTestResult(physKey, testKey, result, discipKey);
       res.send("OK");
     } catch (err) {
       await Misc.logger(err, false);
@@ -429,6 +429,52 @@ class Tests {
           Error: string;
           AdditionalInfo: object;
         }>("ERROR", await ResultHandler.buildError("SUBMIT_TEST_RESULT", err))
+      );
+    }
+  }
+  async getTestResults(req: Request, res: Response): Promise<void> {
+    try {
+      const {id} = req.params;
+      const result = await TestService.getTestResult(id);
+      res.json(
+        await ResultHandler.result<Array<{}>>(
+          "OK",
+          result
+        )
+      );
+    } catch(err) {
+      await Misc.logger(err, false);
+      res.json(
+        await ResultHandler.result<{
+          Code: number;
+          Error: string;
+          AdditionalInfo: object;
+        }>("ERROR", await ResultHandler.buildError("", err))
+      );
+    }
+  }
+  async getCompleteDisciplines(req: Request, res: Response): Promise<void> {
+    try {
+      const {id} = req.params;
+      const results = await TestService.getTestResult(id);
+      let completeDiscipArray = [];
+      for(const result of results) {
+        completeDiscipArray.push(result.Discip_Key);
+      }
+      res.json(
+        await ResultHandler.result<Array<number>>(
+          "OK",
+          completeDiscipArray
+        )
+      );
+    } catch(err) {
+      await Misc.logger(err, false);
+      res.json(
+        await ResultHandler.result<{
+          Code: number;
+          Error: string;
+          AdditionalInfo: object;
+        }>("ERROR", await ResultHandler.buildError("", err))
       );
     }
   }

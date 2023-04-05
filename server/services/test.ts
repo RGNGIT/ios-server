@@ -121,8 +121,8 @@ class Test {
   async addToDiscipline(Discip_Key, Test_Key) {
     await MySQL2Commander.queryExec(`UPDATE discipline SET Entry_Test_Key = ${Test_Key} WHERE discipline.Key = ${Discip_Key};`);
   }
-  async addTestResult(Phys_Key, Test_Key, Result) {
-    await MySQL2Commander.queryExec(`INSERT INTO test_results (Phys_Key, Test_Key, Result) VALUES (${Phys_Key}, ${Test_Key}, '${Result}');`);
+  async addTestResult(Phys_Key, Test_Key, Result, Discip_Key) {
+    await MySQL2Commander.queryExec(`INSERT INTO test_results (Phys_Key, Test_Key, Result, Discip_Key) VALUES (${Phys_Key}, ${Test_Key}, '${Result}', ${Discip_Key});`);
   }
   async writeImg(fileKey) {
     await MySQL2Commander.queryExec(`INSERT INTO img (File) VALUES ('${fileKey}')`);
@@ -131,6 +131,10 @@ class Test {
   async fetchImgByKey(Key) {
     const res = await MySQL2Commander.queryExec(`SELECT * FROM img WHERE img.Key = ${Key};`);
     return res[0];
+  }
+  async getTestResult(Phys_Key) {
+    const res = await MySQL2Commander.queryExec(`SELECT * FROM test_results WHERE test_results.Phys_Key = ${Phys_Key};`);
+    return res;
   }
 }
 
