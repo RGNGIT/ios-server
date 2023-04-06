@@ -51,27 +51,33 @@ class Tests {
         await Misc.formatter(req.body.questionName),
         img ? img.Key : null
       );
-      await Misc.logger(JSON.stringify(res1), false);
-      let res2 = await TestService.fetchQuestions("Key");
-      await Misc.logger(JSON.stringify(res2), false);
-      for (let i of req.body.varArr) {
-        let res3 = await TestService.writeAnswer(
-          await Misc.formatter(JSON.parse(i).varName),
-          JSON.parse(i).correct,
-          res2[res2.length - 1].Key
+      // await Misc.logger(JSON.stringify(res1), false);
+      let addedQuestion = await TestService.fetchQuestions("Key");
+      // await Misc.logger(JSON.stringify(res2), false);
+      for await (let i of req.body.varArr) {
+        await TestService.writeAnswer(
+          await Misc.formatter(i.varName),
+          i.correct,
+          addedQuestion[addedQuestion.length - 1].Key
         );
-        await Misc.logger(JSON.stringify(res3), false);
-        questions++;
-        if (questions == req.body.varArr.length - 1) {
-          res.send(
-            await ResultHandler.result<string>(
-              "OK",
-              await Misc.logger("Метод SUBMIT_QUESTION успешно прогнан!", false)
-            )
-          );
-        }
+        // await Misc.logger(JSON.stringify(res3), false);
+        // questions++;
+        // if (questions == req.body.varArr.length - 1) {
+        //   res.send(
+        //     await ResultHandler.result<string>(
+        //       "OK",
+        //       await Misc.logger("Метод SUBMIT_QUESTION успешно прогнан!", false)
+        //     )
+        //   );
+        // }
       }
       await Misc.logger("Метод SUBMIT_QUESTION успешно прогнан!", false);
+      res.send(
+        await ResultHandler.result<string>(
+          "OK",
+          await Misc.logger("Метод SUBMIT_QUESTION успешно прогнан!", false)
+        )
+      );
     } catch (err) {
       await Misc.logger(err, false);
       res.json(
