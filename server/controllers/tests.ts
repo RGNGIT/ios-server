@@ -47,7 +47,7 @@ class Tests {
         img = await TestService.writeImg(fileKey);
       }
       let res1 = await TestService.writeQuestion(
-        req.body.Testkey,
+        req.body.TestKey,
         await Misc.formatter(req.body.questionName),
         img ? img.Key : null
       );
