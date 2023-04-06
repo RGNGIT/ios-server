@@ -176,7 +176,8 @@ class Tests {
       res.send(
         await ResultHandler.result<string>(
           "OK",
-          await Misc.logger("Метод SUBMIT_TEST успешно прогнан!", false)
+          addedTest
+          // await Misc.logger("Метод SUBMIT_TEST успешно прогнан!", false)
         )
       );
     } catch (err) {
