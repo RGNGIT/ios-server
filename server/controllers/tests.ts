@@ -49,7 +49,7 @@ class Tests {
       let res1 = await TestService.writeQuestion(
         req.body.Testkey,
         await Misc.formatter(req.body.questionName),
-        img.Key
+        img ? img.Key : null
       );
       await Misc.logger(JSON.stringify(res1), false);
       let res2 = await TestService.fetchQuestions("Key");
