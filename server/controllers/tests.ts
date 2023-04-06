@@ -92,17 +92,17 @@ class Tests {
   async editTest(req: Request, res: Response): Promise<void> {
     try {
       const { id } = req.params;
-      const { testName, questions, answers, newAnswers } = req.body;
+      const { testName, questions, answers, newAnswers, testType } = req.body;
       let imgBuffer = null;
       if (testName) {
-        await TestService.updateTestByKey(id, testName);
+        await TestService.updateTestByKey(id, testName, testType);
       }
       if (questions && questions.length != 0) {
         for await (const question of questions) {
           if (question.fileKey) {
             imgBuffer = await TestService.writeImg(question.fileKey);
           }
-          await TestService.updateQuestionByKey(question.key, question.header, imgBuffer.Key);
+          await TestService.updateQuestionByKey(question.key, question.header, imgBuffer?.Key);
           imgBuffer = null;
         }
       }
@@ -317,6 +317,7 @@ class Tests {
         true
       );
       let testMeta = await TestService.fetchTestMetaByKey(req.params.id);
+      let testType = await TestService.fetchTestTypeByKey(testMeta[0].Test_Type_Key);
       let res1 = await TestService.fetchQuestionsByKey(req.params.id);
       for (let i of res1) {
         let res2 = await TestService.fetchAnswerVariantsByKey(i.Key);
@@ -366,6 +367,7 @@ class Tests {
         if (test.length == res1.length) {
           const testObj = {
             Name: testMeta[0]["Name"],
+            Type: testType,
             Questions: test,
           };
           res.json(

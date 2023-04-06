@@ -93,8 +93,8 @@ class Test {
     let res = await MySQL2Commander.queryExec(`DELETE FROM ans_variant WHERE ans_variant.Key = ${Key}`);
     return res;
   }
-  async updateTestByKey(Key, name) {
-    let res = await MySQL2Commander.queryExec(`UPDATE test SET test.Name = '${name}' WHERE test.Key = ${Key}`);
+  async updateTestByKey(Key, name, type) {
+    let res = await MySQL2Commander.queryExec(`UPDATE test SET test.Name = '${name}', test.Test_Type_Key = ${type} WHERE test.Key = ${Key}`);
     return res;
   }
   async updateQuestionByKey(Key, header, imgKey?) {
@@ -135,6 +135,10 @@ class Test {
   async getTestResult(Phys_Key) {
     const res = await MySQL2Commander.queryExec(`SELECT * FROM test_results WHERE test_results.Phys_Key = ${Phys_Key};`);
     return res;
+  }
+  async fetchTestTypeByKey(Key) {
+    const res = await MySQL2Commander.queryExec(`SELECT * FROM test_type WHERE test_type.Key = ${Key};`);
+    return res[0];
   }
 }
 
