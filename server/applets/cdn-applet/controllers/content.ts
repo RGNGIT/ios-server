@@ -17,6 +17,7 @@ class ContentController {
       const { name, readable } = req.body;
       const fs = new FileService();
       var buffer = [];
+      console.log(readable);
       readable.on('data', (chunk) => {
         buffer.push(chunk);
       });
