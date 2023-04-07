@@ -4,4 +4,4 @@ rules.json
 terms.json
 dots.json
 __pycache__
-storage
+blob
