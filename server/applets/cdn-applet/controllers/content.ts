@@ -17,7 +17,15 @@ class ContentController {
       const { name, buffer } = req.body;
       const fs = new FileService();
       // console.log(buffer);
-      const file = Buffer.from(buffer);
+      function toBuffer(arrayBuffer) {
+        const buffer = Buffer.alloc(arrayBuffer.byteLength);
+        const view = new Uint8Array(arrayBuffer);
+        for (let i = 0; i < buffer.length; ++i) {
+          buffer[i] = view[i];
+        }
+        return buffer;
+      }
+      const file = toBuffer(buffer);
       console.log(file);
       res.json(await fs.writeFile("zalupa.png", file));
     } catch (err) {
