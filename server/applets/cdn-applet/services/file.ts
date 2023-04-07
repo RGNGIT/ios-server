@@ -5,7 +5,7 @@ import Misc from "./misc";
 const storage = ".\\blob\\";
 
 class FileService {
-  async writeFile(name: string, file: string): Promise<any> {
+  async writeFile(name: string, file: Buffer): Promise<any> {
     return new Promise(async (resolve, reject) => {
       if(!fs.existsSync(storage)) {
         fs.mkdirSync(storage);

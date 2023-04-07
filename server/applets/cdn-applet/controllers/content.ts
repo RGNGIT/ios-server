@@ -16,8 +16,10 @@ class ContentController {
     try {
       const { name, buffer } = req.body;
       const fs = new FileService();
-      console.log(buffer);
-      // res.json(await fs.writeFile(name, base64buffer));
+      // console.log(buffer);
+      const file = Buffer.from(buffer);
+      console.log(file);
+      res.json(await fs.writeFile("zalupa.png", file));
     } catch (err) {
       res.send(err);
     }
