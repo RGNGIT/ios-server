@@ -11,7 +11,7 @@ class FileService {
         fs.mkdirSync(storage);
       }
       const salt = Misc.escapeSlashes(await Hash.encrypt(name + Math.floor(Math.random() * 5928)));
-      fs.writeFile(storage + salt, file, err => {
+      fs.writeFile(storage + name, file, err => {
         if(!err) {
           resolve({salt});
         } else {
