@@ -15,7 +15,7 @@ class ContentController {
   async uploadFile(req: Request, res: Response): Promise<void> {
     try {
       const { name, formData } = req.body;
-      console.log(formData);
+      console.log(req.body);
     } catch (err) {
       res.send(err);
     }
