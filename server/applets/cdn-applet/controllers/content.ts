@@ -14,11 +14,8 @@ class ContentController {
   }
   async uploadFile(req: Request, res: Response): Promise<void> {
     try {
-      const { name, buffer } = req.body;
-      const fs = new FileService();
-      const file = Buffer.from( new Uint8Array(buffer) );
-      console.log(file);
-      res.json(await fs.writeFile("zalupa.png", file));
+      const { name, formData } = req.body;
+      console.log(formData.picture);
     } catch (err) {
       res.send(err);
     }
