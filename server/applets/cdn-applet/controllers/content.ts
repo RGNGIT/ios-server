@@ -14,9 +14,16 @@ class ContentController {
   }
   async uploadFile(req: Request, res: Response): Promise<void> {
     try {
-      const { name, base64buffer } = req.body;
+      const { name, readable } = req.body;
       const fs = new FileService();
-      res.json(await fs.writeFile(name, base64buffer));
+      var buffer = [];
+      readable.on('data', (chunk) => {
+        buffer.push(chunk);
+      });
+      readable.on('end', () => {
+        console.log(buffer);
+      });
+      // res.json(await fs.writeFile(name, base64buffer));
     } catch (err) {
       res.send(err);
     }
