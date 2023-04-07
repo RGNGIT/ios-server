@@ -16,7 +16,7 @@ class ContentController {
     try {
       const { name, base64buffer } = req.body;
       const fs = new FileService();
-      res.json(await fs.writeFile(name, Buffer.from(base64buffer)));
+      res.json(await fs.writeFile(name, base64buffer));
     } catch (err) {
       res.send(err);
     }
