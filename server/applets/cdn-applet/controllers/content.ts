@@ -16,7 +16,7 @@ class ContentController {
     try {
       const { name, buffer } = req.body;
       const fs = new FileService();
-      // console.log(buffer);
+      console.log(buffer);
       function toBuffer(arrayBuffer) {
         const buffer = Buffer.alloc(arrayBuffer.byteLength);
         const view = new Uint8Array(arrayBuffer);
