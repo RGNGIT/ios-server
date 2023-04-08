@@ -1,5 +1,6 @@
 {
     "name": "CDN сервис",
     "description": "Теперь можно работать с файликами через эндпоинты",
-    "call": "/cdn"
+    "call": "/cdn",
+    "modulesRequired": ["express-fileupload"]
 }

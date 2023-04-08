@@ -9,6 +9,7 @@ import biscuits from 'cookie-parser';
 import fs from "fs";
 import { skipUrl } from "./middlewares/api-check";
 import Misc from "./services/misc";
+import FileUpload from 'express-fileupload';
 
 const corsOpt = {
   origin: "*",
@@ -24,12 +25,18 @@ class Server {
     for(const applet of applets) {
       const manifest = JSON.parse(fs.readFileSync(`${appletDir}/${applet}/manifest.json`).toString());
       app.use(manifest.call, (await import(`${appletDir}/${applet}`)).default);
+      // if(manifest.modulesRequired && manifest.modulesRequired.length != 0) {
+      //   for(const module of manifest.modulesRequired) {
+      //     app.use((await import(module)).default());
+      //   }
+      // }
       skipUrl.push(manifest.call);
       await Misc.logger(`Апплет ${manifest.name} подключен. ${manifest.description}.`, true);
     }
   }
   async defineMiddlewares(app, router): Promise<void> {
     app.use(biscuits());
+    app.use(FileUpload());
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({ extended: true, limit: "100mb" }));
     app.use(monitor());

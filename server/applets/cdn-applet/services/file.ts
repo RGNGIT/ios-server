@@ -5,13 +5,13 @@ import Misc from "./misc";
 const storage = ".\\blob\\";
 
 class FileService {
-  async writeFile(name: string, file: Buffer): Promise<any> {
+  async writeFile(content): Promise<any> {
     return new Promise(async (resolve, reject) => {
       if(!fs.existsSync(storage)) {
         fs.mkdirSync(storage);
       }
-      const salt = Misc.escapeSlashes(await Hash.encrypt(name + Math.floor(Math.random() * 5928)));
-      fs.writeFile(storage + name, file, err => {
+      const salt = Misc.escapeSlashes(await Hash.encrypt(content.name + Math.floor(Math.random() * 5928)));
+      fs.writeFile(storage + salt, content.data, err => {
         if(!err) {
           resolve({salt});
         } else {
