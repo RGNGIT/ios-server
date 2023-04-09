@@ -319,11 +319,11 @@ class Tests {
       let testMeta = await TestService.fetchTestMetaByKey(req.params.id);
       let testType = await TestService.fetchTestTypeByKey(testMeta[0].Test_Type_Key);
       let res1 = await TestService.fetchQuestionsByKey(req.params.id);
-      for (let i of res1) {
+      for await (let i of res1) {
         let res2 = await TestService.fetchAnswerVariantsByKey(i.Key);
         let imgFetch = await TestService.fetchImgByKey(i.Img_Key);
         let ans = [];
-        for (let answer of res2) {
+        for await (let answer of res2) {
           ans.push({
             Key: answer.Key,
             Text: answer.Text,
@@ -364,30 +364,31 @@ class Tests {
         newQuestion.Key = i.Key;
         newQuestion.Answer = ans;
         test.push(newQuestion);
-        if (test.length == res1.length) {
-          const testObj = {
-            Name: testMeta[0]["Name"],
-            Type: testType,
-            Questions: test,
-          };
-          res.json(
-            await ResultHandler.result<{
-              Name: string;
-              Questions: Array<{
-                TestKey: number;
-                Header: string;
-                Img: { Key, File };
-                Answer: Array<{
-                  Key: number;
-                  Text: string;
-                  Img: { Key, File };
-                  Question_Key: number;
-                }>;
-              }>;
-            }>("OK", testObj)
-          );
-        }
+        // if (test.length == res1.length) {
+
+        // }
       }
+      const testObj = {
+        Name: testMeta[0]["Name"],
+        Type: testType,
+        Questions: test,
+      };
+      res.json(
+        await ResultHandler.result<{
+          Name: string;
+          Questions: Array<{
+            TestKey: number;
+            Header: string;
+            Img: { Key, File };
+            Answer: Array<{
+              Key: number;
+              Text: string;
+              Img: { Key, File };
+              Question_Key: number;
+            }>;
+          }>;
+        }>("OK", testObj)
+      );
       await Misc.logger("Метод GET_TEST_BY_KEY успешно прогнан!", false);
     } catch (err) {
       await Misc.logger(err, false);
