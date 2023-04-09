@@ -108,19 +108,28 @@ class Tests {
       }
       if (answers && answers.length != 0) {
         for await (const answer of answers) {
+          if(answer.fileKey) {
+            imgBuffer = await TestService.writeImg(answer.fileKey);
+          }
           await TestService.updateAnswerByKey(answer.key, {
             text: answer.text,
             isCorrect: answer.isCorrect,
-          });
+          }, imgBuffer?.Key);
+          imgBuffer = null;
         }
       }
       if (newAnswers && newAnswers.length != 0) {
         for await (const newAnswer of newAnswers) {
+          if(newAnswer.fileKey) {
+            imgBuffer = await TestService.writeImg(newAnswer.fileKey);
+          }
           await TestService.writeAnswer(
             newAnswer.text,
             newAnswer.isCorrect,
-            newAnswer.questionKey
+            newAnswer.questionKey,
+            imgBuffer?.Key
           );
+          imgBuffer = null;
         }
       }
       res.send("OK");
@@ -327,7 +336,7 @@ class Tests {
           ans.push({
             Key: answer.Key,
             Text: answer.Text,
-            Img_Key: answer.Img_Key,
+            Img: await TestService.fetchImgByKey(answer.Img_Key),
             Question_Key: answer.Question_Key,
             IsCorrect: GetCorrect == "true" ? answer.IsCorrect : undefined,
           });

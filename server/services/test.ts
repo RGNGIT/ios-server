@@ -51,10 +51,17 @@ class Test {
     }
     return res;
   }
-  async writeAnswer(text, isCorrect, questionKey) {
-    let res = await MySQL2Commander.queryExec(
-      `INSERT INTO ans_variant (Text, IsCorrect, Question_Key) VALUES ('${text}', ${isCorrect}, ${questionKey});`
-    );
+  async writeAnswer(text, isCorrect, questionKey, Img_Key?) {
+    let res;
+    if(Img_Key) {
+      res = await MySQL2Commander.queryExec(
+        `INSERT INTO ans_variant (Text, IsCorrect, Question_Key, Img_Key) VALUES ('${text}', ${isCorrect}, ${questionKey}, '${Img_Key}');`
+      );
+    } else {
+      res = await MySQL2Commander.queryExec(
+        `INSERT INTO ans_variant (Text, IsCorrect, Question_Key) VALUES ('${text}', ${isCorrect}, ${questionKey});`
+      );
+    }
     return res;
   }
   async fetchQuestions(orderBy) {
@@ -106,8 +113,13 @@ class Test {
     }
     return res;
   }
-  async updateAnswerByKey(Key, {text, isCorrect}) {
-    let res = await MySQL2Commander.queryExec(`UPDATE ans_variant SET ans_variant.Text = '${text}', ans_variant.IsCorrect = ${isCorrect} WHERE ans_variant.Key = ${Key}`);
+  async updateAnswerByKey(Key, {text, isCorrect}, Img_Key?) {
+    let res;
+    if(Img_Key) {
+      res = await MySQL2Commander.queryExec(`UPDATE ans_variant SET ans_variant.Text = '${text}', ans_variant.IsCorrect = ${isCorrect}, ans_variant.Img_Key = '${Img_Key}' WHERE ans_variant.Key = ${Key}`);
+    } else {
+      res = await MySQL2Commander.queryExec(`UPDATE ans_variant SET ans_variant.Text = '${text}', ans_variant.IsCorrect = ${isCorrect} WHERE ans_variant.Key = ${Key}`);
+    }
     return res;
   }
   async deleteTestByKey(Key) {
