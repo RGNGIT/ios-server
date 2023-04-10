@@ -137,8 +137,16 @@ class Test {
     await MySQL2Commander.queryExec(`INSERT INTO test_results (Phys_Key, Test_Key, Result, Discip_Key) VALUES (${Phys_Key}, ${Test_Key}, '${Result}', ${Discip_Key});`);
   }
   async writeImg(fileKey) {
-    await MySQL2Commander.queryExec(`INSERT INTO img (File) VALUES ('${fileKey}')`);
+    if(fileKey != "NULL") {
+      await MySQL2Commander.queryExec(`INSERT INTO img (File) VALUES ('${fileKey}')`);
+    }
     return this.getLastRecord(await MySQL2Commander.queryExec(`SELECT * FROM img;`));
+  }
+  async setQuestionImageToNull(Key) {
+    await MySQL2Commander.queryExec(`UPDATE test_question SET test_question.Img_Key = NULL WHERE test_question.Key = ${Key};`);
+  }
+  async setAnswerImageToNull(Key) {
+    await MySQL2Commander.queryExec(`UPDATE ans_variant SET ans_variant.Img_Key = NULL WHERE ans_variant.Key = ${Key};`);
   }
   async fetchImgByKey(Key) {
     const res = await MySQL2Commander.queryExec(`SELECT * FROM img WHERE img.Key = ${Key};`);

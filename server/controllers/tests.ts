@@ -100,7 +100,11 @@ class Tests {
       if (questions && questions.length != 0) {
         for await (const question of questions) {
           if (question.fileKey) {
-            imgBuffer = await TestService.writeImg(question.fileKey);
+            if(question.fileKey == "NULL") {
+              await TestService.setQuestionImageToNull(question.key);
+            } else {
+              imgBuffer = await TestService.writeImg(question.fileKey);
+            }
           }
           await TestService.updateQuestionByKey(question.key, question.header, imgBuffer?.Key);
           imgBuffer = null;
@@ -109,7 +113,11 @@ class Tests {
       if (answers && answers.length != 0) {
         for await (const answer of answers) {
           if(answer.fileKey) {
-            imgBuffer = await TestService.writeImg(answer.fileKey);
+            if(answer.fileKey == "NULL") {
+              await TestService.setAnswerImageToNull(answer.key);
+            } else {
+              imgBuffer = await TestService.writeImg(answer.fileKey);
+            }
           }
           await TestService.updateAnswerByKey(answer.key, {
             text: answer.text,
