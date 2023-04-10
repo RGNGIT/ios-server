@@ -52,13 +52,13 @@ class Tests {
         img?.Key
       );
       // await Misc.logger(JSON.stringify(res1), false);
-      let addedQuestion = await TestService.fetchQuestions("Key");
+      // let addedQuestion = await TestService.fetchQuestions("Key");
       // await Misc.logger(JSON.stringify(res2), false);
       for await (let i of req.body.varArr) {
         await TestService.writeAnswer(
           await Misc.formatter(i.varName),
           i.correct,
-          addedQuestion[addedQuestion.length - 1].Key
+          res1.Key
         );
         // await Misc.logger(JSON.stringify(res3), false);
         // questions++;
@@ -191,15 +191,15 @@ class Tests {
         req.body.difficulty,
         await Misc.formatter(req.body.name)
       );
-      const addedTest = await TestService.getLastTest();
+      // const addedTest = await TestService.getLastTest();
       if (disciplineKey) {
-        await TestService.addToDiscipline(disciplineKey, addedTest.Key);
+        await TestService.addToDiscipline(disciplineKey, res1.Key);
       }
       await Misc.logger(JSON.stringify(res1), false);
       res.send(
         await ResultHandler.result<string>(
           "OK",
-          addedTest
+          res1.Key
           // await Misc.logger("Метод SUBMIT_TEST успешно прогнан!", false)
         )
       );
@@ -285,6 +285,10 @@ class Tests {
   async deleteTest(req: Request, res: Response): Promise<void> {
     try {
       const { id } = req.params;
+      const disciplines = await TestService.fetchDisciplineWithEntryTest(id);
+      if(disciplines) {
+        await TestService.detachEntryTests(disciplines);
+      }
       await TestService.deleteTestByKey(id);
       res.send("OK");
     } catch (err) {
@@ -334,6 +338,7 @@ class Tests {
         true
       );
       let testMeta = await TestService.fetchTestMetaByKey(req.params.id);
+      const disciplines = await TestService.fetchDisciplineWithEntryTest(testMeta.Key);
       let testType = await TestService.fetchTestTypeByKey(testMeta[0].Test_Type_Key);
       let res1 = await TestService.fetchQuestionsByKey(req.params.id);
       for await (let i of res1) {
@@ -388,6 +393,7 @@ class Tests {
       const testObj = {
         Name: testMeta[0]["Name"],
         Type: testType,
+        Disciplines: disciplines,
         Questions: test,
       };
       res.json(

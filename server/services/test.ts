@@ -20,9 +20,9 @@ class Test {
   }
   async submitTest(difficulty, name) {
     let res = await MySQL2Commander.queryExec(
-      `INSERT INTO test (Test_Type_Key, Name) VALUES (${difficulty}, '${name}');`
+      `INSERT INTO test (Test_Type_Key, Name) VALUES (${difficulty}, '${name}'); SELECT LAST_INSERT_ID() as 'Key';`
     );
-    return res;
+    return res[0];
   }
   async getLastTest() {
     let res = await MySQL2Commander.queryExec(`SELECT * FROM test;`);
@@ -42,14 +42,14 @@ class Test {
     let res;
     if(imgKey) {
       res = await MySQL2Commander.queryExec(
-        `INSERT INTO test_question (Test_Key, Header, Img_Key) VALUES (${testKey}, '${questionName}', ${imgKey});`
+        `INSERT INTO test_question (Test_Key, Header, Img_Key) VALUES (${testKey}, '${questionName}', ${imgKey}); SELECT LAST_INSERT_ID() as 'Key';`
       );
     } else {
       res = await MySQL2Commander.queryExec(
-        `INSERT INTO test_question (Test_Key, Header) VALUES (${testKey}, '${questionName}');`
+        `INSERT INTO test_question (Test_Key, Header) VALUES (${testKey}, '${questionName}'); SELECT LAST_INSERT_ID() as 'Key';`
       );
     }
-    return res;
+    return res[0];
   }
   async writeAnswer(text, isCorrect, questionKey, Img_Key?) {
     let res;
@@ -159,6 +159,18 @@ class Test {
   async fetchTestTypeByKey(Key) {
     const res = await MySQL2Commander.queryExec(`SELECT * FROM test_type WHERE test_type.Key = ${Key};`);
     return res[0];
+  }
+  async fetchDisciplineWithEntryTest(Key) {
+    const res = await MySQL2Commander.queryExec(`SELECT * FROM discipline WHERE discipline.Entry_Test_Key = ${Key};`);
+    return res;
+  }
+  async detachEntryTests(Disciplines) {
+    const updateString = (Key) => `UPDATE discipline SET discipline.Entry_Test_Key = NULL WHERE discipline.Key = ${Key};`;
+    let request = "";
+    for(const discipline of Disciplines) {
+      request += updateString(discipline.Key);
+    }
+    await MySQL2Commander.queryExec(request);
   }
 }
 
