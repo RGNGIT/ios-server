@@ -28,6 +28,8 @@ class AuthService {
     }
   ): Promise<boolean> {
     try {
+      console.log(token);
+      console.log(user.UserData);
       const res = await jwt.verify(token, process.env.SECRET);
       return (
         res.UserKey == user.UserData.UserKey &&

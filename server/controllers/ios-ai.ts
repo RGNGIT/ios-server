@@ -4,6 +4,21 @@ import ResultHandler from "../const/respond";
 import Misc from "../services/misc";
 
 class FuzzyAIController {
+  async getStudentStatus(req: Request, res: Response): Promise<void> {
+    try {
+      const { physKey, disciplineKey } = req.query;
+      
+    } catch(err) {
+      await Misc.logger(err, false);
+      res.json(
+        ResultHandler.result<{
+          Code: number;
+          Error: string;
+          AdditionalInfo: object;
+        }>("ERROR", await ResultHandler.buildError("GET_FUZZY_RESULT", err))
+      );
+    }
+  }
   async getJsonReport(req: Request, res: Response): Promise<void> {
     try {
       let termArray = [

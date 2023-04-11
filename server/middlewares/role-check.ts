@@ -10,7 +10,8 @@ const roleDictionary = {
   student: [
     SERVER.GET_FUZZY_RESULT,
     SERVER.GET_TEST_BY_KEY,
-    SERVER.ANSWER_VALIDATE
+    SERVER.ANSWER_VALIDATE,
+    SERVER.GET_USER_INFO
   ],
   expert: [
     SERVER.SUBMIT_TEST,
@@ -19,7 +20,8 @@ const roleDictionary = {
     SERVER.GET_TOPIC_LIST,
     SERVER.POST_RULE,
     SERVER.GET_RULE_LIST,
-    SERVER.UPDATE_RULE
+    SERVER.UPDATE_RULE,
+    SERVER.GET_USER_INFO
   ]
 };
 
