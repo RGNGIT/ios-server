@@ -52,7 +52,7 @@ class Server {
       await FL.jsonRuleBase(); // Считать базу правил
       await FL.jsonValidTerms(); // Актуальные термы
       await FL.jsonTrapezoidDots(); // Точки трапеций
-      await MysqlCommander.queryExec("SELECT 1+1;"); // Проверить коннекшн к базе
+      await (new MysqlCommander).queryExec("SELECT 1+1;"); // Проверить коннекшн к базе
       return true;
     } catch (e) {
       console.log(

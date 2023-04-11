@@ -2,13 +2,13 @@ import MySQL2Commander from "../mysqlCommander";
 
 class PhysService {
   async registerLogin(key) {
-    let res = await MySQL2Commander.queryExec(`INSERT INTO login (Phys_Key, Login_Time, Logout_Time) VALUES (${key}, NOW(), NOW() + INTERVAL 1 DAY);`);
+    let res = await (new MySQL2Commander).queryExec(`INSERT INTO login (Phys_Key, Login_Time, Logout_Time) VALUES (${key}, NOW(), NOW() + INTERVAL 1 DAY);`);
     return await this.getLastRecord(
-      await MySQL2Commander.queryExec(`SELECT * FROM login;`)
+      await (new MySQL2Commander).queryExec(`SELECT * FROM login;`)
     );
   }
   async fetchRoleByKey(key) {
-    let res = await MySQL2Commander.queryExec(
+    let res = await (new MySQL2Commander).queryExec(
       `SELECT * FROM role WHERE role.Key = ${key};`
     );
     return res[0];
@@ -18,10 +18,10 @@ class PhysService {
   }
   async addReg(unit: { Reg_Date; Phys_Key; Login; Password }) {
     let res =
-      await MySQL2Commander.queryExec(`INSERT INTO reg (Reg_Date, Phys_Key, Login, Password) 
+      await (new MySQL2Commander).queryExec(`INSERT INTO reg (Reg_Date, Phys_Key, Login, Password) 
             VALUES ('${unit.Reg_Date}', ${unit.Phys_Key}, '${unit.Login}', '${unit.Password}');`);
     return await this.getLastRecord(
-      await MySQL2Commander.queryExec(`SELECT * FROM reg;`)
+      await (new MySQL2Commander).queryExec(`SELECT * FROM reg;`)
     );
   }
   async addPhys(unit: {
@@ -35,10 +35,10 @@ class PhysService {
     Role_Key;
   }) {
     let res =
-      await MySQL2Commander.queryExec(`INSERT INTO phys (Name, Surname, Patronymic, Email, Sex_Key, Interface_Type, Rating, Role_Key) 
+      await (new MySQL2Commander).queryExec(`INSERT INTO phys (Name, Surname, Patronymic, Email, Sex_Key, Interface_Type, Rating, Role_Key) 
         VALUES ('${unit.Name}', '${unit.Surname}', '${unit.Patronymic}', '${unit.Email}', ${unit.Sex_Key}, '${unit.Interface_Type}', '${unit.Rating}', ${unit.Role_Key});`);
     return await this.getLastRecord(
-      await MySQL2Commander.queryExec(`SELECT * FROM phys;`)
+      await (new MySQL2Commander).queryExec(`SELECT * FROM phys;`)
     );
   }
   async updateReg(
@@ -48,7 +48,7 @@ class PhysService {
       Password;
     }
   ) {
-    let res = await MySQL2Commander.queryExec(`UPDATE reg SET 
+    let res = await (new MySQL2Commander).queryExec(`UPDATE reg SET 
             Login = '${unit.Login}', Password = '${unit.Password}' WHERE reg.Phys_Key = ${physKey};`);
   }
   async updatePhys(
@@ -63,26 +63,26 @@ class PhysService {
       Rating;
     }
   ) {
-    let res = await MySQL2Commander.queryExec(
+    let res = await (new MySQL2Commander).queryExec(
       `UPDATE phys SET Name = '${unit.Name}', Surname = '${unit.Surname}', Patronymic = '${unit.Patronymic}', Email = '${unit.Email}', Sex_Key = '${unit.Sex_Key}', Interface_Type = '${unit.Interface_Type}', Rating = '${unit.Rating}' WHERE phys.Key = ${key};`
     );
   }
   async deleteOne(key) {
-    let res = await MySQL2Commander.queryExec(
+    let res = await (new MySQL2Commander).queryExec(
       `DELETE FROM phys WHERE phys.Key = ${key};`
     );
   }
   async fetchPhysKey(email) {
-    let res = await MySQL2Commander.queryExec(
+    let res = await (new MySQL2Commander).queryExec(
       `SELECT * FROM phys WHERE Email = '${email}'`
     );
     return res[0] ? res[0].Key : null;
   }
   async fetchOne(key) {
-    let res1 = await MySQL2Commander.queryExec(
+    let res1 = await (new MySQL2Commander).queryExec(
       `SELECT * FROM phys WHERE phys.Key = ${key};`
     );
-    let res2 = await MySQL2Commander.queryExec(
+    let res2 = await (new MySQL2Commander).queryExec(
       `SELECT * FROM reg WHERE reg.Phys_Key = ${res1[0].Key};`
     );
     return { reg: res2[0], phys: res1[0] };

@@ -6,7 +6,7 @@ import Misc from "./misc";
 
 class FuzzyLogic {
   async jsonRuleBase(): Promise<void> {
-    let res1 = await MySQL2Commander.queryExec("SELECT * FROM rule;");
+    let res1 = await (new MySQL2Commander).queryExec("SELECT * FROM rule;");
     if (fs.existsSync(process.env.MAMDANI_DIR)) {
       fs.writeFileSync(
         `${process.env.MAMDANI_DIR}/rules.json`,

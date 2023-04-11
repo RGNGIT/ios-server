@@ -27,20 +27,19 @@ class MySQL2Commander {
 
   public async queryExec(queryText: string): Promise<any> {
     return new Promise((resolve, reject) => {
-      this.openConnection().then((con) => {
-        con.query(queryText, (err, res, meta) => {
+      this.openConnection().then((connection) => {
+        connection.query(queryText, (err, res, meta) => {
           if (err) {
-            con.end();
+            connection.end();
             reject(err);
           } else {
-            con.end();
+            connection.end();
             resolve(res);
           }
         });
-        
       });
     });
   }
 }
 
-export default new MySQL2Commander();
+export default MySQL2Commander;
