@@ -134,7 +134,11 @@ class Test {
     await MySQL2Commander.queryExec(`UPDATE discipline SET Entry_Test_Key = ${Test_Key} WHERE discipline.Key = ${Discip_Key};`);
   }
   async addTestResult(Phys_Key, Test_Key, Result, Discip_Key) {
-    await MySQL2Commander.queryExec(`INSERT INTO test_results (Phys_Key, Test_Key, Result, Discip_Key) VALUES (${Phys_Key}, ${Test_Key}, '${Result}', ${Discip_Key});`);
+    if(Discip_Key) {
+      await MySQL2Commander.queryExec(`INSERT INTO test_results (Phys_Key, Test_Key, Result, Discip_Key) VALUES (${Phys_Key}, ${Test_Key}, '${Result}', ${Discip_Key});`);
+    } else {
+      await MySQL2Commander.queryExec(`INSERT INTO test_results (Phys_Key, Test_Key, Result) VALUES (${Phys_Key}, ${Test_Key}, '${Result}');`);
+    }
   }
   async writeImg(fileKey) {
     if(fileKey != "NULL") {
