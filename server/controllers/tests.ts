@@ -58,7 +58,7 @@ class Tests {
         await TestService.writeAnswer(
           await Misc.formatter(i.varName),
           i.correct,
-          res1.Key
+          res1.insertId
         );
         // await Misc.logger(JSON.stringify(res3), false);
         // questions++;
@@ -193,13 +193,13 @@ class Tests {
       );
       // const addedTest = await TestService.getLastTest();
       if (disciplineKey) {
-        await TestService.addToDiscipline(disciplineKey, res1.Key);
+        await TestService.addToDiscipline(disciplineKey, res1.insertId);
       }
       await Misc.logger(JSON.stringify(res1), false);
       res.send(
         await ResultHandler.result<string>(
           "OK",
-          res1.Key
+          res1.insertId
           // await Misc.logger("Метод SUBMIT_TEST успешно прогнан!", false)
         )
       );

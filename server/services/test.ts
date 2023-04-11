@@ -20,9 +20,9 @@ class Test {
   }
   async submitTest(difficulty, name) {
     let res = await MySQL2Commander.queryExec(
-      `INSERT INTO test (Test_Type_Key, Name) VALUES (${difficulty}, '${name}'); SELECT LAST_INSERT_ID() as 'Key';`
+      `INSERT INTO test (Test_Type_Key, Name) VALUES (${difficulty}, '${name}')`
     );
-    return res[0];
+    return res;
   }
   async getLastTest() {
     let res = await MySQL2Commander.queryExec(`SELECT * FROM test;`);
@@ -42,14 +42,14 @@ class Test {
     let res;
     if(imgKey) {
       res = await MySQL2Commander.queryExec(
-        `INSERT INTO test_question (Test_Key, Header, Img_Key) VALUES (${testKey}, '${questionName}', ${imgKey}); SELECT LAST_INSERT_ID() as 'Key';`
+        `INSERT INTO test_question (Test_Key, Header, Img_Key) VALUES (${testKey}, '${questionName}', ${imgKey});`
       );
     } else {
       res = await MySQL2Commander.queryExec(
-        `INSERT INTO test_question (Test_Key, Header) VALUES (${testKey}, '${questionName}'); SELECT LAST_INSERT_ID() as 'Key';`
+        `INSERT INTO test_question (Test_Key, Header) VALUES (${testKey}, '${questionName}');`
       );
     }
-    return res[0];
+    return res;
   }
   async writeAnswer(text, isCorrect, questionKey, Img_Key?) {
     let res;
