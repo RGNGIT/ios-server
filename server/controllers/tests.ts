@@ -338,7 +338,7 @@ class Tests {
         true
       );
       let testMeta = await TestService.fetchTestMetaByKey(req.params.id);
-      const disciplines = await TestService.fetchDisciplineWithEntryTest(testMeta.Key);
+      const disciplines = await TestService.fetchDisciplineWithEntryTest(req.params.id);
       let testType = await TestService.fetchTestTypeByKey(testMeta[0].Test_Type_Key);
       let res1 = await TestService.fetchQuestionsByKey(req.params.id);
       for await (let i of res1) {
