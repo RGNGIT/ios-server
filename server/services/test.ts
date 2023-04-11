@@ -176,6 +176,10 @@ class Test {
     }
     await MySQL2Commander.queryExec(request);
   }
+  async fetchTestResults(Phys_Key, Discip_Key) {
+    const res = await MySQL2Commander.queryExec(`SELECT * FROM test_results WHERE test_results.Phys_Key = ${Phys_Key} AND test_results.Discip_Key = ${Discip_Key};`);
+    return res;
+  }
 }
 
 export default new Test();
