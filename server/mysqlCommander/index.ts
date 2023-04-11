@@ -30,11 +30,14 @@ class MySQL2Commander {
       this.openConnection().then((con) => {
         con.query(queryText, (err, res, meta) => {
           if (err) {
+            con.end();
             reject(err);
           } else {
+            con.end();
             resolve(res);
           }
         });
+        
       });
     });
   }
