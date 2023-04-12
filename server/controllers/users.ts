@@ -298,6 +298,23 @@ class UserController {
       );
     }
   }
+  async getAllUsers(req: Request, res: Response): Promise<void> {
+    try {
+      const users = await PhysService.fetchAll();
+      res.json(
+        await ResultHandler.result<Array<{}>>("OK", users)
+      );
+    } catch(err) {
+      await Misc.logger(err, false);
+      res.json(
+        await ResultHandler.result<{
+          Code: number;
+          Error: string;
+          AdditionalInfo: object;
+        }>("ERROR", await ResultHandler.buildError("GET_ALL_USERS", err))
+      );
+    }
+  }
 }
 
 export default new UserController();

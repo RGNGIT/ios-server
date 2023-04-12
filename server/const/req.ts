@@ -30,6 +30,7 @@ export default {
   UPDATE_USER_INFO: "/updateUserInfo", // PATCH
   REFRESH_SESSION: "/refreshSession", // POST
   GET_FUZZY_STATUS: "/getFuzzyStatus",
+  GET_ALL_USERS: "/getAllUsers",
   /// Дисциплины
   POST_NEW_DISCIPLINE: "/postDiscipline",
   GET_DISCIPLINES: "/getDisciplines",

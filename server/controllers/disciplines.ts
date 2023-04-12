@@ -38,7 +38,13 @@ class Disciplines {
   }
   async getTopics(req: Request, res: Response): Promise<void> {
     try {
-      const result = await DisciplineService.fetchAllTopics();
+      const { discipline, difficulty } = req.query;
+      let result;
+      if(!discipline) {
+        result = await DisciplineService.fetchAllTopics();
+      } else {
+        result = await DisciplineService.fetchTopicsByDiscipline(discipline, difficulty);
+      }
       await Misc.logger(JSON.stringify(result), false);
       res.send(
         await ResultHandler.result<Array<{}>>(
@@ -105,6 +111,7 @@ class Disciplines {
       );
     }
   }
+  // NEEDED?
   async getTopicMaterial(req: Request, res: Response): Promise<void> {
 
   }

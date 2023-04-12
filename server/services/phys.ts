@@ -87,6 +87,13 @@ class PhysService {
     );
     return { reg: res2[0], phys: res1[0] };
   }
+  async fetchAll() {
+    let res = await (new MySQL2Commander).queryExec(`SELECT * FROM phys JOIN reg ON reg.Phys_Key = phys.Key;`);
+    return res;
+  }
+  async writeStatus(block: { Perseverance, Self_Development, Attentiveness, Responsibility, Stress, Discipline, Result, Phys_Key, Discip_Key }) {
+    await (new MySQL2Commander).queryExec(`INSERT INTO status (${Object.keys(block).join(', ')}, DateGot) VALUES (${Object.values(block).join(', ')}, NOW());`);
+  }
 }
 
 export default new PhysService();

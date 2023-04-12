@@ -37,6 +37,21 @@ class DisciplineService {
       discipline.Key = user_discipline.Discip_Key;`);
     return res;
   }
+  async fetchTopicsByDiscipline(Key, Diff_Level_Key?) {
+    const res = await (new MySQL2Commander).queryExec(`
+    SELECT 
+    a.Key as TopicKey, 
+    a.Name, 
+    a.Number, 
+    a.Topic_Weight, 
+    b.Key as MaterialKey,
+    b.Diff_Level_Key,
+    b.File_Link,
+    b.Test_Key
+    FROM topic as a, topic_material as b 
+    WHERE a.Discip_Key = ${Key} AND a.Key = b.Topic_Key ${(Diff_Level_Key ? `AND b.Diff_Level_Key = ${Diff_Level_Key}` : ``)};`);
+    return res;
+  }
 }
 
 export default new DisciplineService();

@@ -3,6 +3,7 @@ import FuzzyLogic from "../services/fuzzy";
 import TestService from "../services/test";
 import ResultHandler from "../const/respond";
 import Misc from "../services/misc";
+import PhysService from "../services/phys";
 
 enum Terms {
   PERSEVERANCE = 21,
@@ -14,8 +15,8 @@ enum Terms {
 }
 
 function fetchTermResult(testResults, termId) {
-  for(const result of testResults) {
-    if(result.testType.Key == termId) {
+  for (const result of testResults) {
+    if (result.testType.Key == termId) {
       return result;
     }
   }
@@ -32,7 +33,7 @@ class FuzzyAIController {
     try {
       const { physKey, disciplineKey } = req.query;
       const testResults = await TestService.fetchTestResults(physKey, disciplineKey);
-      for await(const result of testResults) {
+      for await (const result of testResults) {
         const testMeta = (await TestService.fetchTestMetaByKey(result.Test_Key))[0];
         result.testType = await TestService.fetchTestTypeByKey(testMeta.Test_Type_Key);
       }
@@ -45,9 +46,23 @@ class FuzzyAIController {
         fetchTermResult(testResults, Terms.STRESS)
       ];
       let termArray = [];
-      for(const rawTerm of rawTermArray) {
+      for (const rawTerm of rawTermArray) {
         termArray.push(definePercentageOfTest(rawTerm.Result));
       }
+      const result = JSON.parse(
+        await Misc.pyJsonFix(await FuzzyLogic.getFuzzyResult(termArray))
+      );
+      await PhysService.writeStatus({
+        Perseverance: termArray[3],
+        Self_Development: termArray[1],
+        Attentiveness: termArray[4],
+        Responsibility: termArray[2],
+        Stress: termArray[5],
+        Discipline: termArray[0],
+        Result: result.Result,
+        Phys_Key: physKey,
+        Discip_Key: disciplineKey
+      });
       res.json(
         await ResultHandler.result<{
           Result: number;
@@ -55,12 +70,10 @@ class FuzzyAIController {
           ResultFunc: object;
         }>(
           "OK",
-          JSON.parse(
-            await Misc.pyJsonFix(await FuzzyLogic.getFuzzyResult(termArray))
-          )
+          result
         )
       );
-    } catch(err) {
+    } catch (err) {
       await Misc.logger(err, false);
       res.json(
         ResultHandler.result<{
