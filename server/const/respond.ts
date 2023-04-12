@@ -35,7 +35,8 @@ enum ErrCode {
   GET_TEST_RESULTS_ERROR =         33,
   GET_COMPLETE_DISCIPLINES_ERROR = 34,
   GET_ALL_USERS_ERROR =            35,
-  GET_STORED_STATUS_ERROR =        36
+  GET_STORED_STATUS_ERROR =        36,
+  GET_DIFFICULTY_LIST_ERROR =      37
 }
 
 class ResultHandler {

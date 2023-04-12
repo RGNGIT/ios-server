@@ -39,5 +39,6 @@ export default {
   GET_TOPICS: "/getTopics",
   POST_TOPIC_MATERIAL: "/postTopicMaterial",
   CONNECT_DISCIPLINE_USER: "/connectUserDiscipline",
-  GET_MY_DISCIPLINES: "/getMyDisciplines"
+  GET_MY_DISCIPLINES: "/getMyDisciplines",
+  GET_DIFFICULTY_LIST: "/getSlojnaList"
 };

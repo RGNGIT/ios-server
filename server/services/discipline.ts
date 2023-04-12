@@ -52,6 +52,10 @@ class DisciplineService {
     WHERE a.Discip_Key = ${Key} AND a.Key = b.Topic_Key ${(Diff_Level_Key ? `AND b.Diff_Level_Key = ${Diff_Level_Key}` : ``)};`);
     return res;
   }
+  async fetchDifficultyList() {
+    const res = await (new MySQL2Commander).queryExec(`SELECT * FROM difficulty_level;`);
+    return res;
+  }
 }
 
 export default new DisciplineService();

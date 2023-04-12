@@ -20,6 +20,26 @@ class Disciplines {
       );
     }
   }
+  async getDifficultyList(req: Request, res: Response): Promise<void> {
+    try {
+      const result = await DisciplineService.fetchDifficultyList();
+      res.json(
+        await ResultHandler.result<Array<{}>>(
+          "OK",
+          result
+        )
+      );
+    } catch (err) {
+      await Misc.logger(err, false);
+      res.json(
+        await ResultHandler.result<{
+          Code: number;
+          Error: string;
+          AdditionalInfo: object;
+        }>("ERROR", await ResultHandler.buildError("GET_DIFFICULTY_LIST", err))
+      );
+    }
+  }
   async addNewTopic(req: Request, res: Response): Promise<void> {
     try {
       const { Name, Number, Discip_Key, Topic_Weight } = req.body;
