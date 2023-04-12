@@ -1,6 +1,8 @@
 export default {
   /// ФаззиЛогик
   GET_FUZZY_RESULT: "/fuzzyResult",
+  GET_FUZZY_STATUS: "/getFuzzyStatus",
+  GET_STORED_STATUS: "/getStoredStatus",
   /// Тестики
   GET_TOPIC_LIST: "/getTopicList", // GET // *
   SUBMIT_QUESTION: "/submitQuestion", // POST // *
@@ -29,7 +31,6 @@ export default {
   GET_USER_INFO: "/userInfo/:id", // GET //
   UPDATE_USER_INFO: "/updateUserInfo", // PATCH
   REFRESH_SESSION: "/refreshSession", // POST
-  GET_FUZZY_STATUS: "/getFuzzyStatus",
   GET_ALL_USERS: "/getAllUsers",
   /// Дисциплины
   POST_NEW_DISCIPLINE: "/postDiscipline",

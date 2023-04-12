@@ -5,6 +5,10 @@ import Storage from "../const/object-storage";
 import Misc from "./misc";
 
 class FuzzyLogic {
+  async fetchStoredStatus(Phys_Key, Discip_Key) {
+    let res = await (new MySQL2Commander).queryExec(`SELECT * FROM status WHERE status.Phys_Key = ${Phys_Key} AND status.Discip_Key = ${Discip_Key};`);
+    return res;
+  }
   async jsonRuleBase(): Promise<void> {
     let res1 = await (new MySQL2Commander).queryExec("SELECT * FROM rule;");
     if (fs.existsSync(process.env.MAMDANI_DIR)) {

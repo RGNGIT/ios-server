@@ -6,5 +6,6 @@ const router = Router();
 
 router.get(SERVER.GET_FUZZY_RESULT, FuzzyAIController.getJsonReport);
 router.get(SERVER.GET_FUZZY_STATUS, FuzzyAIController.getStudentStatus);
+router.get(SERVER.GET_STORED_STATUS, FuzzyAIController.getStoredStatus);
 
 export default router;
