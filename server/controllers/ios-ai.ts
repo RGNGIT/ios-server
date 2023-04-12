@@ -60,6 +60,7 @@ class FuzzyAIController {
         Stress: termArray[5],
         Discipline: termArray[0],
         Result: result.Result,
+        Status: `'${result.Result_term}'`,
         Phys_Key: physKey,
         Discip_Key: disciplineKey
       });
