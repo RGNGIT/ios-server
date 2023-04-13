@@ -31,12 +31,20 @@ function definePercentageOfTest(result) {
 class FuzzyAIController {
   async getStoredStatus(req: Request, res: Response): Promise<void> {
     try {
-      const { physId, disciplineId } = req.query;
+      const { physId, disciplineId, last } = req.query;
       const result = await FuzzyLogic.fetchStoredStatus(physId, disciplineId);
+      let filteredResult = result[0];
+      if(last == "true") {
+        for(const status of result) {
+          if((new Date(status.DateGot)) > (new Date(filteredResult.DateGot))) {
+            filteredResult = status;
+          }
+        }
+      }
       res.json(
         await ResultHandler.result<Array<{}>>(
           "OK",
-          result
+          last == "true" ? filteredResult : result
         )
       );
     } catch(err) {
