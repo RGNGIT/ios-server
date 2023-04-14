@@ -12,5 +12,6 @@ router.post(SERVER.POST_TOPIC_MATERIAL, Disciplines.addNewTopicMaterial);
 router.post(SERVER.CONNECT_DISCIPLINE_USER, Disciplines.connectUserWithDiscipline);
 router.get(SERVER.GET_MY_DISCIPLINES, Disciplines.getMyDisciplines);
 router.get(SERVER.GET_DIFFICULTY_LIST, Disciplines.getDifficultyList);
+router.patch(SERVER.PATCH_TOPIC_MATERIAL, Disciplines.patchTopicMaterial);
 
 export default router;

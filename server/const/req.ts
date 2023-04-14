@@ -40,5 +40,6 @@ export default {
   POST_TOPIC_MATERIAL: "/postTopicMaterial",
   CONNECT_DISCIPLINE_USER: "/connectUserDiscipline",
   GET_MY_DISCIPLINES: "/getMyDisciplines",
-  GET_DIFFICULTY_LIST: "/getSlojnaList"
+  GET_DIFFICULTY_LIST: "/getSlojnaList",
+  PATCH_TOPIC_MATERIAL: "/editTopicMaterial/:id"
 };

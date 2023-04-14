@@ -56,11 +56,28 @@ class Disciplines {
       );
     }
   }
+  async patchTopicMaterial(req: Request, res: Response): Promise<void> {
+    try {
+      const { id } = req.params;
+      const { fileKey, testKey } = req.body;
+      await DisciplineService.patchTopicMaterial(id, { File_Key: fileKey, Test_Key: testKey });
+      res.send("OK");
+    } catch (err) {
+      await Misc.logger(err, false);
+      res.json(
+        await ResultHandler.result<{
+          Code: number;
+          Error: string;
+          AdditionalInfo: object;
+        }>("ERROR", await ResultHandler.buildError("PATCH_TOPIC_MATERIAL", err))
+      );
+    }
+  }
   async getTopics(req: Request, res: Response): Promise<void> {
     try {
       const { discipline, difficulty, raw } = req.query;
       let result;
-      if(!discipline) {
+      if (!discipline) {
         result = await DisciplineService.fetchAllTopics();
       } else {
         result = await DisciplineService.fetchTopicsByDiscipline(discipline, difficulty);

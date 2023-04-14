@@ -45,14 +45,24 @@ class Misc {
   }
   parseTypes(types) {
     let temp = '';
-    for(let i = 0; i < types.length; i++) {
-      if(types[i] != '[' && types[i] != ']') {
+    for (let i = 0; i < types.length; i++) {
+      if (types[i] != '[' && types[i] != ']') {
         temp += types[i];
       }
     }
     const splitTypes = temp.split(',');
     return splitTypes;
   }
+  formSets(block) {
+    let temp = '';
+    for (const key in block) {
+      if (!block[key]) {
+        continue;
+      }
+      temp += `${key} = '${block[key]}'${(key != Object.keys(block)[Object.keys(block).length - 1] ? ", " : "")} `;
+    }
+    return temp;
+  };
 }
 
 export default new Misc();

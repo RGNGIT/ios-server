@@ -1,4 +1,5 @@
 import MySQL2Commander from "../mysqlCommander";
+import Misc from "./misc";
 
 class DisciplineService {
   async addNew(Name, ShName) {
@@ -24,7 +25,7 @@ class DisciplineService {
     return res;
   }
   async addNewTopicMaterial(File_Link, Diff_Level_Key, Topic_Key, Test_Key) {
-    if(File_Link) {
+    if (File_Link) {
       await (new MySQL2Commander).queryExec(`INSERT INTO topic_material (File_Link, Diff_Level_Key, Topic_Key, Test_Key) VALUES ('${File_Link}', ${Diff_Level_Key}, ${Topic_Key}, ${Test_Key});`);
     } else {
       await (new MySQL2Commander).queryExec(`INSERT INTO topic_material (Diff_Level_Key, Topic_Key, Test_Key) VALUES (${Diff_Level_Key}, ${Topic_Key}, ${Test_Key});`);
@@ -54,13 +55,17 @@ class DisciplineService {
     b.Test_Key
     FROM topic as a, topic_material as b 
     WHERE a.Discip_Key = ${Key} AND a.Key = b.Topic_Key ${(Diff_Level_Key ? `AND b.Diff_Level_Key = ${Diff_Level_Key}` : ``)};`);
-    if(!res || res.length == 0) {
+    if (!res || res.length == 0) {
       res = await (new MySQL2Commander).queryExec(`SELECT * FROM topic WHERE topic.Discip_Key = ${Key};`);
     }
     return res;
   }
   async fetchDifficultyList() {
     const res = await (new MySQL2Commander).queryExec(`SELECT * FROM difficulty_level;`);
+    return res;
+  }
+  async patchTopicMaterial(Key, block: { File_Key, Test_Key }) {
+    const res = await (new MySQL2Commander).queryExec(`UPDATE topic_material SET ${Misc.formSets(block)} WHERE topic_material.Key = ${Key};`);
     return res;
   }
 }
