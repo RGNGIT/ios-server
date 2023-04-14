@@ -60,7 +60,7 @@ class Disciplines {
     try {
       const { id } = req.params;
       const { fileKey, testKey } = req.body;
-      await DisciplineService.patchTopicMaterial(id, { File_Key: fileKey, Test_Key: testKey });
+      await DisciplineService.patchTopicMaterial(id, { File_Link: fileKey, Test_Key: testKey });
       res.send("OK");
     } catch (err) {
       await Misc.logger(err, false);

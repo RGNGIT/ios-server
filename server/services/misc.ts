@@ -55,11 +55,17 @@ class Misc {
   }
   formSets(block) {
     let temp = '';
-    for (const key in block) {
-      if (!block[key]) {
-        continue;
+    const cleanObject = (block) => {
+      for(const key in block) {
+        if (!block[key]) {
+          delete block[key];
+        }
       }
-      temp += `${key} = '${block[key]}'${(key != Object.keys(block)[Object.keys(block).length - 1] ? ", " : "")} `;
+      return block;
+    }
+    block = cleanObject(block);
+    for (const key in block) {
+      temp += `${key} = ${(block[key] != "NULL" ? `'${block[key]}'` : 'NULL')}${(key != Object.keys(block)[Object.keys(block).length - 1] ? ", " : "")} `;
     }
     return temp;
   };

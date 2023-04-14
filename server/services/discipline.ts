@@ -64,7 +64,7 @@ class DisciplineService {
     const res = await (new MySQL2Commander).queryExec(`SELECT * FROM difficulty_level;`);
     return res;
   }
-  async patchTopicMaterial(Key, block: { File_Key, Test_Key }) {
+  async patchTopicMaterial(Key, block) {
     const res = await (new MySQL2Commander).queryExec(`UPDATE topic_material SET ${Misc.formSets(block)} WHERE topic_material.Key = ${Key};`);
     return res;
   }
