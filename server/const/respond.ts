@@ -37,7 +37,8 @@ enum ErrCode {
   GET_ALL_USERS_ERROR =            35,
   GET_STORED_STATUS_ERROR =        36,
   GET_DIFFICULTY_LIST_ERROR =      37,
-  PATCH_TOPIC_MATERIAL_ERROR =     38
+  PATCH_TOPIC_MATERIAL_ERROR =     38,
+  PATCH_DISCIPLINE_ERROR =         39
 }
 
 class ResultHandler {

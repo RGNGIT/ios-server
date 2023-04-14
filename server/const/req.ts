@@ -41,5 +41,6 @@ export default {
   CONNECT_DISCIPLINE_USER: "/connectUserDiscipline",
   GET_MY_DISCIPLINES: "/getMyDisciplines",
   GET_DIFFICULTY_LIST: "/getSlojnaList",
-  PATCH_TOPIC_MATERIAL: "/editTopicMaterial/:id"
+  PATCH_TOPIC_MATERIAL: "/editTopicMaterial/:id",
+  PATCH_DISCIPLINE: "/editDiscipline/:id"
 };

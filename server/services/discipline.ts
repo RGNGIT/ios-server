@@ -27,14 +27,14 @@ class DisciplineService {
   async addNewTopicMaterial(File_Link, Diff_Level_Key, Topic_Key, Test_Key) {
     if (File_Link && Test_Key) {
       await (new MySQL2Commander).queryExec(`INSERT INTO topic_material (File_Link, Diff_Level_Key, Topic_Key, Test_Key) VALUES ('${File_Link}', ${Diff_Level_Key}, ${Topic_Key}, ${Test_Key});`);
-    } 
-    if(File_Link && !Test_Key){
+    }
+    if (File_Link && !Test_Key) {
       await (new MySQL2Commander).queryExec(`INSERT INTO topic_material (File_Link, Diff_Level_Key, Topic_Key) VALUES ('${File_Link}', ${Diff_Level_Key}, ${Topic_Key});`);
     }
-    if(!File_Link && Test_Key){
+    if (!File_Link && Test_Key) {
       await (new MySQL2Commander).queryExec(`INSERT INTO topic_material (Diff_Level_Key, Topic_Key, Test_Key) VALUES (${Diff_Level_Key}, ${Topic_Key}, ${Test_Key});`);
-    }  
-    if(!File_Link && !Test_Key){
+    }
+    if (!File_Link && !Test_Key) {
       await (new MySQL2Commander).queryExec(`INSERT INTO topic_material (Diff_Level_Key, Topic_Key) VALUES (${Diff_Level_Key}, ${Topic_Key});`);
     }
   }
@@ -73,6 +73,10 @@ class DisciplineService {
   }
   async patchTopicMaterial(Key, block) {
     const res = await (new MySQL2Commander).queryExec(`UPDATE topic_material SET ${Misc.formSets(block)} WHERE topic_material.Key = ${Key};`);
+    return res;
+  }
+  async patchDiscipline(Key, block) {
+    const res = await (new MySQL2Commander).queryExec(`UPDATE discipline SET ${Misc.formSets(block)} WHERE discipline.Key = ${Key};`);
     return res;
   }
 }
