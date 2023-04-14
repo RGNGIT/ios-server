@@ -25,10 +25,17 @@ class DisciplineService {
     return res;
   }
   async addNewTopicMaterial(File_Link, Diff_Level_Key, Topic_Key, Test_Key) {
-    if (File_Link) {
+    if (File_Link && Test_Key) {
       await (new MySQL2Commander).queryExec(`INSERT INTO topic_material (File_Link, Diff_Level_Key, Topic_Key, Test_Key) VALUES ('${File_Link}', ${Diff_Level_Key}, ${Topic_Key}, ${Test_Key});`);
-    } else {
+    } 
+    if(File_Link && !Test_Key){
+      await (new MySQL2Commander).queryExec(`INSERT INTO topic_material (File_Link, Diff_Level_Key, Topic_Key) VALUES ('${File_Link}', ${Diff_Level_Key}, ${Topic_Key});`);
+    }
+    if(!File_Link && Test_Key){
       await (new MySQL2Commander).queryExec(`INSERT INTO topic_material (Diff_Level_Key, Topic_Key, Test_Key) VALUES (${Diff_Level_Key}, ${Topic_Key}, ${Test_Key});`);
+    }  
+    if(!File_Link && !Test_Key){
+      await (new MySQL2Commander).queryExec(`INSERT INTO topic_material (Diff_Level_Key, Topic_Key) VALUES (${Diff_Level_Key}, ${Topic_Key});`);
     }
   }
   async connectUserDiscipline(Phys_Key, Discip_Key) {
