@@ -50,7 +50,7 @@ class DisciplineService {
     return res;
   }
   async fetchTopicsByDiscipline(Key, Diff_Level_Key?) {
-    let res = await (new MySQL2Commander).queryExec(`
+    const res1 = await (new MySQL2Commander).queryExec(`
     SELECT 
     a.Key as TopicKey, 
     a.Name, 
@@ -62,10 +62,12 @@ class DisciplineService {
     b.Test_Key
     FROM topic as a, topic_material as b 
     WHERE a.Discip_Key = ${Key} AND a.Key = b.Topic_Key ${(Diff_Level_Key ? `AND b.Diff_Level_Key = ${Diff_Level_Key}` : ``)};`);
-    if (!res || res.length == 0) {
-      res = await (new MySQL2Commander).queryExec(`SELECT * FROM topic WHERE topic.Discip_Key = ${Key};`);
+    let res2 = await (new MySQL2Commander).queryExec(`SELECT * FROM topic WHERE topic.Discip_Key = ${Key};`);
+    for (const materializedTopic of res1) {
+      res2 = res2.filter(item => item.Key != materializedTopic.TopicKey);
     }
-    return res;
+    const result = [...res1, ...res2];
+    return result;
   }
   async fetchDifficultyList() {
     const res = await (new MySQL2Commander).queryExec(`SELECT * FROM difficulty_level;`);
