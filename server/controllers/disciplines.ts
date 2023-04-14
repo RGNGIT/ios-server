@@ -63,11 +63,7 @@ class Disciplines {
       if(!discipline) {
         result = await DisciplineService.fetchAllTopics();
       } else {
-        if(raw && raw == "true") {
-          result = await DisciplineService.fetchRawTopics(discipline);
-        } else {
-          result = await DisciplineService.fetchTopicsByDiscipline(discipline, difficulty);
-        }
+        result = await DisciplineService.fetchTopicsByDiscipline(discipline, difficulty);
       }
       await Misc.logger(JSON.stringify(result), false);
       res.send(
