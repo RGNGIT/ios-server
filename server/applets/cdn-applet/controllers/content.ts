@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import FileService from "../services/file";
+import FtpService from "../services/ftp";
 
 class ContentController {
   async getFile(req: Request, res: Response): Promise<void> {
@@ -20,6 +21,9 @@ class ContentController {
     } catch (err) {
       res.send(err);
     }
+  }
+  async trigger(req, res: Response): Promise<void> {
+    
   }
 }
 
