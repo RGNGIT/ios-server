@@ -226,7 +226,7 @@ class Disciplines {
   }
   async getDisciplineTestResults(req: Request, res: Response): Promise<void> {
     try {
-      const {id} = req.params;
+      const { id } = req.params;
       const result = await TestService.fetchTestResultsOfDiscipline(id);
       res.send(
         await ResultHandler.result<Array<{}>>(
@@ -242,6 +242,27 @@ class Disciplines {
           Error: string;
           AdditionalInfo: object;
         }>("ERROR", await ResultHandler.buildError("GET_DISCIPLINE_RESULTS", err))
+      );
+    }
+  }
+  async getAllDisciplineUsers(req: Request, res: Response): Promise<void> {
+    try {
+      const { id } = req.params;
+      const result = await DisciplineService.fetchUsersByDisciplineKey(id);
+      res.send(
+        await ResultHandler.result<Array<{}>>(
+          "OK",
+          result
+        )
+      );
+    } catch (err) {
+      await Misc.logger(err, false);
+      res.json(
+        await ResultHandler.result<{
+          Code: number;
+          Error: string;
+          AdditionalInfo: object;
+        }>("ERROR", await ResultHandler.buildError("GET_DISCIPLINE_USERS", err))
       );
     }
   }

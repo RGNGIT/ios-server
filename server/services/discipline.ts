@@ -52,7 +52,7 @@ class DisciplineService {
   async fetchTopicsByDiscipline(Key, Diff_Level_Key?) {
     const res1 = await (new MySQL2Commander).queryExec(`
     SELECT 
-    a.Key as TopicKey, 
+    a.Key, 
     a.Name, 
     a.Number, 
     a.Topic_Weight, 
@@ -78,6 +78,15 @@ class DisciplineService {
   }
   async patchDiscipline(Key, block) {
     const res = await (new MySQL2Commander).queryExec(`UPDATE discipline SET ${Misc.formSets(block)} WHERE discipline.Key = ${Key};`);
+    return res;
+  }
+  async fetchUsersByDisciplineKey(Key) {
+    const res = await (new MySQL2Commander).queryExec(`
+    SELECT 
+    a.Key, a.Name, a.Surname, a.Patronymic, 
+    c.Key as Role_Key, c.Name as Role_Name 
+    FROM phys as a, user_discipline as b, role as c 
+    WHERE b.Discip_Key = ${Key} AND a.Key = b.Phys_Key AND a.Role_Key = c.Key;`);
     return res;
   }
 }
