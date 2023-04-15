@@ -22,9 +22,6 @@ class ContentController {
       res.send(err);
     }
   }
-  async trigger(req, res: Response): Promise<void> {
-    
-  }
 }
 
 export default new ContentController();
