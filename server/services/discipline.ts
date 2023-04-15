@@ -3,7 +3,7 @@ import Misc from "./misc";
 
 class DisciplineService {
   async addNew(Name, ShName) {
-    await (new MySQL2Commander).queryExec(`INSERT INTO discipline (Name, ShName) VALUES ('${Name}', '${ShName}');`);
+    return await (new MySQL2Commander).queryExec(`INSERT INTO discipline (Name, ShName) VALUES ('${Name}', '${ShName}');`);
   }
   async fetchAll() {
     let res = await (new MySQL2Commander).queryExec(`SELECT * FROM discipline;`);

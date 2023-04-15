@@ -8,7 +8,8 @@ class Disciplines {
   async addNewDiscipline(req: Request, res: Response): Promise<void> {
     try {
       const { Name, ShName } = req.body;
-      await DisciplineService.addNew(Name, ShName);
+      const newDiscipline = await DisciplineService.addNew(Name, ShName);
+      await DisciplineService.connectUserDiscipline(req.headers.userkey, newDiscipline.insertId);
       res.send("OK");
     } catch (err) {
       await Misc.logger(err, false);
