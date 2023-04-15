@@ -88,7 +88,10 @@ class PhysService {
     return { reg: res2[0], phys: res1[0] };
   }
   async fetchAll() {
-    let res = await (new MySQL2Commander).queryExec(`SELECT * FROM phys JOIN reg ON reg.Phys_Key = phys.Key;`);
+    let res = await (new MySQL2Commander).queryExec(`
+    SELECT
+    phys.Key, phys.Name, phys.Surname, phys.Patronymic, phys.Email, reg.Login, reg.Reg_Date, role.Key as Role_Key, role.Name as Role_Name 
+    FROM phys JOIN reg ON reg.Phys_Key = phys.Key JOIN role ON phys.Role_Key = role.Key;`);
     return res;
   }
   async writeStatus(block: { Perseverance, Self_Development, Attentiveness, Responsibility, Stress, Discipline, Result, Status, Phys_Key, Discip_Key }) {
