@@ -14,5 +14,6 @@ router.get(SERVER.GET_MY_DISCIPLINES, Disciplines.getMyDisciplines);
 router.get(SERVER.GET_DIFFICULTY_LIST, Disciplines.getDifficultyList);
 router.patch(SERVER.PATCH_TOPIC_MATERIAL, Disciplines.patchTopicMaterial);
 router.patch(SERVER.PATCH_DISCIPLINE, Disciplines.editDiscipline);
+router.get(SERVER.GET_DISCIPLINE_RESULTS, Disciplines.getDisciplineTestResults);
 
 export default router;

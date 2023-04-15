@@ -135,9 +135,9 @@ class Test {
   }
   async addTestResult(Phys_Key, Test_Key, Result, Discip_Key) {
     if(Discip_Key) {
-      await (new MySQL2Commander).queryExec(`INSERT INTO test_results (Phys_Key, Test_Key, Result, Discip_Key) VALUES (${Phys_Key}, ${Test_Key}, '${Result}', ${Discip_Key});`);
+      await (new MySQL2Commander).queryExec(`INSERT INTO test_results (Phys_Key, Test_Key, Result, Discip_Key, Date_Submitted) VALUES (${Phys_Key}, ${Test_Key}, '${Result}', ${Discip_Key}, NOW());`);
     } else {
-      await (new MySQL2Commander).queryExec(`INSERT INTO test_results (Phys_Key, Test_Key, Result) VALUES (${Phys_Key}, ${Test_Key}, '${Result}');`);
+      await (new MySQL2Commander).queryExec(`INSERT INTO test_results (Phys_Key, Test_Key, Result, Date_Submitted) VALUES (${Phys_Key}, ${Test_Key}, '${Result}', NOW());`);
     }
   }
   async writeImg(fileKey) {
@@ -178,6 +178,20 @@ class Test {
   }
   async fetchTestResults(Phys_Key, Discip_Key) {
     const res = await (new MySQL2Commander).queryExec(`SELECT * FROM test_results WHERE test_results.Phys_Key = ${Phys_Key} AND test_results.Discip_Key = ${Discip_Key};`);
+    return res;
+  }
+  async fetchTestResultsOfDiscipline(Discip_Key) {
+    const res = await (new MySQL2Commander).queryExec(`
+    SELECT 
+    e.Name as TestName, a.Result, a.Date_Submitted, 
+    b.Name, b.Surname, b.Patronymic,
+    d.Name as Difficulty 
+    FROM test_results as a, phys as b, topic_material as c, difficulty_level as d, test as e
+    WHERE a.Discip_Key = ${Discip_Key} AND 
+    a.Test_Key = e.Key AND 
+    a.Phys_Key = b.Key AND 
+    a.Test_Key = c.Test_Key AND 
+    c.Diff_Level_Key = d.Key;`);
     return res;
   }
 }

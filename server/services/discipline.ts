@@ -66,8 +66,7 @@ class DisciplineService {
     for (const materializedTopic of res1) {
       res2 = res2.filter(item => item.Key != materializedTopic.TopicKey);
     }
-    const result = [...res1, ...res2];
-    return result;
+    return [...res1, ...res2];
   }
   async fetchDifficultyList() {
     const res = await (new MySQL2Commander).queryExec(`SELECT * FROM difficulty_level;`);

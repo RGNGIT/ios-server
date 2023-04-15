@@ -42,5 +42,6 @@ export default {
   GET_MY_DISCIPLINES: "/getMyDisciplines",
   GET_DIFFICULTY_LIST: "/getSlojnaList",
   PATCH_TOPIC_MATERIAL: "/editTopicMaterial/:id",
-  PATCH_DISCIPLINE: "/editDiscipline/:id"
+  PATCH_DISCIPLINE: "/editDiscipline/:id",
+  GET_DISCIPLINE_RESULTS: "/getDisciplineResults/:id"
 };

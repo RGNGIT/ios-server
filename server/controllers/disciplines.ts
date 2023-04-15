@@ -2,6 +2,7 @@ import Misc from "../services/misc";
 import { Request, Response } from "express";
 import ResultHandler from "../const/respond";
 import DisciplineService from "../services/discipline";
+import TestService from "../services/test";
 
 class Disciplines {
   async addNewDiscipline(req: Request, res: Response): Promise<void> {
@@ -219,6 +220,27 @@ class Disciplines {
           Error: string;
           AdditionalInfo: object;
         }>("ERROR", await ResultHandler.buildError("GET_MY_DISCIPLINES", err))
+      );
+    }
+  }
+  async getDisciplineTestResults(req: Request, res: Response): Promise<void> {
+    try {
+      const {id} = req.params;
+      const result = await TestService.fetchTestResultsOfDiscipline(id);
+      res.send(
+        await ResultHandler.result<Array<{}>>(
+          "OK",
+          result
+        )
+      );
+    } catch (err) {
+      await Misc.logger(err, false);
+      res.json(
+        await ResultHandler.result<{
+          Code: number;
+          Error: string;
+          AdditionalInfo: object;
+        }>("ERROR", await ResultHandler.buildError("GET_DISCIPLINE_RESULTS", err))
       );
     }
   }
