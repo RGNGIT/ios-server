@@ -90,6 +90,17 @@ class DisciplineService {
     return res;
   }
   async deleteTopic(Key) {
+    const deleteMaterial = (Key) => `DELETE FROM topic_material WHERE topic_material.Key = ${Key};`;
+    const materials = await (new MySQL2Commander).queryExec(`
+    SELECT topic_material.Key 
+    FROM topic_material 
+    WHERE topic_material.Topic_Key = ${Key};
+    `);
+    let request = '';
+    for (const material of materials) {
+      request += deleteMaterial(material.Key);
+    }
+    await (new MySQL2Commander).queryExec(request);
     await (new MySQL2Commander).queryExec(`DELETE FROM topic WHERE topic.Key = ${Key};`);
   }
 }
