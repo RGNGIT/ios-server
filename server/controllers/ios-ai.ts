@@ -121,8 +121,8 @@ class FuzzyAIController {
         Number(req.query.t2),
         Number(req.query.t3),
         Number(req.query.t4),
-        Number(req.query.t5),
-        Number(req.query.t6),
+        //Number(req.query.t5),
+        //Number(req.query.t6),
       ];
       res.json(
         await ResultHandler.result<{

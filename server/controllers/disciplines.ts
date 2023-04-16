@@ -282,6 +282,21 @@ class Disciplines {
       );
     }
   }
+  async addEduTime(req: Request, res: Response): Promise<void> {
+    try {
+      const { time, physKey, topicMaterialKey } = req.body;
+      
+    } catch (err) {
+      await Misc.logger(err, false);
+      res.json(
+        await ResultHandler.result<{
+          Code: number;
+          Error: string;
+          AdditionalInfo: object;
+        }>("ERROR", await ResultHandler.buildError("", err))
+      );
+    }
+  }
 }
 
 

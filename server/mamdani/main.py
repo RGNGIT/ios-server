@@ -7,10 +7,8 @@ import LingVar
 import sys
 
 # считываем термы
-Path = ''
 
-if(len(sys.argv) > 7):
-    Path = "%s/" % (sys.argv[7])
+Path = "%s/" % (sys.argv[-1])
 
 with open("%sterms.json" % (Path), encoding="cp1251") as f:
     terms = json.load(f)

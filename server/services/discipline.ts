@@ -103,6 +103,9 @@ class DisciplineService {
     await (new MySQL2Commander).queryExec(request);
     await (new MySQL2Commander).queryExec(`DELETE FROM topic WHERE topic.Key = ${Key};`);
   }
+  async addEduTime(Time, Phys_Key, Topic_Material_Key) {
+    
+  }
 }
 
 export default new DisciplineService();
