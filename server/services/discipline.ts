@@ -89,6 +89,9 @@ class DisciplineService {
     WHERE b.Discip_Key = ${Key} AND a.Key = b.Phys_Key AND a.Role_Key = c.Key;`);
     return res;
   }
+  async deleteTopic(Key) {
+    await (new MySQL2Commander).queryExec(`DELETE FROM topic WHERE topic.Key = ${Key};`);
+  }
 }
 
 export default new DisciplineService();

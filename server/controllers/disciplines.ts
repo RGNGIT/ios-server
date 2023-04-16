@@ -92,9 +92,25 @@ class Disciplines {
       );
     }
   }
+  async deleteTopic(req: Request, res: Response): Promise<void> {
+    try {
+      const { id } = req.params;
+      await DisciplineService.deleteTopic(id);
+      res.send("OK");
+    } catch (err) {
+      await Misc.logger(err, false);
+      res.json(
+        await ResultHandler.result<{
+          Code: number;
+          Error: string;
+          AdditionalInfo: object;
+        }>("ERROR", await ResultHandler.buildError("DELETE_TOPIC", err))
+      );
+    }
+  }
   async getTopics(req: Request, res: Response): Promise<void> {
     try {
-      const { discipline, difficulty, raw } = req.query;
+      const { discipline, difficulty } = req.query;
       let result;
       if (!discipline) {
         result = await DisciplineService.fetchAllTopics();
