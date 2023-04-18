@@ -6,12 +6,12 @@ import Misc from "../services/misc";
 import PhysService from "../services/phys";
 
 enum Terms {
-  PERSEVERANCE = 21,
+  PERSEVERANCE =     21,
   SELF_DEVELOPMENT = 22,
-  ATTENTIVENESS = 23,
-  RESPONSIBILITY = 24,
-  STRESS = 25,
-  DISCIPLINE = 26
+  ATTENTIVENESS =    23,
+  RESPONSIBILITY =   24,
+  STRESS =           25,
+  DISCIPLINE =       26
 }
 
 function fetchTermResult(testResults, termId) {
@@ -29,14 +29,14 @@ function definePercentageOfTest(result) {
 }
 
 class FuzzyAIController {
-  async getStoredStatus(req: Request, res: Response): Promise<void> {
+  async getStoredStatusIos(req: Request, res: Response): Promise<void> {
     try {
-      const { physId, disciplineId, last } = req.query;
-      const result = await FuzzyLogic.fetchStoredStatus(physId, disciplineId);
+      const { physKey, disciplineKey, last } = req.query;
+      const result = await FuzzyLogic.fetchStoredStatusIos(physKey, disciplineKey);
       let filteredResult = result[0];
-      if(last == "true") {
-        for(const status of result) {
-          if((new Date(status.DateGot)) > (new Date(filteredResult.DateGot))) {
+      if (last == "true") {
+        for (const status of result) {
+          if ((new Date(status.DateGot)) > (new Date(filteredResult.DateGot))) {
             filteredResult = status;
           }
         }
@@ -58,7 +58,36 @@ class FuzzyAIController {
       );
     }
   }
-  async getStudentStatus(req: Request, res: Response): Promise<void> {
+  async getStoredStatusMain(req: Request, res: Response): Promise<void> {
+    try {
+      const { physKey, disciplineKey, last } = req.query;
+      const result = await FuzzyLogic.fetchStoredStatusMain(physKey, disciplineKey);
+      let filteredResult = result[0];
+      if (last == "true") {
+        for (const status of result) {
+          if ((new Date(status.DateGot)) > (new Date(filteredResult.DateGot))) {
+            filteredResult = status;
+          }
+        }
+      }
+      res.json(
+        await ResultHandler.result<Array<{}>>(
+          "OK",
+          last == "true" ? filteredResult : result
+        )
+      );
+    } catch (err) {
+      await Misc.logger(err, false);
+      res.json(
+        ResultHandler.result<{
+          Code: number;
+          Error: string;
+          AdditionalInfo: object;
+        }>("ERROR", await ResultHandler.buildError("GET_STORED_STATUS", err))
+      );
+    }
+  }
+  async getStudentStatusMain(req: Request, res: Response): Promise<void> {
     try {
       const { physKey, disciplineKey } = req.query;
       const testResults = await TestService.fetchTestResults(physKey, disciplineKey);
@@ -79,7 +108,7 @@ class FuzzyAIController {
         termArray.push(definePercentageOfTest(rawTerm.Result));
       }
       const result = JSON.parse(
-        await Misc.pyJsonFix(await FuzzyLogic.getFuzzyResult(termArray))
+        await Misc.pyJsonFix(await FuzzyLogic.getFuzzyResult(termArray, false))
       );
       await PhysService.writeStatus({
         Perseverance: termArray[3],
@@ -116,14 +145,28 @@ class FuzzyAIController {
   }
   async getJsonReport(req: Request, res: Response): Promise<void> {
     try {
+      const { ios, physKey, disciplineKey, eduTimeKey } = req.query;
       let termArray = [
         Number(req.query.t1),
         Number(req.query.t2),
         Number(req.query.t3),
         Number(req.query.t4),
-        //Number(req.query.t5),
-        //Number(req.query.t6),
+        Number(req.query.t5),
+        Number(req.query.t6),
       ];
+      const result = JSON.parse(await Misc.pyJsonFix(await FuzzyLogic.getFuzzyResult(termArray, ios == "true")));
+      if(ios == "true") {
+        await PhysService.writeStatusIos({
+          Test_Difficulty: termArray[0], 
+          Answer_Time: termArray[1], 
+          Correct_Percentage: termArray[2], 
+          Topic_Time_Key: eduTimeKey,
+          Result: result.Result, 
+          Status: `'${result.Result_term}'`,
+          Phys_Key: physKey,
+          Discip_Key: disciplineKey
+        });
+      }
       res.json(
         await ResultHandler.result<{
           Result: number;
@@ -131,9 +174,7 @@ class FuzzyAIController {
           ResultFunc: object;
         }>(
           "OK",
-          JSON.parse(
-            await Misc.pyJsonFix(await FuzzyLogic.getFuzzyResult(termArray))
-          )
+          result
         )
       );
       await Misc.logger("Метод GET_FUZZY_RESULT успешно прогнан!", false);

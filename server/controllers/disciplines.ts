@@ -285,7 +285,13 @@ class Disciplines {
   async addEduTime(req: Request, res: Response): Promise<void> {
     try {
       const { time, physKey, topicMaterialKey } = req.body;
-      
+      const result = await DisciplineService.addEduTime(time, physKey, topicMaterialKey);
+      res.send(
+        await ResultHandler.result<{}>(
+          "OK",
+          { Key: result.insertId }
+        )
+      );
     } catch (err) {
       await Misc.logger(err, false);
       res.json(

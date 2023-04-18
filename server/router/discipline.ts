@@ -17,5 +17,6 @@ router.patch(SERVER.PATCH_DISCIPLINE, Disciplines.editDiscipline);
 router.get(SERVER.GET_DISCIPLINE_RESULTS, Disciplines.getDisciplineTestResults);
 router.get(SERVER.GET_DISCIPLINE_USERS, Disciplines.getAllDisciplineUsers);
 router.delete(SERVER.DELETE_TOPIC, Disciplines.deleteTopic);
+router.post(SERVER.ADD_EDU_TIME, Disciplines.addEduTime);
 
 export default router;

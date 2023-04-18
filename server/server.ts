@@ -49,9 +49,9 @@ class Server {
     try {
       await this.defineMiddlewares(app, router);
       await buildRouter(router); // Настроить руты
-      //await FL.jsonRuleBase(); // Считать базу правил
-      //await FL.jsonValidTerms(); // Актуальные термы
-      //await FL.jsonTrapezoidDots(); // Точки трапеций
+      // await FL.jsonRuleBase(); // Считать базу правил
+      // await FL.jsonValidTerms(); // Актуальные термы
+      // await FL.jsonTrapezoidDots(); // Точки трапеций
       await (new MysqlCommander).queryExec("SELECT 1+1;"); // Проверить коннекшн к базе
       return true;
     } catch (e) {

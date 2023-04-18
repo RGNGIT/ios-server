@@ -45,5 +45,6 @@ export default {
   PATCH_DISCIPLINE: "/editDiscipline/:id",
   GET_DISCIPLINE_RESULTS: "/getDisciplineResults/:id",
   GET_DISCIPLINE_USERS: "/getDisciplineUsers/:id",
-  DELETE_TOPIC: "/deleteTopic/:id"
+  DELETE_TOPIC: "/deleteTopic/:id",
+  ADD_EDU_TIME: "/addEduTime"
 };

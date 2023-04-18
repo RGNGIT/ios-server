@@ -104,7 +104,8 @@ class DisciplineService {
     await (new MySQL2Commander).queryExec(`DELETE FROM topic WHERE topic.Key = ${Key};`);
   }
   async addEduTime(Time, Phys_Key, Topic_Material_Key) {
-    
+    const res = await (new MySQL2Commander).queryExec(`INSERT INTO edu_time (Time, Phys_Key, Topic_Material_Key) VALUES (${Time}, ${Phys_Key}, ${Topic_Material_Key});`);
+    return res;
   }
 }
 

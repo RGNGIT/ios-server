@@ -41,7 +41,8 @@ enum ErrCode {
   PATCH_DISCIPLINE_ERROR =         39,
   GET_DISCIPLINE_RESULTS_ERROR =   40,
   GET_DISCIPLINE_USERS_ERROR =     41,
-  DELETE_TOPIC_ERROR =             42
+  DELETE_TOPIC_ERROR =             42,
+  ADD_EDU_TIME_ERROR =             43
 }
 
 class ResultHandler {
