@@ -43,7 +43,10 @@ enum ErrCode {
   GET_DISCIPLINE_USERS_ERROR =     41,
   DELETE_TOPIC_ERROR =             42,
   ADD_EDU_TIME_ERROR =             43,
-  GET_EDU_TIME_ERROR =             44
+  GET_EDU_TIME_ERROR =             44,
+  POST_IOS_RULE =                  45,
+  GET_IOS_RULE_LIST =              46,
+  UPDATE_IOS_RULE =                47
 }
 
 class ResultHandler {

@@ -4,12 +4,12 @@ import ResultHandler from "../const/respond";
 import RuleService from "../services/rule";
 import Storage from "../const/object-storage";
 
+import fs from 'fs';
 class Rules {
   async postRule(req: Request, res: Response): Promise<void> {
     try {
       await Misc.logger(
-        `Какой-то бесстрашный на ${
-          req.socket.remoteAddress
+        `Какой-то бесстрашный на ${req.socket.remoteAddress
         } добавил правило (${JSON.stringify(req.body)}). Ну и че по итогам:`,
         true
       );
@@ -44,7 +44,7 @@ class Rules {
     try {
       const { name } = req.params;
       const result = Storage.terms[name];
-      if(!result) {
+      if (!result) {
         throw new Error("Такой термы нет");
       }
       res.json(
@@ -83,8 +83,7 @@ class Rules {
   async getRuleList(req: Request, res: Response): Promise<void> {
     try {
       await Misc.logger(
-        `Какой-то бесстрашный на ${
-          req.socket.remoteAddress
+        `Какой-то бесстрашный на ${req.socket.remoteAddress
         } запросил список правил (${JSON.stringify(
           req.params
         )}). Ну и че по итогам:`,
@@ -147,8 +146,7 @@ class Rules {
   async updateRule(req: Request, res: Response): Promise<void> {
     try {
       await Misc.logger(
-        `Какой-то бесстрашный на ${
-          req.socket.remoteAddress
+        `Какой-то бесстрашный на ${req.socket.remoteAddress
         } отредачил правило (${JSON.stringify(req.body)}). Ну и че по итогам:`,
         true
       );
@@ -177,6 +175,83 @@ class Rules {
           Error: string;
           AdditionalInfo: object;
         }>("ERROR", await ResultHandler.buildError("UPDATE_RULE", err))
+      );
+    }
+  }
+  async postIosRule(req: Request, res: Response): Promise<void> {
+    try {
+      const { testDifficulty, answerTime, correctPercentage, topicTime, result } = req.body;
+      await RuleService.writeIosRule({
+        Test_Difficulty: `'${testDifficulty}'`,
+        Answer_Time: `'${answerTime}'`,
+        Correct_Percentage: `'${correctPercentage}'`,
+        Topic_Time: `'${topicTime}'`,
+        Result: `'${result}'`
+      });
+      res.send("OK");
+    } catch (err) {
+      await Misc.logger(err, false);
+      res.json(
+        await ResultHandler.result<{
+          Code: number;
+          Error: string;
+          AdditionalInfo: object;
+        }>("ERROR", await ResultHandler.buildError("POST_IOS_RULE", err))
+      );
+    }
+  }
+  async getIosRuleList(req: Request, res: Response): Promise<void> {
+    try {
+      /*
+      const json = JSON.parse(fs.readFileSync('./mamdani/rules.json').toString());
+      for(const rule of json) {
+        await RuleService.writeIosRule({
+          Test_Difficulty: `'${rule.Test_Difficulty}'`, 
+          Answer_Time: `'${rule.Answer_Time}'`, 
+          Correct_Percentage: `'${rule.Correct_Percentage}'`, 
+          Topic_Time: `'${rule.Topic_Time}'`, 
+          Result: `'${rule.Result}'`
+        });
+      }
+      */
+      const result = await RuleService.fetchIosRuleList();
+      res.send(
+        await ResultHandler.result<Array<{}>>(
+          "OK",
+          result
+        )
+      );
+    } catch (err) {
+      await Misc.logger(err, false);
+      res.json(
+        await ResultHandler.result<{
+          Code: number;
+          Error: string;
+          AdditionalInfo: object;
+        }>("ERROR", await ResultHandler.buildError("GET_IOS_RULE_LIST", err))
+      );
+    }
+  }
+  async updateIosRule(req: Request, res: Response): Promise<void> {
+    try {
+      const { id } = req.params;
+      const { testDifficulty, answerTime, correctPercentage, topicTime, result } = req.body;
+      await RuleService.updateIosRuleByKey(id, {
+        Test_Difficulty: testDifficulty,
+        Answer_Time: answerTime,
+        Correct_Percentage: correctPercentage,
+        Topic_Time: topicTime,
+        Result: result
+      });
+      res.send("OK");
+    } catch (err) {
+      await Misc.logger(err, false);
+      res.json(
+        await ResultHandler.result<{
+          Code: number;
+          Error: string;
+          AdditionalInfo: object;
+        }>("ERROR", await ResultHandler.buildError("UPDATE_IOS_RULE", err))
       );
     }
   }

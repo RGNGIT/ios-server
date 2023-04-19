@@ -25,6 +25,9 @@ export default {
   POST_RULE: "/postRule", // POST *
   GET_RULE_LIST: "/getRuleList", // GET // *
   UPDATE_RULE: "/updateRule/:id", // PATCH // *
+  POST_IOS_RULE: "/postIosRule",
+  GET_IOS_RULE_LIST: "/getIosRules",
+  UPDATE_IOS_RULE: "/editIosRule/:id",
   /// Физлицо
   POST_NEW_PHYS_USER: "/newPhys", // POST //
   USER_LOGIN: "/login", // POST //
@@ -47,5 +50,5 @@ export default {
   GET_DISCIPLINE_USERS: "/getDisciplineUsers/:id",
   DELETE_TOPIC: "/deleteTopic/:id",
   ADD_EDU_TIME: "/addEduTime",
-  GET_EDU_TIME: "/getEduTime"
+  GET_EDU_TIME: "/getEduTime",
 };
