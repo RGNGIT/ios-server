@@ -299,7 +299,28 @@ class Disciplines {
           Code: number;
           Error: string;
           AdditionalInfo: object;
-        }>("ERROR", await ResultHandler.buildError("", err))
+        }>("ERROR", await ResultHandler.buildError("ADD_EDU_TIME", err))
+      );
+    }
+  }
+  async getEduTime(req: Request, res: Response): Promise<void> {
+    try {
+      const { physKey, topicMaterialKey } = req.query;
+      const result = await DisciplineService.fetchEduTime(physKey, topicMaterialKey);
+      res.send(
+        await ResultHandler.result<Array<{}>>(
+          "OK",
+          result
+        )
+      );
+    } catch (err) {
+      await Misc.logger(err, false);
+      res.json(
+        await ResultHandler.result<{
+          Code: number;
+          Error: string;
+          AdditionalInfo: object;
+        }>("ERROR", await ResultHandler.buildError("GET_EDU_TIME", err))
       );
     }
   }

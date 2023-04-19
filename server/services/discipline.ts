@@ -107,6 +107,10 @@ class DisciplineService {
     const res = await (new MySQL2Commander).queryExec(`INSERT INTO edu_time (Time, Phys_Key, Topic_Material_Key) VALUES (${Time}, ${Phys_Key}, ${Topic_Material_Key});`);
     return res;
   }
-}
+  async fetchEduTime(Phys_Key, Topic_Material_Key) {
+    const res = await (new MySQL2Commander).queryExec(`SELECT * FROM edu_time WHERE edu_time.Phys_Key = ${Phys_Key} AND edu_time.Topic_Material_Key = ${Topic_Material_Key};`);
+    return res;
+  }
+ }
 
 export default new DisciplineService();

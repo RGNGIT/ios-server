@@ -42,7 +42,8 @@ enum ErrCode {
   GET_DISCIPLINE_RESULTS_ERROR =   40,
   GET_DISCIPLINE_USERS_ERROR =     41,
   DELETE_TOPIC_ERROR =             42,
-  ADD_EDU_TIME_ERROR =             43
+  ADD_EDU_TIME_ERROR =             43,
+  GET_EDU_TIME_ERROR =             44
 }
 
 class ResultHandler {

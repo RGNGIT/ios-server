@@ -46,5 +46,6 @@ export default {
   GET_DISCIPLINE_RESULTS: "/getDisciplineResults/:id",
   GET_DISCIPLINE_USERS: "/getDisciplineUsers/:id",
   DELETE_TOPIC: "/deleteTopic/:id",
-  ADD_EDU_TIME: "/addEduTime"
+  ADD_EDU_TIME: "/addEduTime",
+  GET_EDU_TIME: "/getEduTime"
 };
