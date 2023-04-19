@@ -2,6 +2,7 @@ import fs from "fs";
 import MySQL2Commander from "../mysqlCommander";
 import { PythonShell } from "python-shell";
 import Storage from "../const/object-storage";
+import IosStorage from "../const/object-storage-ios";
 import Misc from "./misc";
 
 class FuzzyLogic {
@@ -62,11 +63,27 @@ class FuzzyLogic {
       );
     }
   }
+  async jsonValidTermsIos(): Promise<void> {
+    if (fs.existsSync(process.env.MAMDANI_DIR)) {
+      fs.writeFileSync(
+        `${process.env.MAMDANI_DIR}/terms.json`,
+        JSON.stringify(IosStorage.terms)
+      );
+    }
+  }
   async jsonTrapezoidDots(): Promise<void> {
     if (fs.existsSync(process.env.MAMDANI_DIR)) {
       fs.writeFileSync(
         `${process.env.MAMDANI_DIR}/dots.json`,
         JSON.stringify(Storage.dots)
+      );
+    }
+  }
+  async jsonTrapezoidDotsIos(): Promise<void> {
+    if (fs.existsSync(process.env.MAMDANI_DIR)) {
+      fs.writeFileSync(
+        `${process.env.MAMDANI_DIR}/dots.json`,
+        JSON.stringify(IosStorage.dots)
       );
     }
   }

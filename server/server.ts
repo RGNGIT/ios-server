@@ -22,7 +22,7 @@ class Server {
     const appletDir = process.env.APPLETS_DIR;
     const applets = fs.readdirSync(appletDir);
     await Misc.logger(`Найдено апплетов ${applets.length} (${applets.join(", ")})`, true);
-    for(const applet of applets) {
+    for (const applet of applets) {
       const manifest = JSON.parse(fs.readFileSync(`${appletDir}/${applet}/manifest.json`).toString());
       app.use(manifest.call, (await import(`${appletDir}/${applet}`)).default);
       // if(manifest.modulesRequired && manifest.modulesRequired.length != 0) {
@@ -49,10 +49,15 @@ class Server {
     try {
       await this.defineMiddlewares(app, router);
       await buildRouter(router); // Настроить руты
-      await FL.jsonRuleBaseIos(); // Считать базу правил для АИС
-      // await FL.jsonRuleBase(); // Считать базу правил
-      // await FL.jsonValidTerms(); // Актуальные термы
-      // await FL.jsonTrapezoidDots(); // Точки трапеций
+      if (process.env.IOS === "true") {
+        await FL.jsonRuleBaseIos(); // Считать базу правил для АИС
+        await FL.jsonValidTermsIos(); // Актуальные термы AИС
+        await FL.jsonTrapezoidDotsIos(); // Точки трапеций АИС
+      } else {
+        await FL.jsonRuleBase(); // Считать базу правил
+        await FL.jsonValidTerms(); // Актуальные термы
+        await FL.jsonTrapezoidDots(); // Точки трапеций
+      }
       await (new MysqlCommander).queryExec("SELECT 1+1;"); // Проверить коннекшн к базе
       return true;
     } catch (e) {

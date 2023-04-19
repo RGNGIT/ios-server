@@ -8,6 +8,12 @@ class RuleService {
     );
     return res[0];
   }
+  async fetchIosRuleByKey(key) {
+    let res = await (new MySQL2Commander).queryExec(
+      `SELECT * FROM ios_rule WHERE ios_rule.Key = ${key};`
+    );
+    return res[0];
+  }
   async writeRule(
     disciplineLevel,
     selfDevelopment,

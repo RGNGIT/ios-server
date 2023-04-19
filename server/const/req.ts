@@ -28,6 +28,7 @@ export default {
   POST_IOS_RULE: "/postIosRule",
   GET_IOS_RULE_LIST: "/getIosRules",
   UPDATE_IOS_RULE: "/editIosRule/:id",
+  GET_IOS_RULE: "/getIosRule/:id",
   /// Физлицо
   POST_NEW_PHYS_USER: "/newPhys", // POST //
   USER_LOGIN: "/login", // POST //

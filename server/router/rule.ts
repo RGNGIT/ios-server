@@ -13,5 +13,6 @@ router.get(SERVER.GET_TERM_LEVELS, Rules.getTermLevels);
 router.post(SERVER.POST_IOS_RULE, Rules.postIosRule);
 router.get(SERVER.GET_IOS_RULE_LIST, Rules.getIosRuleList);
 router.patch(SERVER.UPDATE_IOS_RULE, Rules.updateIosRule);
+router.get(SERVER.GET_IOS_RULE, Rules.iosRuleByKey);
 
 export default router;

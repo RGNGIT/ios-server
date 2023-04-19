@@ -3,8 +3,9 @@ import { Request, Response } from "express";
 import ResultHandler from "../const/respond";
 import RuleService from "../services/rule";
 import Storage from "../const/object-storage";
+import IosStorage from "../const/object-storage-ios";
 
-import fs from 'fs';
+// import fs from 'fs';
 class Rules {
   async postRule(req: Request, res: Response): Promise<void> {
     try {
@@ -129,6 +130,33 @@ class Rules {
           continue;
         }
         dots[key] = Storage.dots[key][rule[key]];
+      }
+      const result = { rule, dots };
+      res.json(await ResultHandler.result<{}>("OK", result));
+    } catch (err) {
+      await Misc.logger(err, false);
+      res.json(
+        await ResultHandler.result<{
+          Code: number;
+          Error: string;
+          AdditionalInfo: object;
+        }>("ERROR", await ResultHandler.buildError("GET_RULE_BY_ID", err))
+      );
+    }
+  }
+  async iosRuleByKey(req: Request, res: Response): Promise<void> {
+    try {
+      const { id } = req.params;
+      const rule = await RuleService.fetchIosRuleByKey(id);
+      if (!rule) {
+        throw new Error("Нету такого правила :(");
+      }
+      let dots = {};
+      for (const key in rule) {
+        if (key == "Key") {
+          continue;
+        }
+        dots[key] = IosStorage.dots[key][rule[key]];
       }
       const result = { rule, dots };
       res.json(await ResultHandler.result<{}>("OK", result));
