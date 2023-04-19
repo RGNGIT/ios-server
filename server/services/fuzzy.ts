@@ -18,6 +18,24 @@ class FuzzyLogic {
     a.Topic_Time_Key = b.Key;`);
     return res;
   }
+  async jsonRuleBaseIos(): Promise<void> {
+    let res1 = await (new MySQL2Commander).queryExec("SELECT * FROM ios_rule;");
+    if (fs.existsSync(process.env.MAMDANI_DIR)) {
+      fs.writeFileSync(
+        `${process.env.MAMDANI_DIR}/rules.json`,
+        JSON.stringify(res1)
+      );
+      await Misc.logger(
+        "Мамдани АИС инициализирован и готов к работе! (вроде)",
+        true
+      );
+    } else {
+      await Misc.logger(
+        "Мамдани АИС не инициализирован! Работа с системой нечеткой логики невозможна!",
+        true
+      );
+    }
+  }
   async jsonRuleBase(): Promise<void> {
     let res1 = await (new MySQL2Commander).queryExec("SELECT * FROM rule;");
     if (fs.existsSync(process.env.MAMDANI_DIR)) {
