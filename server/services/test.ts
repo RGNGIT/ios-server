@@ -194,6 +194,15 @@ class Test {
     c.Diff_Level_Key = d.Key;`);
     return res;
   }
+  async fetchDisciplineOfTest(Key) {
+    const res = await (new MySQL2Commander).queryExec(`
+    SELECT a.Key, a.Name, a.ShName  
+    FROM discipline as a, topic as b, topic_material as c 
+    WHERE c.Test_Key = ${Key} AND 
+    c.Topic_Key = b.Key AND 
+    b.Discip_Key = a.Key;`);
+    return res[0];
+  }
 }
 
 export default new Test();

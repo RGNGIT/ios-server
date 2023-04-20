@@ -343,6 +343,7 @@ class Tests {
         return;
       }
       const disciplines = await TestService.fetchDisciplineWithEntryTest(req.params.id);
+      const discipline = await TestService.fetchDisciplineOfTest(req.params.id);
       let testType = await TestService.fetchTestTypeByKey(testMeta[0].Test_Type_Key);
       let res1 = await TestService.fetchQuestionsByKey(req.params.id);
       for await (let i of res1) {
@@ -398,6 +399,7 @@ class Tests {
         Name: testMeta[0]["Name"],
         Type: testType,
         Disciplines: disciplines,
+        Discipline: discipline,
         Questions: test,
       };
       res.json(
