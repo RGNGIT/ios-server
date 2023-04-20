@@ -21,6 +21,7 @@ export default {
   /// Правила
   GET_TERM_LEVELS: "/getTermLevels/:name",
   GET_TERM_DOTS: "/getTermDots",
+  GET_TERM_DOTS_IOS: "/getTermDotsIos",
   GET_RULE_BY_KEY: "/getRule/:id",
   POST_RULE: "/postRule", // POST *
   GET_RULE_LIST: "/getRuleList", // GET // *
