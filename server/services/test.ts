@@ -203,6 +203,15 @@ class Test {
     b.Discip_Key = a.Key;`);
     return res[0];
   }
+  async fetchTestTopicMaterialDifficulty(Key) {
+    const res = await (new MySQL2Commander).queryExec(`
+    SELECT b.Key, b.Name, b.Value 
+    FROM topic_material as a, difficulty_level as b 
+    WHERE a.Test_Key = ${Key} AND 
+    a.Diff_Level_Key = b.Key;
+    `);
+    return res[0];
+  }
 }
 
 export default new Test();
