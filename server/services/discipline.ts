@@ -91,12 +91,11 @@ class DisciplineService {
   }
   async deleteTopic(Key) {
     const deleteMaterial = async (Key) => {
-      let topicMaterialEduRequest = '';
       const eduTimes = await (new MySQL2Commander).queryExec(`SELECT edu_time.Key FROM edu_time WHERE edu_time.Topic_Material_Key = ${Key};`);
       for await (const edu of eduTimes) {
-        topicMaterialEduRequest += `DELETE FROM edu_time WHERE edu_time.Key = ${edu.Key};`
+        await (new MySQL2Commander).queryExec(`DELETE FROM edu_time WHERE edu_time.Key = ${edu.Key};`);
       }
-      return topicMaterialEduRequest + `DELETE FROM topic_material WHERE topic_material.Key = ${Key};`;
+      return `DELETE FROM topic_material WHERE topic_material.Key = ${Key};`;
     };
     const materials = await (new MySQL2Commander).queryExec(`
     SELECT topic_material.Key 
