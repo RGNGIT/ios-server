@@ -106,7 +106,9 @@ class DisciplineService {
     for await (const material of materials) {
       request += await deleteMaterial(material.Key);
     }
-    await (new MySQL2Commander).queryExec(request);
+    if(request.length > 0) {
+      await (new MySQL2Commander).queryExec(request);
+    }
     await (new MySQL2Commander).queryExec(`DELETE FROM topic WHERE topic.Key = ${Key};`);
   }
   async addEduTime(Time, Phys_Key, Topic_Material_Key) {
