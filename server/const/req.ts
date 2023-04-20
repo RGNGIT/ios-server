@@ -3,6 +3,7 @@ export default {
   GET_FUZZY_RESULT: "/fuzzyResult",
   GET_FUZZY_STATUS: "/getFuzzyStatus",
   GET_STORED_STATUS: "/getStoredStatus",
+  GET_STORED_STATUS_IOS: "/getStoredStatusIos",
   /// Тестики
   GET_TOPIC_LIST: "/getTopicList", // GET // *
   SUBMIT_QUESTION: "/submitQuestion", // POST // *
