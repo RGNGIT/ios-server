@@ -88,25 +88,11 @@ class FuzzyLogic {
     }
   }
   async getFuzzyResult(terms: Array<number>, ios: boolean): Promise<any> {
-    const termsMain = [
-      `Discipline_Level:${terms[0]}`, 
-      `Self_Development:${terms[1]}`, 
-      `Responsibility:${terms[2]}`, 
-      `Perseverance:${terms[3]}`, 
-      `Attentiveness:${terms[4]}`, 
-      `Stress:${terms[5]}`
-    ];
-    const termsIos = [
-      `Test_Difficulty:${terms[0]}`, 
-      `Answer_Time:${terms[1]}`, 
-      `Correct_Percentage:${terms[2]}`, 
-      `Topic_Time:${terms[3]}`
-    ]
     let request: object = {
       mode: "text",
       pythonOptions: ["-u"],
       scriptPath: process.env.MAMDANI_DIR,
-      args: ios ? [...termsIos, process.env.MAMDANI_DIR] : [...termsMain, process.env.MAMDANI_DIR]
+      args: [...terms, process.env.MAMDANI_DIR]
     };
     return new Promise((resolve, reject) => {
       PythonShell.run("main.py", request, (err, res) => {
