@@ -5,6 +5,8 @@ import ResultHandler from "../const/respond";
 import Misc from "../services/misc";
 import PhysService from "../services/phys";
 
+require('dotenv').config();
+
 enum Terms {
   PERSEVERANCE =     21,
   SELF_DEVELOPMENT = 22,
@@ -145,7 +147,7 @@ class FuzzyAIController {
   }
   async getJsonReport(req: Request, res: Response): Promise<void> {
     try {
-      const { ios, physKey, disciplineKey, eduTimeKey } = req.query;
+      const { physKey, disciplineKey, eduTimeKey } = req.query;
       let termArray = [
         Number(req.query.t1),
         Number(req.query.t2),
@@ -154,8 +156,8 @@ class FuzzyAIController {
         Number(req.query.t5),
         Number(req.query.t6),
       ];
-      const result = JSON.parse(await Misc.pyJsonFix(await FuzzyLogic.getFuzzyResult(termArray, ios == "true")));
-      if(ios == "true") {
+      const result = JSON.parse(await Misc.pyJsonFix(await FuzzyLogic.getFuzzyResult(termArray, process.env.IOS == "true")));
+      if(process.env.IOS == "true") {
         await PhysService.writeStatusIos({
           Test_Difficulty: termArray[0], 
           Answer_Time: termArray[1], 
