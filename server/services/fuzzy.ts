@@ -87,7 +87,7 @@ class FuzzyLogic {
       );
     }
   }
-  async getFuzzyResult(terms: Array<number>, ios: boolean): Promise<any> {
+  async getFuzzyResult(terms: Array<number>): Promise<any> {
     let request: object = {
       mode: "text",
       pythonOptions: ["-u"],

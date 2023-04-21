@@ -110,7 +110,7 @@ class FuzzyAIController {
         termArray.push(definePercentageOfTest(rawTerm.Result));
       }
       const result = JSON.parse(
-        await Misc.pyJsonFix(await FuzzyLogic.getFuzzyResult(termArray, false))
+        await Misc.pyJsonFix(await FuzzyLogic.getFuzzyResult(termArray))
       );
       await PhysService.writeStatus({
         Perseverance: termArray[3],
@@ -156,7 +156,7 @@ class FuzzyAIController {
         Number(req.query.t5),
         Number(req.query.t6),
       ];
-      const result = JSON.parse(await Misc.pyJsonFix(await FuzzyLogic.getFuzzyResult(termArray, process.env.IOS == "true")));
+      const result = JSON.parse(await Misc.pyJsonFix(await FuzzyLogic.getFuzzyResult(termArray)));
       if(process.env.IOS == "true") {
         await PhysService.writeStatusIos({
           Test_Difficulty: termArray[0], 
