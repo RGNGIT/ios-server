@@ -11,7 +11,7 @@ class FtpService {
     password: '12345678'
   };
   private options = {
-    logging: 'none'
+    logging: 'basic'
   };
   private client = new FtpClient(this.config, this.options);
   public async upload(key) {
