@@ -3,6 +3,7 @@ import Hash from "./encrypt";
 import Misc from "./misc";
 import FtpService from "../services/ftp";
 import CONST from "../const/constants";
+import MiscMain from "../../../services/misc";
 
 class FileService {
   constructor() {
@@ -26,7 +27,8 @@ class FileService {
   async readFile(key: string): Promise<any | Buffer> {
     return new Promise(async (resolve, reject) => {
       if(!fs.existsSync(CONST.STORAGE + '/' + key)) {
-        await (new FtpService).refreshCache();
+        await MiscMain.logger(`Не нашел файлика (${key}) в локальном кэше. Подгружаю с сервера...`, true);
+        await (new FtpService).read(key);
       }
       fs.readFile(CONST.STORAGE + '/' + key, (err, data) => {
         if(err) {

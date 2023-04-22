@@ -112,6 +112,7 @@ class FuzzyAIController {
       const result = JSON.parse(
         await Misc.pyJsonFix(await FuzzyLogic.getFuzzyResult(termArray))
       );
+      await Misc.logger(`Студент (${physKey}) получил статус: '${result.Result_term}'::${result.Result}`, true);
       await PhysService.writeStatus({
         Perseverance: termArray[3],
         Self_Development: termArray[1],
@@ -158,6 +159,7 @@ class FuzzyAIController {
       ];
       const result = JSON.parse(await Misc.pyJsonFix(await FuzzyLogic.getFuzzyResult(termArray)));
       if(process.env.IOS == "true") {
+        await Misc.logger(`Студент АИС (${physKey}) получил статус: '${result.Result_term}'::${result.Result}`, true);
         await PhysService.writeStatusIos({
           Test_Difficulty: termArray[0], 
           Answer_Time: termArray[1], 

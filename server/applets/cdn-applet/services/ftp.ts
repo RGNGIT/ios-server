@@ -1,40 +1,39 @@
-import FtpClient from 'ftp-client';
+import FtpClient from 'ftp';
 import CONST from '../const/constants';
+import fs from 'fs';
 
 require('dotenv').config();
 
 class FtpService {
   private config = {
-    host: process.env.DB_HOST,
-    port: 21,
-    user: 'testuser',
-    password: '12345678'
+    host: process.env.CDN_HOST,
+    port: process.env.CDN_PORT,
+    user: process.env.CDN_USERNAME,
+    password: process.env.CDN_PASSWORD
   };
-  private options = {
-    logging: 'none'
-  };
-  private client = new FtpClient(this.config, this.options);
+  private client = new FtpClient(this.config);
   public async upload(key) {
     return new Promise((resolve, reject) => {
-      this.client.connect(() => {
-        this.client.upload([`${CONST.STORAGE}/${key}`], '/files/ios', {
-          baseDir: CONST.STORAGE,
-          overwrite: 'older'
-        }, (result) => {
-          resolve(result);
-        });
-      })
-    });
-  }
-  public async refreshCache() {
-    return new Promise((resolve, reject) => {
-      this.client.connect(() => {
-        this.client.download(`/files/ios`, `${CONST.STORAGE}/`, {
-          overwrite: 'all'
-        }, (result) => {
-          resolve(result);
+      this.client.on('ready', () => {
+        this.client.put(`${CONST.STORAGE}/${key}`, `files/ios/${key}`, (err) => {
+          if(err) reject(err);
+          resolve("OK");
+          this.client.end();
         });
       });
+      this.client.connect(this.config);
+    });
+  }
+  public async read(key) {
+    return new Promise((resolve, reject) => {
+      this.client.on('ready', () => {
+        this.client.get(`files/ios/${key}`, (err, stream) => {
+          if(err) reject(err);
+          stream.once('close', () => { this.client.end(); resolve("OK"); });
+          stream.pipe(fs.createWriteStream(`${CONST.STORAGE}/${key}`));
+        });
+      });
+      this.client.connect(this.config);
     });
   }
 }
