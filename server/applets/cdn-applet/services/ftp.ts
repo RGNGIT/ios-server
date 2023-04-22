@@ -11,7 +11,7 @@ class FtpService {
     user: process.env.CDN_USERNAME,
     password: process.env.CDN_PASSWORD
   };
-  private client = new FtpClient(this.config);
+  private client = new FtpClient();
   public async upload(key) {
     return new Promise((resolve, reject) => {
       this.client.on('ready', () => {
