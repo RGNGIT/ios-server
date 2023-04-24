@@ -100,6 +100,10 @@ class PhysService {
   async writeStatusIos(block: {Test_Difficulty, Answer_Time, Correct_Percentage, Topic_Time_Key, Result, Status, Phys_Key, Discip_Key}) {
     await (new MySQL2Commander).queryExec(`INSERT INTO ios_status (${Object.keys(block).join(", ")}, DateGot) VALUES (${Object.values(block).join(", ")}, NOW());`);
   }
+  async fetchAllRoles() {
+    const res = await (new MySQL2Commander).queryExec(`SELECT * FROM role;`);
+    return res;
+  }
 }
 
 export default new PhysService();

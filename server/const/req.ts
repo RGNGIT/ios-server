@@ -38,6 +38,7 @@ export default {
   UPDATE_USER_INFO: "/updateUserInfo", // PATCH
   REFRESH_SESSION: "/refreshSession", // POST
   GET_ALL_USERS: "/getAllUsers",
+  GET_ALL_ROLES: "/getRoles",
   /// Дисциплины
   POST_NEW_DISCIPLINE: "/postDiscipline",
   GET_DISCIPLINES: "/getDisciplines",

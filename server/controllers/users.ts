@@ -315,6 +315,23 @@ class UserController {
       );
     }
   }
+  async getRoles(req: Request, res: Response): Promise<void> {
+    try {
+      const result = await PhysService.fetchAllRoles();
+      res.json(
+        await ResultHandler.result<Array<{}>>("OK", result)
+      );
+    } catch(err) {
+      await Misc.logger(err, false);
+      res.json(
+        await ResultHandler.result<{
+          Code: number;
+          Error: string;
+          AdditionalInfo: object;
+        }>("ERROR", await ResultHandler.buildError("GET_ALL_ROLES", err))
+      );
+    }
+  }
 }
 
 export default new UserController();
