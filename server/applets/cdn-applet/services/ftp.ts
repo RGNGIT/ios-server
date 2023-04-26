@@ -29,8 +29,12 @@ class FtpService {
       this.client.on('ready', () => {
         this.client.get(`files/ios/${key}`, (err, stream) => {
           if(err) reject(err);
-          stream.once('close', () => { this.client.end(); resolve("OK"); });
-          stream.pipe(fs.createWriteStream(`${CONST.STORAGE}/${key}`));
+          try {
+            stream.once('close', () => { this.client.end(); resolve("OK"); });
+            stream.pipe(fs.createWriteStream(`${CONST.STORAGE}/${key}`));
+          } catch(streamErr) {
+            resolve('streamErr');
+          }
         });
       });
       this.client.connect(this.config);
