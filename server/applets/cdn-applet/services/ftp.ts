@@ -33,7 +33,7 @@ class FtpService {
             stream.once('close', () => { this.client.end(); resolve("OK"); });
             stream.pipe(fs.createWriteStream(`${CONST.STORAGE}/${key}`));
           } catch(streamErr) {
-            resolve('streamErr');
+            reject(streamErr);
           }
         });
       });

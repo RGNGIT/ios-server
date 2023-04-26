@@ -8,12 +8,7 @@ class ContentController {
     try {
       const { key } = req.params;
       const fileService = new FileService();
-      let base64buffer = await fileService.readFile(key);
-      if(base64buffer == "streamErr") {
-        base64buffer = fs.readFileSync("const/placeholder.jpg").toString('base64');
-      } else {
-        base64buffer = base64buffer.toString('base64');
-      }
+      let base64buffer = (await fileService.readFile(key)).toString('base64');
       res.json(base64buffer);
     } catch (err) {
       res.send(err);
