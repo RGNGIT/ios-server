@@ -14,6 +14,6 @@ export function apiCheck(req: Request, res: Response, next): void {
   if (checkExists()) {
     next();
   } else {
-    res.sendFile("index.html", { root: "../front/main-page" });
+    res.sendFile("index.html", { root: "../front" });
   }
 }
