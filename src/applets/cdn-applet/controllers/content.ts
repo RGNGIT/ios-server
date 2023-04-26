@@ -11,7 +11,7 @@ class ContentController {
       let base64buffer = (await fileService.readFile(key)).toString('base64');
       res.json(base64buffer);
     } catch (err) {
-      res.send(err);
+      res.json(fs.readFileSync(`${__dirname}/../const/missing.png`).toString('base64'));
     }
   }
   async uploadFile(req, res: Response): Promise<void> {
@@ -20,7 +20,7 @@ class ContentController {
       const fs = new FileService();
       res.json(await fs.writeFile(content));
     } catch (err) {
-      res.send(err);
+      res.json(err);
     }
   }
 }
