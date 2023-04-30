@@ -47,7 +47,8 @@ enum ErrCode {
   POST_IOS_RULE =                  45,
   GET_IOS_RULE_LIST =              46,
   UPDATE_IOS_RULE =                47,
-  GET_ALL_ROLES_ERROR =            48
+  GET_ALL_ROLES_ERROR =            48,
+  PATCH_TERM_DOTS_ERROR =          49
 }
 
 class ResultHandler {

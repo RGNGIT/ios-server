@@ -1,6 +1,6 @@
 import Misc from "../services/misc";
 import { Request, Response } from "express";
-import ResultHandler from "../const/respond";
+import ResultHandler from "../const/response";
 import TestService from "../services/test";
 
 class Tests {

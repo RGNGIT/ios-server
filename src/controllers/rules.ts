@@ -1,9 +1,10 @@
 import Misc from "../services/misc";
 import { Request, Response } from "express";
-import ResultHandler from "../const/respond";
+import ResultHandler from "../const/response";
 import RuleService from "../services/rule";
 import Storage from "../const/object-storage";
 import IosStorage from "../const/object-storage-ios";
+import FuzzyLogic from "../services/fuzzy";
 
 // import fs from 'fs';
 class Rules {
@@ -65,7 +66,7 @@ class Rules {
   async getTermDots(req: Request, res: Response): Promise<void> {
     try {
       const { name, value } = req.query;
-      const result = Storage.dots[name.toString()][value.toString()];
+      const result = (await FuzzyLogic.jsonTrapezoidDots(2))[name.toString()][value.toString()];
       if (!result) {
         throw new Error("Нету терм на такой запрос :(");
       }
@@ -84,7 +85,7 @@ class Rules {
   async getTermDotsIos(req: Request, res: Response): Promise<void> {
     try {
       const { name, value } = req.query;
-      const result = IosStorage.dots[name.toString()][value.toString()];
+      const result = (await FuzzyLogic.jsonTrapezoidDots(1))[name.toString()][value.toString()];
       if (!result) {
         throw new Error("Нету терм на такой запрос :(");
       }
@@ -148,7 +149,7 @@ class Rules {
         if (key == "Key") {
           continue;
         }
-        dots[key] = Storage.dots[key][rule[key]];
+        dots[key] = (await FuzzyLogic.jsonTrapezoidDots(2))[key][rule[key]];
       }
       const result = { rule, dots };
       res.json(await ResultHandler.result<{}>("OK", result));
@@ -175,7 +176,7 @@ class Rules {
         if (key == "Key") {
           continue;
         }
-        dots[key] = IosStorage.dots[key][rule[key]];
+        dots[key] = (await FuzzyLogic.jsonTrapezoidDots(1))[key][rule[key]];
       }
       const result = { rule, dots };
       res.json(await ResultHandler.result<{}>("OK", result));

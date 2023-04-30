@@ -1,6 +1,6 @@
 import AuthService from "../services/auth";
 import ToSkip from "../const/skip-url";
-import Error from "../const/respond";
+import Error from "../const/response";
 import Misc from "../services/misc";
 
 import { Request, Response } from "express";

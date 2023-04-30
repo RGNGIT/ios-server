@@ -4,6 +4,8 @@ export default {
   GET_FUZZY_STATUS: "/getFuzzyStatus",
   GET_STORED_STATUS: "/getStoredStatus",
   GET_STORED_STATUS_IOS: "/getStoredStatusIos",
+  GET_SYSTEM_TERM_DOTS: "/getSystemDots/:id",
+  PATCH_TERM_DOTS: "/editDots",
   /// Тестики
   GET_TOPIC_LIST: "/getTopicList", // GET // *
   SUBMIT_QUESTION: "/submitQuestion", // POST // *

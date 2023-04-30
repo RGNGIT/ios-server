@@ -1,4 +1,4 @@
-import SERVER from "./req";
+import SERVER from "./request";
 
 export default [
   process.env.API_CALL + SERVER.USER_LOGIN,

@@ -1,19 +1,19 @@
 import { Request, Response } from "express";
 import FuzzyLogic from "../services/fuzzy";
 import TestService from "../services/test";
-import ResultHandler from "../const/respond";
+import ResultHandler from "../const/response";
 import Misc from "../services/misc";
 import PhysService from "../services/phys";
 
-require('dotenv').config();
+require("dotenv").config();
 
 enum Terms {
-  PERSEVERANCE =     21,
+  PERSEVERANCE = 21,
   SELF_DEVELOPMENT = 22,
-  ATTENTIVENESS =    23,
-  RESPONSIBILITY =   24,
-  STRESS =           25,
-  DISCIPLINE =       26
+  ATTENTIVENESS = 23,
+  RESPONSIBILITY = 24,
+  STRESS = 25,
+  DISCIPLINE = 26,
 }
 
 function fetchTermResult(testResults, termId) {
@@ -26,19 +26,62 @@ function fetchTermResult(testResults, termId) {
 }
 
 function definePercentageOfTest(result) {
-  const splitResult = result.split('/');
+  const splitResult = result.split("/");
   return Math.round((Number(splitResult[0]) / Number(splitResult[1])) * 100);
 }
 
 class FuzzyAIController {
+  async getSystemTerms(req: Request, res: Response): Promise<void> {
+    try {
+      const { id } = req.params;
+      const terms = await FuzzyLogic.fetchSystemTermsByKey(id);
+      for (const term of terms) {
+        term.Values = await FuzzyLogic.fetchTermValuesByTermKey(term.Key);
+      }
+      res.json(terms);
+    } catch (err) {
+      await Misc.logger(err, false);
+      res.json(
+        ResultHandler.result<{
+          Code: number;
+          Error: string;
+          AdditionalInfo: object;
+        }>("ERROR", await ResultHandler.buildError("GET_TERM_DOTS_ERROR", err))
+      );
+    }
+  }
+  async editTermsValues(req: Request, res: Response): Promise<void> {
+    try {
+      const { values } = req.body;
+      for(const value of values) {
+        await FuzzyLogic.patchTermValue(value.Key, value.Value);
+      }
+      res.send("OK");
+    } catch (err) {
+      await Misc.logger(err, false);
+      res.json(
+        ResultHandler.result<{
+          Code: number;
+          Error: string;
+          AdditionalInfo: object;
+        }>(
+          "ERROR",
+          await ResultHandler.buildError("PATCH_TERM_DOTS_ERROR", err)
+        )
+      );
+    }
+  }
   async getStoredStatusIos(req: Request, res: Response): Promise<void> {
     try {
       const { physKey, disciplineKey, last } = req.query;
-      const result = await FuzzyLogic.fetchStoredStatusIos(physKey, disciplineKey);
+      const result = await FuzzyLogic.fetchStoredStatusIos(
+        physKey,
+        disciplineKey
+      );
       let filteredResult = result[0];
       if (last == "true") {
         for (const status of result) {
-          if ((new Date(status.DateGot)) > (new Date(filteredResult.DateGot))) {
+          if (new Date(status.DateGot) > new Date(filteredResult.DateGot)) {
             filteredResult = status;
           }
         }
@@ -49,7 +92,7 @@ class FuzzyAIController {
           last == "true" ? filteredResult : result
         )
       );
-    } catch(err) {
+    } catch (err) {
       await Misc.logger(err, false);
       res.json(
         ResultHandler.result<{
@@ -63,11 +106,14 @@ class FuzzyAIController {
   async getStoredStatusMain(req: Request, res: Response): Promise<void> {
     try {
       const { physKey, disciplineKey, last } = req.query;
-      const result = await FuzzyLogic.fetchStoredStatusMain(physKey, disciplineKey);
+      const result = await FuzzyLogic.fetchStoredStatusMain(
+        physKey,
+        disciplineKey
+      );
       let filteredResult = result[0];
       if (last == "true") {
         for (const status of result) {
-          if ((new Date(status.DateGot)) > (new Date(filteredResult.DateGot))) {
+          if (new Date(status.DateGot) > new Date(filteredResult.DateGot)) {
             filteredResult = status;
           }
         }
@@ -92,11 +138,18 @@ class FuzzyAIController {
   async getStudentStatusMain(req: Request, res: Response): Promise<void> {
     try {
       const { physKey, disciplineKey } = req.query;
-      await FuzzyLogic.jsonRuleBase();
-      const testResults = await TestService.fetchTestResults(physKey, disciplineKey);
+      await FuzzyLogic.jsonRuleBase("ios");
+      const testResults = await TestService.fetchTestResults(
+        physKey,
+        disciplineKey
+      );
       for await (const result of testResults) {
-        const testMeta = (await TestService.fetchTestMetaByKey(result.Test_Key))[0];
-        result.testType = await TestService.fetchTestTypeByKey(testMeta.Test_Type_Key);
+        const testMeta = (
+          await TestService.fetchTestMetaByKey(result.Test_Key)
+        )[0];
+        result.testType = await TestService.fetchTestTypeByKey(
+          testMeta.Test_Type_Key
+        );
       }
       const rawTermArray = [
         fetchTermResult(testResults, Terms.DISCIPLINE),
@@ -104,7 +157,7 @@ class FuzzyAIController {
         fetchTermResult(testResults, Terms.RESPONSIBILITY),
         fetchTermResult(testResults, Terms.PERSEVERANCE),
         fetchTermResult(testResults, Terms.ATTENTIVENESS),
-        fetchTermResult(testResults, Terms.STRESS)
+        fetchTermResult(testResults, Terms.STRESS),
       ];
       let termArray = [];
       for (const rawTerm of rawTermArray) {
@@ -113,7 +166,10 @@ class FuzzyAIController {
       const result = JSON.parse(
         await Misc.pyJsonFix(await FuzzyLogic.getFuzzyResult(termArray))
       );
-      await Misc.logger(`Студент (${physKey}) получил статус: '${result.Result_term}'::${result.Result}`, true);
+      await Misc.logger(
+        `Студент (${physKey}) получил статус: '${result.Result_term}'::${result.Result}`,
+        true
+      );
       await PhysService.writeStatus({
         Perseverance: termArray[3],
         Self_Development: termArray[1],
@@ -124,17 +180,14 @@ class FuzzyAIController {
         Result: result.Result,
         Status: `'${result.Result_term}'`,
         Phys_Key: physKey,
-        Discip_Key: disciplineKey
+        Discip_Key: disciplineKey,
       });
       res.json(
         await ResultHandler.result<{
           Result: number;
           Result_term: string;
           ResultFunc: object;
-        }>(
-          "OK",
-          result
-        )
+        }>("OK", result)
       );
     } catch (err) {
       await Misc.logger(err, false);
@@ -158,23 +211,28 @@ class FuzzyAIController {
         Number(req.query.t5),
         Number(req.query.t6),
       ];
-      if(process.env.IOS == "true") {
-        await FuzzyLogic.jsonRuleBaseIos();
+      if (process.env.IOS == "true") {
+        await FuzzyLogic.jsonRuleBase("ios");
       } else {
-        await FuzzyLogic.jsonRuleBase();
+        await FuzzyLogic.jsonRuleBase("edu");
       }
-      const result = JSON.parse(await Misc.pyJsonFix(await FuzzyLogic.getFuzzyResult(termArray)));
-      if(process.env.IOS == "true") {
-        await Misc.logger(`Студент АИС (${physKey}) получил статус: '${result.Result_term}'::${result.Result}`, true);
+      const result = JSON.parse(
+        await Misc.pyJsonFix(await FuzzyLogic.getFuzzyResult(termArray))
+      );
+      if (process.env.IOS == "true") {
+        await Misc.logger(
+          `Студент АИС (${physKey}) получил статус: '${result.Result_term}'::${result.Result}`,
+          true
+        );
         await PhysService.writeStatusIos({
-          Test_Difficulty: termArray[0], 
-          Answer_Time: termArray[1], 
-          Correct_Percentage: termArray[2], 
+          Test_Difficulty: termArray[0],
+          Answer_Time: termArray[1],
+          Correct_Percentage: termArray[2],
           Topic_Time_Key: eduTimeKey,
-          Result: result.Result, 
+          Result: result.Result,
           Status: `'${result.Result_term}'`,
           Phys_Key: physKey,
-          Discip_Key: disciplineKey
+          Discip_Key: disciplineKey,
         });
       }
       res.json(
@@ -182,10 +240,7 @@ class FuzzyAIController {
           Result: number;
           Result_term: string;
           ResultFunc: object;
-        }>(
-          "OK",
-          result
-        )
+        }>("OK", result)
       );
       await Misc.logger("Метод GET_FUZZY_RESULT успешно прогнан!", false);
     } catch (err) {

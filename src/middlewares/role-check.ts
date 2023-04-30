@@ -1,7 +1,7 @@
 import ToSkip from "../const/skip-url";
-import Error from "../const/respond";
+import Error from "../const/response";
 import { Request, Response } from "express";
-import SERVER from "../const/req";
+import SERVER from "../const/request";
 import PhysService from "../services/phys";
 
 require("dotenv").config();

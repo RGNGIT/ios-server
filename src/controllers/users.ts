@@ -3,7 +3,7 @@ import EncryptService from "../services/encrypt";
 import AuthService from "../services/auth";
 import Misc from "../services/misc";
 import { Request, Response } from "express";
-import ResultHandler from "../const/respond";
+import ResultHandler from "../const/response";
 import { checkSession, pushSession } from "../const/session-storage";
 
 class UserController {

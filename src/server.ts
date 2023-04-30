@@ -50,13 +50,13 @@ class Server {
       await this.defineMiddlewares(app, router);
       await buildRouter(router); // Настроить руты
       if (process.env.IOS === "true") {
-        await FL.jsonRuleBaseIos(); // Считать базу правил для АИС
-        await FL.jsonValidTermsIos(); // Актуальные термы AИС
-        await FL.jsonTrapezoidDotsIos(); // Точки трапеций АИС
+        await FL.jsonRuleBase('ios'); // Считать базу правил для АИС
+        await FL.jsonValidTerms('ios'); // Актуальные термы AИС
+        await FL.jsonTrapezoidDots(1); // Точки трапеций АИС
       } else {
-        await FL.jsonRuleBase(); // Считать базу правил
-        await FL.jsonValidTerms(); // Актуальные термы
-        await FL.jsonTrapezoidDots(); // Точки трапеций
+        await FL.jsonRuleBase('edu'); // Считать базу правил
+        await FL.jsonValidTerms('edu'); // Актуальные термы
+        await FL.jsonTrapezoidDots(2); // Точки трапеций
       }
       await (new MysqlCommander).queryExec("SELECT 1+1;"); // Проверить коннекшн к базе
       return true;
