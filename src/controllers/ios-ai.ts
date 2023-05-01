@@ -138,7 +138,8 @@ class FuzzyAIController {
   async getStudentStatusMain(req: Request, res: Response): Promise<void> {
     try {
       const { physKey, disciplineKey } = req.query;
-      await FuzzyLogic.jsonRuleBase("ios");
+      await FuzzyLogic.jsonRuleBase("edu");
+      await FuzzyLogic.jsonTrapezoidDots(2);
       const testResults = await TestService.fetchTestResults(
         physKey,
         disciplineKey
@@ -213,8 +214,10 @@ class FuzzyAIController {
       ];
       if (process.env.IOS == "true") {
         await FuzzyLogic.jsonRuleBase("ios");
+        await FuzzyLogic.jsonTrapezoidDots(1);
       } else {
         await FuzzyLogic.jsonRuleBase("edu");
+        await FuzzyLogic.jsonTrapezoidDots(2);
       }
       const result = JSON.parse(
         await Misc.pyJsonFix(await FuzzyLogic.getFuzzyResult(termArray))
