@@ -9,27 +9,19 @@ require("dotenv").config();
 const roleDictionary = {
   student: [
     SERVER.GET_FUZZY_RESULT,
-    SERVER.GET_TEST_BY_KEY,
-    SERVER.ANSWER_VALIDATE,
-    SERVER.GET_USER_INFO,
-    SERVER.GET_DISCIPLINES,
-    SERVER.GET_MY_DISCIPLINES
+    SERVER.GET_FUZZY_STATUS,
+    SERVER.GET_STORED_STATUS,
+    SERVER.GET_STORED_STATUS_IOS
   ],
   expert: [
-    SERVER.SUBMIT_TEST,
-    SERVER.SUBMIT_QUESTION,
-    SERVER.GET_DIFF_LIST,
-    SERVER.GET_TOPIC_LIST,
-    SERVER.POST_RULE,
-    SERVER.GET_RULE_LIST,
-    SERVER.UPDATE_RULE,
-    SERVER.GET_USER_INFO,
-    SERVER.GET_DISCIPLINES,
-    SERVER.GET_MY_DISCIPLINES
+    
+  ],
+  operator: [
+
   ]
 };
 
-const roles = ['student', 'expert'];
+const roles = ['student', 'expert', 'operator'];
 
 function checkAvailable(list: any[], subj: string): boolean {
   const regex = new RegExp(`/${process.env.API_CALL}|${list.map(x => '/' + x.split('/')[1]).join('|')}\/*/`);
