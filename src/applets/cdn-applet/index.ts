@@ -6,5 +6,6 @@ const router = Router();
 
 router.post(SERVER.WRITE_FILE, Content.uploadFile);
 router.get(SERVER.READ_FILE, Content.getFile);
+router.delete(SERVER.CLEAR_CACHE, Content.clearCache);
 
 export default router;

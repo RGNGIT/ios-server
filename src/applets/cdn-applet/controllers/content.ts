@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import FileService from "../services/file";
-import FtpService from "../services/ftp";
 import fs from "fs";
 
 class ContentController {
@@ -19,6 +18,13 @@ class ContentController {
       const { content } = req.files;
       const fs = new FileService();
       res.json(await fs.writeFile(content));
+    } catch (err) {
+      res.json(err);
+    }
+  }
+  async clearCache(req, res: Response): Promise<void> {
+    try {
+      res.send(await (new FileService).clearStorage());
     } catch (err) {
       res.json(err);
     }
