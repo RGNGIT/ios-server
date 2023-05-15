@@ -357,7 +357,7 @@ class Tests {
             Text: answer.Text,
             Img: await TestService.fetchImgByKey(answer.Img_Key),
             Question_Key: answer.Question_Key,
-            IsCorrect: GetCorrect == "true" ? answer.IsCorrect : undefined,
+            СorrectFloat: GetCorrect == "true" ? answer.IsCorrect : undefined,
           });
         }
         /*
