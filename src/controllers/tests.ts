@@ -436,13 +436,14 @@ class Tests {
     try {
       res.json(
         await ResultHandler.result<{
-          Correct: boolean;
+          CorrectFloat: number; // boolean;
         }>(
           "OK",
-          await TestService.validateAnswer(
-            req.query.questionKey,
-            req.query.answerKey
-          )
+          {
+            CorrectFloat: await TestService.fetchAnswerFloat(
+              req.query.answerKey
+            ) 
+          }
         )
       );
       await Misc.logger("Метод ANSWER_VALIDATE успешно прогнан!", false);

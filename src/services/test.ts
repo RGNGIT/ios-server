@@ -1,6 +1,13 @@
 import MySQL2Commander from "../mysqlCommander";
 
 class Test {
+  async fetchAnswerFloat(answerKey) {
+    let answer = (await (new MySQL2Commander).queryExec(
+      `SELECT * FROM ans_variant WHERE ans_variant.Key = ${answerKey}`
+    ))[0];
+    return answer.IsCorrect;
+  }
+  // DEPRECATED
   async validateAnswer(questionKey, answerKey) {
     let answers = await (new MySQL2Commander).queryExec(
       `SELECT * FROM ans_variant WHERE Question_Key = ${questionKey}`
