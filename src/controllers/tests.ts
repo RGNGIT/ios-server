@@ -121,7 +121,7 @@ class Tests {
           }
           await TestService.updateAnswerByKey(answer.key, {
             text: answer.text,
-            isCorrect: answer.isCorrect,
+            isCorrect: answer.CorrectFloat,
           }, imgBuffer?.Key);
           imgBuffer = null;
         }
