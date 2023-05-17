@@ -4,7 +4,7 @@ import ResultHandler from "../const/response";
 import DisciplineService from "../services/discipline";
 import TestService from "../services/test";
 
-class Disciplines {
+class DisciplineController {
   async addNewDiscipline(req: Request, res: Response): Promise<void> {
     try {
       const { Name, ShName } = req.body;
@@ -327,4 +327,4 @@ class Disciplines {
 }
 
 
-export default new Disciplines();
+export default new DisciplineController();

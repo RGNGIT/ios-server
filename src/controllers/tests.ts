@@ -3,7 +3,7 @@ import { Request, Response } from "express";
 import ResultHandler from "../const/response";
 import TestService from "../services/test";
 
-class Tests {
+class TestController {
   async getTopicList(req: Request, res: Response): Promise<void> {
     try {
       await Misc.logger(
@@ -522,4 +522,4 @@ class Tests {
   }
 }
 
-export default new Tests();
+export default new TestController();

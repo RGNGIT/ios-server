@@ -1,19 +1,19 @@
 import { Router } from "express";
 import SERVER from "../const/request";
-import Rules from "../controllers/rules";
+import RuleController from "../controllers/rules";
 
 const router = Router();
 
-router.post(SERVER.POST_RULE, Rules.postRule);
-router.get(SERVER.GET_RULE_LIST, Rules.getRuleList);
-router.patch(SERVER.UPDATE_RULE, Rules.updateRule);
-router.get(SERVER.GET_RULE_BY_KEY, Rules.ruleByKey);
-router.get(SERVER.GET_TERM_DOTS, Rules.getTermDots);
-router.get(SERVER.GET_TERM_DOTS_IOS, Rules.getTermDotsIos);
-router.get(SERVER.GET_TERM_LEVELS, Rules.getTermLevels);
-router.post(SERVER.POST_IOS_RULE, Rules.postIosRule);
-router.get(SERVER.GET_IOS_RULE_LIST, Rules.getIosRuleList);
-router.patch(SERVER.UPDATE_IOS_RULE, Rules.updateIosRule);
-router.get(SERVER.GET_IOS_RULE, Rules.iosRuleByKey);
+router.post(SERVER.POST_RULE, RuleController.postRule);
+router.get(SERVER.GET_RULE_LIST, RuleController.getRuleList);
+router.patch(SERVER.UPDATE_RULE, RuleController.updateRule);
+router.get(SERVER.GET_RULE_BY_KEY, RuleController.ruleByKey);
+router.get(SERVER.GET_TERM_DOTS, RuleController.getTermDots);
+router.get(SERVER.GET_TERM_DOTS_IOS, RuleController.getTermDotsIos);
+router.get(SERVER.GET_TERM_LEVELS, RuleController.getTermLevels);
+router.post(SERVER.POST_IOS_RULE, RuleController.postIosRule);
+router.get(SERVER.GET_IOS_RULE_LIST, RuleController.getIosRuleList);
+router.patch(SERVER.UPDATE_IOS_RULE, RuleController.updateIosRule);
+router.get(SERVER.GET_IOS_RULE, RuleController.iosRuleByKey);
 
 export default router;

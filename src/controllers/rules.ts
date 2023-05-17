@@ -7,7 +7,7 @@ import IosStorage from "../const/object-storage-ios";
 import FuzzyLogic from "../services/fuzzy";
 
 // import fs from 'fs';
-class Rules {
+class RuleController {
   async postRule(req: Request, res: Response): Promise<void> {
     try {
       await Misc.logger(
@@ -305,4 +305,4 @@ class Rules {
   }
 }
 
-export default new Rules();
+export default new RuleController();

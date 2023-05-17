@@ -30,7 +30,7 @@ function definePercentageOfTest(result) {
   return Math.round((Number(splitResult[0]) / Number(splitResult[1])) * 100);
 }
 
-class FuzzyAIController {
+class FuzzyController {
   async getSystemTerms(req: Request, res: Response): Promise<void> {
     try {
       const { id } = req.params;
@@ -259,4 +259,4 @@ class FuzzyAIController {
   }
 }
 
-export default new FuzzyAIController();
+export default new FuzzyController();
