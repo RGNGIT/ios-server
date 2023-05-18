@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" modified="2023-05-18T19:59:15.835Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36" etag="sM5tQH2LcK4ans3bNu12" version="21.3.2" type="github">
+<mxfile host="app.diagrams.net" modified="2023-05-18T20:03:55.907Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36" etag="6vY22J6KlSfMaaJc5vDP" version="21.3.2" type="github">
   <diagram name="Page-1" id="r2jiotqS8Zv0sgoh7WJZ">
-    <mxGraphModel dx="1830" dy="358" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="1830" dy="397" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -811,6 +811,30 @@
         </mxCell>
         <mxCell id="jQN78_vai4_XM9gLGjwM-124" value="Эл. почта" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=14;" vertex="1" parent="1">
           <mxGeometry x="1154" y="2975" width="80" height="29" as="geometry" />
+        </mxCell>
+        <mxCell id="jQN78_vai4_XM9gLGjwM-125" value="Код пола (ВК1)" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="1154" y="2993" width="115" height="29" as="geometry" />
+        </mxCell>
+        <mxCell id="jQN78_vai4_XM9gLGjwM-126" value="Код роли (ВК2)" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="1154" y="3013" width="115" height="29" as="geometry" />
+        </mxCell>
+        <mxCell id="jQN78_vai4_XM9gLGjwM-127" value="Дата создания" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="1154" y="3032" width="113" height="29" as="geometry" />
+        </mxCell>
+        <mxCell id="jQN78_vai4_XM9gLGjwM-128" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="1360" y="2858" width="199" height="114" as="geometry" />
+        </mxCell>
+        <mxCell id="jQN78_vai4_XM9gLGjwM-129" value="Роль" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="1436.5" y="2862" width="50" height="29" as="geometry" />
+        </mxCell>
+        <mxCell id="jQN78_vai4_XM9gLGjwM-130" value="Наименование" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="1376" y="2916" width="115" height="29" as="geometry" />
+        </mxCell>
+        <mxCell id="jQN78_vai4_XM9gLGjwM-131" value="Код (ПК)" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="1376" y="2895" width="73" height="29" as="geometry" />
+        </mxCell>
+        <mxCell id="jQN78_vai4_XM9gLGjwM-138" value="Кр. Наименование" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="1376" y="2935" width="139" height="29" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
