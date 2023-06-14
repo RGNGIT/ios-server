@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2023-06-14T10:49:01.657Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36" etag="mWOmtmYri-QE_slNza0d" version="21.3.8" type="github">
+<mxfile host="app.diagrams.net" modified="2023-06-14T10:49:56.921Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36" etag="T-7V_A-IWX5h8E_1qHqJ" version="21.3.8" type="github">
   <diagram name="Page-1" id="j1-W70-RcA3MQLRdjkH6">
     <mxGraphModel dx="2074" dy="1156" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
@@ -751,6 +751,15 @@
             <mxPoint x="136" y="532.75" as="sourcePoint" />
             <mxPoint x="198" y="532.75" as="targetPoint" />
           </mxGeometry>
+        </mxCell>
+        <mxCell id="_teQyFupM3sxWhFPjf2K-15" value="Логин, пароль" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="68" y="162.25" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="_teQyFupM3sxWhFPjf2K-17" value="Код, результат, список терм" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="35" y="338.25" width="87" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="_teQyFupM3sxWhFPjf2K-18" value="Тест" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="52.5" y="518.25" width="87" height="30" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
