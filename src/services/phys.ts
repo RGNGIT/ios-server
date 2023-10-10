@@ -30,13 +30,14 @@ class PhysService {
     Patronymic;
     Email;
     Sex_Key;
+    Age;
     Interface_Type;
     Rating;
     Role_Key;
   }) {
     let res =
-      await (new MySQL2Commander).queryExec(`INSERT INTO phys (Name, Surname, Patronymic, Email, Sex_Key, Interface_Type, Rating, Role_Key) 
-        VALUES ('${unit.Name}', '${unit.Surname}', '${unit.Patronymic}', '${unit.Email}', ${unit.Sex_Key}, '${unit.Interface_Type}', '${unit.Rating}', ${unit.Role_Key});`);
+      await (new MySQL2Commander).queryExec(`INSERT INTO phys (Name, Surname, Patronymic, Email, Sex_Key, Age, Interface_Type, Rating, Role_Key) 
+        VALUES ('${unit.Name}', '${unit.Surname}', '${unit.Patronymic}', '${unit.Email}', ${unit.Sex_Key}, ${unit.Age}, '${unit.Interface_Type}', '${unit.Rating}', ${unit.Role_Key});`);
     return await this.getLastRecord(
       await (new MySQL2Commander).queryExec(`SELECT * FROM phys;`)
     );

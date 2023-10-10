@@ -26,6 +26,7 @@ class UserController {
         Patronymic: req.body.Patronymic,
         Email: req.body.Email,
         Sex_Key: req.body.Sex_Key,
+        Age: req.body.Age,
         Interface_Type: req.body.Interface_Type,
         Rating: req.body.Rating,
         Role_Key: req.body.Role_Key
@@ -55,6 +56,7 @@ class UserController {
             UserKey: number;
             Email: string;
             Verify: string;
+            Role: any;
           };
           Token: string;
           TTL?: Date;
